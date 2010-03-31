@@ -5,6 +5,7 @@
 
 package proto.behavior;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,13 @@ public class MultiQueue {
     private BehaviorQueue proactive; // IndepPro only
     private List<BehaviorQueue> collaborative; // CollabPro, or CollabReact in response to CollabPro
     private List<BehaviorQueue> latent; // IndepLat or CollabLat, or a CollabReact in response to a latent
+
+    public MultiQueue() {
+        proactive = new BehaviorQueue();
+        collaborative = new ArrayList<BehaviorQueue>();
+        latent = new ArrayList<BehaviorQueue>();
+    }
+
 
     /**
      * Finds the active instantiated behavior with the highest priority.

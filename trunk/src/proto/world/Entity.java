@@ -4,6 +4,8 @@
  */
 package proto.world;
 
+import proto.behavior.BehaviorQueue;
+import proto.behavior.ITask;
 import proto.behavior.MultiQueue;
 
 /**
@@ -19,8 +21,16 @@ abstract public class Entity extends BasicObject {
     }
 
     public void update() {
-        // ??
-        //multiQueue.getCurrentBehavior().peekTask().run();
+
+        BehaviorQueue currentBehavior = multiQueue.getCurrentBehavior();
+        if (currentBehavior == null) {
+            return;
+        }
+
+        ITask task = multiQueue.getCurrentBehavior().peekTask();
+        if (task != null) {
+            task.run();
+        }
     }
 
     public MultiQueue getMultiQueue() {

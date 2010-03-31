@@ -36,7 +36,7 @@ public class World {
         return allObjects;
     }
 
-    public PathPlanner getPlanner() {
+    public PathPlanner getPathPlanner() {
         return planner;
     }
 
