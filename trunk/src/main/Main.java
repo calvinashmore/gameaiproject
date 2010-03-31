@@ -5,6 +5,8 @@
 package main;
 
 import processing.core.PApplet;
+import proto.world.World;
+import testworld.Testworld;
 
 /**
  *
@@ -24,7 +26,10 @@ public class Main extends PApplet {
         PApplet.main(new String[]{"--bgcolor=#AF8F92", "main.Main"});
     }
 
+    private World world;
+
     public Main() {
+        world = new Testworld();
     }
 
     @Override
@@ -35,6 +40,9 @@ public class Main extends PApplet {
     @Override
     public void draw() {
 
-        ellipse(100, 200, 100, 150);
+        //ellipse(100, 200, 100, 150);
+
+        world.update();
+        world.render(g);
     }
 }
