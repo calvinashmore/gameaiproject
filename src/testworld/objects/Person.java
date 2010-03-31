@@ -4,6 +4,7 @@
  */
 package testworld.objects;
 
+import proto.navigation.BoundingSphere;
 import proto.world.Entity;
 import testworld.representations.PersonRepresentation;
 
@@ -13,9 +14,15 @@ import testworld.representations.PersonRepresentation;
  */
 public class Person extends Entity {
 
-    public Person() {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
         setRepresentation(new PersonRepresentation(this));
+        setCollisionVolume(new BoundingSphere(20));
     }
 
-
+    public String getName() {
+        return name;
+    }
 }

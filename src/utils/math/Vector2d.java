@@ -46,4 +46,9 @@ public class Vector2d {
     public Vector2d getNormalizedVector() {
         return multiply(1.0 / magnitude());
     }
+
+    @Override
+    public String toString() {
+        return "[" + x + ", " + y + "]";
+    }
 }

@@ -15,10 +15,10 @@ public class Testworld extends World {
 
     public Testworld() {
 
-        Person person = new Person();
+        Person person = new Person("Frank");
         person.getLocation().getPosition().x = 100;
         person.getLocation().getPosition().y = 100;
-
+        
         getAllObjects().add(person);
 
         setEnvironment(new RoomEnvironment());

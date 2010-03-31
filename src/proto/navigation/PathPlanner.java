@@ -37,7 +37,7 @@ public class PathPlanner {
             objectRadius = ((BoundingSphere) objectCollisionVolume).getRadius();
         }
 
-        Vector2d direction = destination.subtract(object.getLocation().getPosition());
+        Vector2d direction = destination.subtract(object.getLocation().getPosition()).getNormalizedVector();
 
         // go through each object in the world and avoid it.
         for (BasicObject basicObject : world.getAllObjects()) {
@@ -51,10 +51,13 @@ public class PathPlanner {
             }
 
             Vector2d influence = getInfluence(object.getLocation().getPosition(), objectRadius, toAvoid, basicObject.getLocation().getPosition());
+
+            // multiply by a number to increase the repelling force
+            influence = influence.multiply(2);
             direction = direction.add(influence);
         }
 
-        return direction;
+        return direction.getNormalizedVector();
     }
 
     /**
