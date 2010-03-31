@@ -13,4 +13,17 @@ import proto.behavior.MultiQueue;
 abstract public class Entity extends BasicObject {
 
     private MultiQueue multiQueue;
+
+    public Entity() {
+        multiQueue = new MultiQueue();
+    }
+
+    public void update() {
+        // ??
+        //multiQueue.getCurrentBehavior().peekTask().run();
+    }
+
+    public MultiQueue getMultiQueue() {
+        return multiQueue;
+    }
 }
