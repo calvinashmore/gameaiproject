@@ -21,6 +21,8 @@ public interface ITask {
      */
     public void run(); // TODO more params
 
+    public void setBehaviorQueue(BehaviorQueue bq);
+
     // TODO maybe an isFinished() flag?
     // TODO maybe a method for when the task is removed from current
 }

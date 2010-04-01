@@ -16,17 +16,34 @@ import java.util.List;
 public class MultiQueue {
 
     // Contains three queue sets as described on bottom of page 24
-    enum QueueSet { pro, collab, latent }
+    public enum QueueSet { pro, collab, latent }
     private BehaviorQueue proactive; // IndepPro only
     private List<BehaviorQueue> collaborative; // CollabPro, or CollabReact in response to CollabPro
     private List<BehaviorQueue> latent; // IndepLat or CollabLat, or a CollabReact in response to a latent
 
     public MultiQueue() {
-        proactive = new BehaviorQueue();
+        proactive = null;
         collaborative = new ArrayList<BehaviorQueue>();
         latent = new ArrayList<BehaviorQueue>();
     }
 
+    public void addBehavior(BehaviorQueue bq, QueueSet qs)
+    {
+        switch (qs)
+        {
+            case pro:
+                proactive = bq;
+                break;
+            case collab:
+                collaborative.add(bq);
+                break;
+            case latent:
+                latent.add(bq);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown QueueSet in MultiQueue");
+        }
+    }
 
     /**
      * Finds the active instantiated behavior with the highest priority.
@@ -39,7 +56,7 @@ public class MultiQueue {
 
         BehaviorQueue currentQueue = null;
         int bestPriority = Integer.MIN_VALUE;
-        if (proactive.getPriority() > bestPriority && proactive.isActive())
+        if (proactive != null && proactive.getPriority() > bestPriority && proactive.isActive())
         {
             currentQueue = proactive;
             bestPriority = proactive.getPriority();
