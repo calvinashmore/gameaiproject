@@ -4,13 +4,19 @@
  */
 package testworld.tasks;
 
-import proto.behavior.ITask;
+import proto.behavior.ATask;
+import proto.behavior.Dispatcher;
 
 /**
  *
  * @author Calvin Ashmore
  */
-public class MoveTo implements ITask {
+public class MoveTo extends ATask {
+
+    public MoveTo(Dispatcher d)
+    {
+        super(d);
+    }
 
     public void resume() {
     }

@@ -5,11 +5,15 @@
 
 package proto.behavior;
 
+import proto.behavior.MultiQueue.QueueSet;
+
 /**
  * Controls and monitors changes to the MultiQueue.  See page 25 for signals.
  * @author hartsoka
  */
 public class Dispatcher {
+
+    private IWorldState currentWorld;
 
     private IRole role;
     private MultiQueue mq;
@@ -18,33 +22,44 @@ public class Dispatcher {
     private static final int MEDIUM_WAIT = 50; // TODO choose these
     private static final int LONG_WAIT = 100;
 
+    public Dispatcher(IRole role)
+    {
+        this.role = role;
+        this.mq = new MultiQueue();
+
+        resetTimeout();
+    }
+
     private void resetTimeout()
     {
         timeoutClock = 0;
     }
 
-    public void tick()
+    public void tick(IWorldState ws)
     {
+        this.currentWorld = ws;
         timeoutClock++;
     }
 
-    public void handleNewBehavior(BehaviorQueue newBehavior)
+    public void handleNewBehavior(BehaviorQueue newBehavior, QueueSet qs)
     {
         BehaviorQueue currentBehavior = mq.getCurrentBehavior();
-        if (newBehavior.getPriority() < currentBehavior.getPriority())
+        if (currentBehavior != null &&
+                newBehavior.getPriority() < currentBehavior.getPriority())
         {
             // TODO is this right? might want to add it anyway
             return;
         }
 
         // TODO
+        mq.addBehavior(newBehavior, qs);
+        handleTaskStart();
     }
 
-    public void handleTaskDone()
+    public void handleTaskDone(BehaviorQueue taskQueue)
     {
         // TODO handle collaborative tasks specially
-        BehaviorQueue currentBehavior = mq.getCurrentBehavior();
-        currentBehavior.popTask();
+        taskQueue.popTask();
     }
 
     public void handleCollaboratorDone()
@@ -54,6 +69,7 @@ public class Dispatcher {
 
     public void handlePhaseDone()
     {
+        // TODO check this
         BehaviorQueue currentBehavior = mq.getCurrentBehavior();
         currentBehavior.popTask();
 
@@ -67,12 +83,7 @@ public class Dispatcher {
     {
         resetTimeout();
 
-        BehaviorQueue currentBehavior = mq.getCurrentBehavior();
-        if (currentBehavior == null)
-        {
-            currentBehavior = role.getProactiveBehavior();
-            handleNewBehavior(currentBehavior);
-        }
+        BehaviorQueue currentBehavior = safelyGetCurrentBehavior();
 
         currentBehavior.peekTask().resume();
     }
@@ -86,6 +97,19 @@ public class Dispatcher {
 
     public void handleTimer()
     {
-        // TODO
+        BehaviorQueue currentBehavior = safelyGetCurrentBehavior();
+        currentBehavior.peekTask().run();
+    }
+
+    private BehaviorQueue safelyGetCurrentBehavior()
+    {
+        BehaviorQueue currentBehavior = mq.getCurrentBehavior();
+        if (currentBehavior == null)
+        {
+            currentBehavior = role.instantiateProactiveBehavior(currentWorld, this);
+            handleNewBehavior(currentBehavior, QueueSet.pro);
+        }
+
+        return currentBehavior;
     }
 }

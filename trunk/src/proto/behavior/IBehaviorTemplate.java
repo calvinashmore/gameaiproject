@@ -15,7 +15,9 @@ public interface IBehaviorTemplate {
     public enum CollaborationType { independent, collaborative }
     public enum InitiationType { proactive, reactive, latent }
 
-    public BehaviorQueue instantiate();
+    public String getId();
+
+    public BehaviorQueue instantiate(IWorldState ws, Dispatcher d);
 
     public CollaborationType getCollaborationType();
     public InitiationType getInitiationType();

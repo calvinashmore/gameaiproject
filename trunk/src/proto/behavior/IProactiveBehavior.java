@@ -9,7 +9,9 @@ package proto.behavior;
  *
  * @author hartsoka
  */
-public interface ILatentBehavior extends IBehaviorTemplate {
+public interface IProactiveBehavior extends IBehaviorTemplate {
 
-    public boolean activate(IWorldState iws);
+    public void updateImportance(IWorldState ws);
+
+    public int getImportance();
 }

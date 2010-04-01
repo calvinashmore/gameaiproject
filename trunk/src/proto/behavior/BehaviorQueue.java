@@ -20,6 +20,16 @@ public class BehaviorQueue {
     private LinkedList<ITask> tasks;
     private int priority;
 
+    public BehaviorQueue(IBehaviorTemplate behavior)
+    {
+        this.behavior = behavior;
+        this.state = ActiveState.active;
+        this.tasks = new LinkedList<ITask>();
+        this.priority = 0;
+
+        // TODO set priority intelligently
+    }
+
     public boolean isCollaborative()
     {
         return behavior.getCollaborationType() ==
@@ -64,6 +74,7 @@ public class BehaviorQueue {
     public void addTask(ITask task)
     {
         tasks.add(task);
+        task.setBehaviorQueue(this);
     }
 
     public ITask peekTask()
