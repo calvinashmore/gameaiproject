@@ -20,12 +20,12 @@ public class BehaviorQueue {
     private LinkedList<ITask> tasks;
     private int priority;
 
-    public BehaviorQueue(IBehaviorTemplate behavior)
+    public BehaviorQueue(IBehaviorTemplate behavior, int priority)
     {
         this.behavior = behavior;
         this.state = ActiveState.active;
         this.tasks = new LinkedList<ITask>();
-        this.priority = 0;
+        this.priority = priority;
 
         // TODO set priority intelligently
     }

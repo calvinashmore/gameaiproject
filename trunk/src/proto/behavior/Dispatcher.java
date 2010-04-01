@@ -51,7 +51,6 @@ public class Dispatcher {
             return;
         }
 
-        // TODO
         mq.addBehavior(newBehavior, qs);
         handleTaskStart();
     }
