@@ -65,7 +65,8 @@ public abstract class ARole implements IRole {
         
         if (best == null)
         {
-            throw new UnsupportedOperationException("All roles must have at least 1 proactive behavior.");
+            //throw new UnsupportedOperationException("All roles must have at least 1 proactive behavior.");
+            return null;
         }
 
         return best.instantiate(ws, d);

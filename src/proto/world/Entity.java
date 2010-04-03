@@ -5,6 +5,7 @@
 package proto.world;
 
 import proto.behavior.BehaviorQueue;
+import proto.behavior.Dispatcher;
 import proto.behavior.ITask;
 import proto.behavior.MultiQueue;
 
@@ -14,26 +15,31 @@ import proto.behavior.MultiQueue;
  */
 abstract public class Entity extends BasicObject {
 
-    private MultiQueue multiQueue;
+    private Dispatcher dispatcher;
 
-    public Entity() {
-        multiQueue = new MultiQueue();
+    public Entity(Dispatcher dispatcher) {
+        this.dispatcher = dispatcher;
+    }
+
+    public Dispatcher getDispatcher() {
+        return dispatcher;
     }
 
     public void update() {
 
-        BehaviorQueue currentBehavior = multiQueue.getCurrentBehavior();
-        if (currentBehavior == null) {
-            return;
-        }
-
-        ITask task = multiQueue.getCurrentBehavior().peekTask();
-        if (task != null) {
-            task.run();
-        }
+        dispatcher.tick(World.getInstance());
+        dispatcher.handleTimer();
+//        BehaviorQueue currentBehavior = multiQueue.getCurrentBehavior();
+//        if (currentBehavior == null) {
+//            return;
+//        }
+//
+//        ITask task = multiQueue.getCurrentBehavior().peekTask();
+//        if (task != null) {
+//            task.run();
+//        }
     }
-
-    public MultiQueue getMultiQueue() {
-        return multiQueue;
-    }
+//    public MultiQueue getMultiQueue() {
+//        return multiQueue;
+//    }
 }
