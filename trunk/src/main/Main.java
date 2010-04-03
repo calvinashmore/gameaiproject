@@ -5,8 +5,8 @@
 package main;
 
 import processing.core.PApplet;
-import proto.world.World;
 import testworld.Testworld;
+import utils.math.Vector2d;
 
 /**
  *
@@ -18,15 +18,10 @@ public class Main extends PApplet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        JFrame frame = new JFrame("main");
-//        frame.add(new Main());
-//        frame.pack();
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible(true);
         PApplet.main(new String[]{"--bgcolor=#AF8F92", "main.Main"});
     }
 
-    private World world;
+    private Testworld world;
 
     public Main() {
         world = new Testworld();
@@ -39,10 +34,14 @@ public class Main extends PApplet {
 
     @Override
     public void draw() {
-
-        //ellipse(100, 200, 100, 150);
-
         world.update();
         world.render(g);
     }
+
+    @Override
+    public void mouseClicked() {
+        world.getPlayer().forceMoveTo(new Vector2d(mouseX, mouseY));
+    }
+
+
 }

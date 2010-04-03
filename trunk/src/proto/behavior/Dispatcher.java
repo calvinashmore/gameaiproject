@@ -66,6 +66,7 @@ public class Dispatcher {
         // TODO
     }
 
+    // NOTE: THIS IS NOT CURRENTLY CALLED
     public void handlePhaseDone()
     {
         // TODO check this
@@ -97,7 +98,8 @@ public class Dispatcher {
     public void handleTimer()
     {
         BehaviorQueue currentBehavior = safelyGetCurrentBehavior();
-        currentBehavior.peekTask().run();
+        if(currentBehavior != null)
+            currentBehavior.peekTask().run();
     }
 
     private BehaviorQueue safelyGetCurrentBehavior()
@@ -106,9 +108,15 @@ public class Dispatcher {
         if (currentBehavior == null)
         {
             currentBehavior = role.instantiateProactiveBehavior(currentWorld, this);
+            if(currentBehavior == null)
+                return null;
             handleNewBehavior(currentBehavior, QueueSet.pro);
         }
 
         return currentBehavior;
+    }
+
+    public IRole getRole() {
+        return role;
     }
 }

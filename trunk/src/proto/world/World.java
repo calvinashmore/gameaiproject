@@ -7,6 +7,7 @@ package proto.world;
 import java.util.ArrayList;
 import java.util.List;
 import processing.core.PGraphics;
+import proto.behavior.IWorldState;
 import proto.navigation.PathPlanner;
 import proto.representation.Representation;
 
@@ -14,13 +15,17 @@ import proto.representation.Representation;
  * Manages all the entities in the world and handles updates and rendering.
  * @author Calvin Ashmore
  */
-public class World {
+public class World implements IWorldState {
+
+    private static World instance;
+    public static World getInstance() {return instance;}
 
     private List<BasicObject> allObjects = new ArrayList<BasicObject>();
     private Environment environment;
     private PathPlanner planner;
 
     public World() {
+        instance = this;
         planner = new PathPlanner(this);
     }
 
