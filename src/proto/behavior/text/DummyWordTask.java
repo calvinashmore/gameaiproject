@@ -17,9 +17,8 @@ public class DummyWordTask extends ATask {
     
     private String str;
 
-    public DummyWordTask(Dispatcher d, String statement)
+    public DummyWordTask(String statement)
     {
-        super(d);
         this.str = statement;
     }
 
@@ -27,9 +26,10 @@ public class DummyWordTask extends ATask {
 
     }
 
-    public void run() {
+    public void run()
+    {
         System.out.println(str);
-        this.dispatcher.handleTaskDone(this.bq);
+        this.getDispatcher().handleTaskDone(this.bq);
     }
 
 }

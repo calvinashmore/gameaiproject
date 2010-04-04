@@ -14,6 +14,8 @@ public abstract class ABehaviorTemplate implements IBehaviorTemplate {
     private InitiationType initType;
     private CollaborationType collabType;
 
+    private IRole owningRole;
+
     public ABehaviorTemplate(InitiationType initType, CollaborationType collabType)
     {
         this.initType = initType;
@@ -33,5 +35,13 @@ public abstract class ABehaviorTemplate implements IBehaviorTemplate {
 
     public InitiationType getInitiationType() {
         return this.initType;
+    }
+
+    public void setOwningRole(IRole role) {
+        this.owningRole = role;
+    }
+
+    public IRole getOwningRole() {
+        return this.owningRole;
     }
 }

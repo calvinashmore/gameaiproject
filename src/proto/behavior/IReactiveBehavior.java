@@ -12,4 +12,6 @@ package proto.behavior;
 public interface IReactiveBehavior extends ICollaborativeBehavior {
     // all reactive behaviors are collaborative
 
+    public boolean tryCollaboration(CollaborationHandshake handshake);
+
 }

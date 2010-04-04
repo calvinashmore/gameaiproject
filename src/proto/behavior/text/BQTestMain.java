@@ -30,7 +30,7 @@ public class BQTestMain {
             {
                 if (lb.activate(dws))
                 {
-                    d.handleNewBehavior(lb.instantiate(dws, d), QueueSet.latent);
+                    d.handleNewBehavior(lb.instantiate(dws), QueueSet.latent);
                 }
             }
         }

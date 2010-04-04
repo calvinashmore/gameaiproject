@@ -15,16 +15,25 @@ import proto.behavior.ITask;
  */
 public abstract class ATask implements ITask {
 
-    protected Dispatcher dispatcher;
     protected BehaviorQueue bq;
 
-    public ATask(Dispatcher d)
+    public ATask()
     {
-        this.dispatcher = d;
+        
     }
 
-    public void setBehaviorQueue(BehaviorQueue bq)
+    public void setOwningBehaviorQueue(BehaviorQueue bq)
     {
         this.bq = bq;
+    }
+
+    public BehaviorQueue getOwningBehaviorQueue()
+    {
+        return this.bq;
+    }
+
+    public Dispatcher getDispatcher()
+    {
+        return this.getOwningBehaviorQueue().getOwningMultiQueue().getOwningDispatcher();
     }
 }

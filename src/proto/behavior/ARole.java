@@ -16,6 +16,8 @@ import java.util.List;
  */
 public abstract class ARole implements IRole {
 
+    private Dispatcher owningDispatcher;
+
     protected List<IProactiveBehavior> proactives;
     protected List<IReactiveBehavior> reactives;
     protected List<ILatentBehavior> latents;
@@ -27,8 +29,14 @@ public abstract class ARole implements IRole {
         latents = new LinkedList<ILatentBehavior>();
     }
 
+    /**
+     * Adds a new behavior which the role can utilize.  Its initiation type is
+     * used to determine when the role will try and instantiate it.
+     * @param bt
+     */
     public void addBehaviorTemplate(IBehaviorTemplate bt)
     {
+        bt.setOwningRole(this);
         switch(bt.getInitiationType())
         {
             case proactive:
@@ -41,12 +49,19 @@ public abstract class ARole implements IRole {
                 latents.add((ILatentBehavior)bt);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown Initiation Type.");
+                throw new UnsupportedOperationException("ARole:addBehaviorTemplate(bt) - Unknown Initiation Type.");
         }
     }
 
-    public BehaviorQueue instantiateProactiveBehavior(IWorldState ws, Dispatcher d) {
-
+    /**
+     * Finds the most important proactive behavior which can be instantiated
+     * and does so.
+     * @param ws State of the world; used by behaviors to determine importance.
+     * @param d Dispatcher so that the instantiated behavior knows its owner.
+     * @return The instantiated BehaviorQueue of tasks.
+     */
+    public BehaviorQueue instantiateProactiveBehavior(IWorldState ws, Dispatcher d)
+    {
         List<BehaviorRelevance> brs =
                 new ArrayList<BehaviorRelevance>(proactives.size());
 
@@ -62,7 +77,7 @@ public abstract class ARole implements IRole {
         BehaviorQueue bq = null;
         for (BehaviorRelevance br : brs)
         {
-            bq = br.pb.instantiate(ws, d);
+            bq = br.pb.instantiate(ws);
             if (bq != null)
             {
                 break;
@@ -84,11 +99,33 @@ public abstract class ARole implements IRole {
     public List<ILatentBehavior> getLatentBehaviors() {
         return latents;
     }
-
+    
     public BehaviorQueue getReactiveBehavior(String id, CollaborationHandshake handshake) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Sets the Dispatcher which contains this role - in general, should only be
+     * called by dispatcher implementations when this role is set to them.
+     * @param d
+     */
+    public void setOwningDispatcher(Dispatcher d)
+    {
+        this.owningDispatcher = d;
+    }
+
+    /**
+     * Gets the Dispatcher which contains the role.
+     * @return Owning dispatcher.
+     */
+    public Dispatcher getOwningDispatcher()
+    {
+        return this.owningDispatcher;
+    }
+
+    /**
+     * Helper class used to sort proactive behaviors by their importance.
+     */
     private class BehaviorRelevance implements Comparable
     {
         int importance;

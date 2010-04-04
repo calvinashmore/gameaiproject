@@ -14,11 +14,6 @@ import proto.behavior.Dispatcher;
  */
 public class WaitTask extends ATask {
 
-    public WaitTask(Dispatcher d)
-    {
-        super(d);
-    }
-
     public void resume() {
         // nch
     }

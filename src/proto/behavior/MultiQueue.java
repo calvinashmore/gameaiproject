@@ -13,7 +13,9 @@ import java.util.List;
  * Container for all BehaviorQueues instantiated for an agent.
  * @author hartsoka
  */
-public class MultiQueue {
+public class MultiQueue
+{
+    private Dispatcher owningDispatcher;
 
     // Contains three queue sets as described on bottom of page 24
     public enum QueueSet { pro, collab, latent }
@@ -21,14 +23,23 @@ public class MultiQueue {
     private List<BehaviorQueue> collaborative; // CollabPro, or CollabReact in response to CollabPro
     private List<BehaviorQueue> latent; // IndepLat or CollabLat, or a CollabReact in response to a latent
 
-    public MultiQueue() {
+    public MultiQueue(Dispatcher owner)
+    {
+        owningDispatcher = owner;
         proactive = null;
         collaborative = new ArrayList<BehaviorQueue>();
         latent = new ArrayList<BehaviorQueue>();
     }
 
+    /**
+     * Adds a newly instantiated behavior to the MultiQueue so it can be run.
+     * @param bq The BehaviorQueue of the newly instantiated BehaviorTemplate.
+     * @param qs A flag indicating what triggered this behavior; determines
+     *              which set of queues it belongs in.
+     */
     public void addBehavior(BehaviorQueue bq, QueueSet qs)
     {
+        bq.setOwningMultiQueue(this);
         switch (qs)
         {
             case pro:
@@ -56,7 +67,8 @@ public class MultiQueue {
 
         BehaviorQueue currentQueue = null;
         int bestPriority = Integer.MIN_VALUE;
-        if (proactive != null && proactive.getPriority() > bestPriority && proactive.isActive())
+        if (proactive != null &&
+            proactive.getPriority() > bestPriority && proactive.isActive())
         {
             currentQueue = proactive;
             bestPriority = proactive.getPriority();
@@ -80,7 +92,7 @@ public class MultiQueue {
 
     /**
      * Removes the specified behavior completely (effectively cancelling it).
-     * @param queue Pointer to the BehaviorQueue which should be deleted.
+     * @param queue Reference to the BehaviorQueue which should be deleted.
      */
     public void remove(BehaviorQueue queue)
     {
@@ -98,8 +110,7 @@ public class MultiQueue {
         }
         else
         {
-            // TODO throw an exception?
-            System.out.println("Tried to remove a behavior which doesn't exist");
+            throw new UnsupportedOperationException("MultiQueue:remove(q) was passed a behavior which doesn't exist in the MultiQueue");
         }
     }
 
@@ -136,5 +147,54 @@ public class MultiQueue {
         for (BehaviorQueue queue : toRemove) {
             latent.remove(queue);
         }
+    }
+
+    /**
+     * Eye-contact is the third requirement for joining a collaboration.
+     * From page 24 of the paper:
+     * Eye-contact is successful if the potential reactor is not currently
+     * involved in another active collaborative or latent behavior. Eye-contact
+     * is successful if the potential reactor is involved in an active
+     * independent behavior or if all of the reactor’s collaborative and latent
+     * behaviors are suspended for some reason.
+     * @return Whether eye-contact can be made.
+     */
+    public boolean testEyeContact()
+    {
+        // send MIN_VALUE so that any active collaborative or latent behavior
+        //  will prevent eye contact
+        return testEyeContact(Integer.MIN_VALUE);
+    }
+
+    /**
+     * See testEyeContact() for more info.
+     * This version should allow for eye-contact when we are willing to
+     * interrupt current collaborative or latent behaviors.  It is not discussed
+     * in the paper.  TODO: Separate functions for latent/reactive only
+     * @return Whether eye-contact can be made, allowing interrupts of other
+     *          behaviors with lower priority.
+     */
+    public boolean testEyeContact(int priority)
+    {
+        for (BehaviorQueue queue : collaborative) {
+            if (queue.isActive() && queue.getPriority() >= priority)
+            {
+                return false;
+            }
+        }
+
+        for (BehaviorQueue queue : latent) {
+            if (queue.isActive() && queue.getPriority() >= priority)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Dispatcher getOwningDispatcher()
+    {
+        return this.owningDispatcher;
     }
 }

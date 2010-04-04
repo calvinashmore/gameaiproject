@@ -18,12 +18,11 @@ public class MoveTo extends PersonTask {
     private static final float DEFAULT_SPEED = 5;
     private static final float DESTINATION_RANGE = 20;
 
-    public MoveTo(Dispatcher d, Vector2d destination) {
-        this(d, destination, DEFAULT_SPEED);
+    public MoveTo(Vector2d destination) {
+        this(destination, DEFAULT_SPEED);
     }
 
-    public MoveTo(Dispatcher d, Vector2d destination, float speed) {
-        super(d);
+    public MoveTo(Vector2d destination, float speed) {
         this.destination = destination;
         this.speed = speed;
     }

@@ -6,8 +6,7 @@
 package proto.behavior.text;
 
 import proto.behavior.ARole;
-import proto.behavior.BehaviorQueue;
-import proto.behavior.IWorldState;
+import proto.behavior.Dispatcher;
 
 /**
  *

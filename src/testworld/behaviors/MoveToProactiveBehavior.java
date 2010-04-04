@@ -4,8 +4,8 @@
  */
 package testworld.behaviors;
 
+import proto.behavior.ABehaviorTemplate;
 import proto.behavior.BehaviorQueue;
-import proto.behavior.Dispatcher;
 import proto.behavior.IBehaviorTemplate.CollaborationType;
 import proto.behavior.IBehaviorTemplate.InitiationType;
 import proto.behavior.IProactiveBehavior;
@@ -17,11 +17,12 @@ import utils.math.Vector2d;
  *
  * @author Calvin Ashmore
  */
-public class MoveToProactiveBehavior implements IProactiveBehavior {
+public class MoveToProactiveBehavior extends ABehaviorTemplate implements IProactiveBehavior {
 
     private Vector2d destination;
 
     public MoveToProactiveBehavior(Vector2d destination) {
+        super(InitiationType.proactive, CollaborationType.independent);
         this.destination = destination;
     }
 
@@ -33,17 +34,10 @@ public class MoveToProactiveBehavior implements IProactiveBehavior {
         return getClass().getSimpleName();
     }
 
-    public BehaviorQueue instantiate(IWorldState ws, Dispatcher d) {
+    public BehaviorQueue instantiate(IWorldState ws) {
         BehaviorQueue bq = new BehaviorQueue(this);
-        bq.addTask(new MoveTo(d, destination));
+        bq.addTask(new MoveTo(destination));
         return bq;
     }
 
-    public CollaborationType getCollaborationType() {
-        return CollaborationType.independent;
-    }
-
-    public InitiationType getInitiationType() {
-        return InitiationType.proactive;
-    }
 }
