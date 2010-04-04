@@ -9,6 +9,7 @@ package proto.behavior;
  *
  * @author hartsoka
  */
-public interface IReactiveBehavior extends IBehaviorTemplate {
+public interface IReactiveBehavior extends ICollaborativeBehavior {
+    // all reactive behaviors are collaborative
 
 }
