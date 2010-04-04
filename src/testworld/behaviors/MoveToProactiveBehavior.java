@@ -25,11 +25,7 @@ public class MoveToProactiveBehavior implements IProactiveBehavior {
         this.destination = destination;
     }
 
-    public void updateImportance(IWorldState ws) {
-        // no update
-    }
-
-    public int getImportance() {
+    public int getImportance(IWorldState ws) {
         return 10; // temp value
     }
 
@@ -38,7 +34,7 @@ public class MoveToProactiveBehavior implements IProactiveBehavior {
     }
 
     public BehaviorQueue instantiate(IWorldState ws, Dispatcher d) {
-        BehaviorQueue bq = new BehaviorQueue(this, getImportance());
+        BehaviorQueue bq = new BehaviorQueue(this);
         bq.addTask(new MoveTo(d, destination));
         return bq;
     }

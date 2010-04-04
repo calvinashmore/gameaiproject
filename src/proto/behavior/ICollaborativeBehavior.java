@@ -9,7 +9,8 @@ package proto.behavior;
  *
  * @author hartsoka
  */
-public interface IProactiveBehavior extends IBehaviorTemplate {
+public interface ICollaborativeBehavior extends IBehaviorTemplate {
 
-    public int getImportance(IWorldState ws);
+    public BehaviorQueue completeHandshake(CollaborationHandshake handshake);
+
 }

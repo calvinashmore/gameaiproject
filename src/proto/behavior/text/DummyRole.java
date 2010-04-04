@@ -19,9 +19,10 @@ public class DummyRole extends ARole {
     {
         super();
 
-        super.addBehaviorTemplate(new DummySentenceBehavior("To be or not to be, that is the question?"));
-        super.addBehaviorTemplate(new DummySentenceBehavior("This is a test of the emergency broadcast system."));
-        super.addBehaviorTemplate(new DummySentenceBehavior("Zoiks!"));
+        super.addBehaviorTemplate(new DummyProactiveBehavior("To be or not to be, that is the question?"));
+        super.addBehaviorTemplate(new DummyProactiveBehavior("Sometimes I feel like talking to myself."));
+
+        //super.addBehaviorTemplate(new DummyCollaborativeBehavior());
 
         super.addBehaviorTemplate(new DummyLatentBehavior());
     }

@@ -5,25 +5,18 @@
 
 package proto.behavior.text;
 
-import java.util.Random;
 import proto.behavior.IWorldState;
+import utils.math.RandomManager;
 
 /**
  *
  * @author hartsoka
  */
 public class DummyWorldState implements IWorldState {
-
-    public Random r;
-    
-    public DummyWorldState()
-    {
-        r = new Random();
-    }
     
     public int rollDie(int max)
     {
-        return r.nextInt(max);
+        return RandomManager.get().nextInt(max);
     }
 
 }
