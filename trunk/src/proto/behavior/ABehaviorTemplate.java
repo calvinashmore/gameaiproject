@@ -18,6 +18,13 @@ public abstract class ABehaviorTemplate implements IBehaviorTemplate {
     {
         this.initType = initType;
         this.collabType = collabType;
+
+        if (initType == InitiationType.reactive &&
+            collabType != CollaborationType.collaborative)
+        {
+            System.out.println("Warning: Reactive behavior is not collaborative");
+            //throw new Exception("Reactive behaviors must be collaborative");
+        }
     }
 
     public CollaborationType getCollaborationType() {

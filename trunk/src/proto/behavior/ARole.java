@@ -5,6 +5,8 @@
 
 package proto.behavior;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,33 +45,36 @@ public abstract class ARole implements IRole {
         }
     }
 
-    public void updateProactiveBehaviors(IWorldState ws) {
-        for (IProactiveBehavior pb : proactives)
-        {
-            pb.updateImportance(ws);
-        }
-    }
-
     public BehaviorQueue instantiateProactiveBehavior(IWorldState ws, Dispatcher d) {
-        IProactiveBehavior best = null;
-        int bestImportance = Integer.MIN_VALUE;
+
+        List<BehaviorRelevance> brs =
+                new ArrayList<BehaviorRelevance>(proactives.size());
+
+        // sort proactive behaviors by performance
         for (IProactiveBehavior pb : proactives)
         {
-            int importance = pb.getImportance();
-            if (importance > bestImportance)
+            int importance = pb.getImportance(ws);
+            brs.add(new BehaviorRelevance(importance, pb));
+        }
+        Collections.sort(brs); // comparator is implemented backwards, so greatest to least
+
+        // try to instantiate them from most important to least until successful
+        BehaviorQueue bq = null;
+        for (BehaviorRelevance br : brs)
+        {
+            bq = br.pb.instantiate(ws, d);
+            if (bq != null)
             {
-                best = pb;
-                bestImportance = importance;
+                break;
             }
         }
         
-        if (best == null)
+        if (bq == null)
         {
             //throw new UnsupportedOperationException("All roles must have at least 1 proactive behavior.");
-            return null;
         }
 
-        return best.instantiate(ws, d);
+        return bq;
     }
 
     public List<IProactiveBehavior> getProactiveBehaviors() {
@@ -82,6 +87,25 @@ public abstract class ARole implements IRole {
 
     public BehaviorQueue getReactiveBehavior(String id, CollaborationHandshake handshake) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private class BehaviorRelevance implements Comparable
+    {
+        int importance;
+        IProactiveBehavior pb;
+
+        BehaviorRelevance(int importance, IProactiveBehavior pb)
+        {
+            this.importance = importance;
+            this.pb = pb;
+        }
+
+        public int compareTo(Object o) {
+            BehaviorRelevance rhs = (BehaviorRelevance)o;
+
+            // want reverse sort order
+            return new Integer(rhs.importance).compareTo(this.importance);
+        }
     }
 
 }

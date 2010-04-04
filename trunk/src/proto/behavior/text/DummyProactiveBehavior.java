@@ -10,22 +10,23 @@ import proto.behavior.BehaviorQueue;
 import proto.behavior.Dispatcher;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
+import utils.math.RandomManager;
 
 /**
  *
  * @author hartsoka
  */
-public class DummySentenceBehavior extends ABehaviorTemplate implements IProactiveBehavior {
+public class DummyProactiveBehavior extends ABehaviorTemplate implements IProactiveBehavior {
 
     public String sentence;
 
-    public DummySentenceBehavior(String sentence)
+    public DummyProactiveBehavior(String sentence)
     {
         super(InitiationType.proactive, CollaborationType.independent);
         this.sentence = sentence;
     }
     
-    public DummySentenceBehavior(String sentence, InitiationType initType, CollaborationType collabType)
+    public DummyProactiveBehavior(String sentence, InitiationType initType, CollaborationType collabType)
     {
         super(initType, collabType);
         this.sentence = sentence;
@@ -50,12 +51,8 @@ public class DummySentenceBehavior extends ABehaviorTemplate implements IProacti
         }
         return bq;
     }
-
-    public void updateImportance(IWorldState ws) {
-        // dummy, nch
-    }
-
-    public int getImportance() {
-        return 0;
+    
+    public int getImportance(IWorldState ws) {
+        return RandomManager.get().nextInt(4);
     }
 }

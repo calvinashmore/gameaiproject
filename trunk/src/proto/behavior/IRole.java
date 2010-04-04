@@ -14,8 +14,6 @@ import java.util.List;
  */
 public interface IRole {
 
-    public void updateProactiveBehaviors(IWorldState ws);
-
     public BehaviorQueue instantiateProactiveBehavior(IWorldState ws, Dispatcher d);
 
     public List<IProactiveBehavior> getProactiveBehaviors();

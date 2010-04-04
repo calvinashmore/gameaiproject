@@ -28,10 +28,10 @@ public class DummyLatentBehavior implements ILatentBehavior {
     public BehaviorQueue instantiate(IWorldState ws, Dispatcher d) {
         Random r = new Random();
         int numCoughs = r.nextInt(3) + 1;
-        BehaviorQueue bq = new BehaviorQueue(this, 1);
+        BehaviorQueue bq = new BehaviorQueue(this, 2);
         for (int i = 0; i < numCoughs; ++i)
         {
-            bq.addTask(new DummyWordTask(d, "Cough"));
+            bq.addTask(new DummyWordTask(d, "*cough*"));
         }
         return bq;
     }
