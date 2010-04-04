@@ -46,6 +46,6 @@ public class Person extends Entity {
         //addBehaviorTemplate(new MoveToProactiveBehavior(destination));
         // ALSO: Implementation needs changing
         getDispatcher().handleNewBehavior(
-                new MoveToProactiveBehavior(destination).instantiate(World.getInstance(), getDispatcher()), QueueSet.pro);
+                new MoveToProactiveBehavior(destination).instantiate(World.getInstance()), QueueSet.pro);
     }
 }

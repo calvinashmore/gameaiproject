@@ -27,20 +27,29 @@ public class DummyReactiveBehavior extends ABehaviorTemplate implements IReactiv
         return "GreetAccept";
     }
 
-    public BehaviorQueue instantiate(IWorldState ws, Dispatcher d) {
-        BehaviorQueue bq = new BehaviorQueue(this, 1);
-        bq.addTask(new WaitTask(d));
-        bq.addTask(new DummyWordTask(d, "I"));
-        bq.addTask(new DummyWordTask(d, "am"));
-        bq.addTask(new DummyWordTask(d, "good,"));
-        bq.addTask(new DummyWordTask(d, "thanks."));
-        bq.addTask(new WaitTask(d));
-        bq.addTask(new DummyWordTask(d, "See"));
-        bq.addTask(new DummyWordTask(d, "you."));
-        return bq;
+    public BehaviorQueue instantiate(IWorldState ws)
+    {
+        throw new UnsupportedOperationException("Purely reactive behaviors should not be instantiated outside of collaboration.");
     }
 
-    public BehaviorQueue completeHandshake(CollaborationHandshake handshake) {
+    public BehaviorQueue completeHandshake(CollaborationHandshake handshake)
+    {
+        Dispatcher d = this.getOwningRole().getOwningDispatcher();
+
+        BehaviorQueue bq = new BehaviorQueue(this, 1);
+        bq.addTask(new WaitTask());
+        bq.addTask(new DummyWordTask("I"));
+        bq.addTask(new DummyWordTask("am"));
+        bq.addTask(new DummyWordTask("good,"));
+        bq.addTask(new DummyWordTask("thanks."));
+        bq.addTask(new WaitTask());
+        bq.addTask(new DummyWordTask("See"));
+        bq.addTask(new DummyWordTask("you."));
+        return bq;
+        
+    }
+
+    public boolean tryCollaboration(CollaborationHandshake handshake) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -43,11 +43,11 @@ public class DummyProactiveBehavior extends ABehaviorTemplate implements IProact
         return "Say:" + sentence;
     }
 
-    public BehaviorQueue instantiate(IWorldState ws, Dispatcher d) {
+    public BehaviorQueue instantiate(IWorldState ws) {
         BehaviorQueue bq = new BehaviorQueue(this, 0);
         for (String word : sentence.split(" "))
         {
-            bq.addTask(new DummyWordTask(d, word));
+            bq.addTask(new DummyWordTask(word));
         }
         return bq;
     }

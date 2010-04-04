@@ -18,12 +18,8 @@ import testworld.objects.PersonDispatcher;
  */
 abstract public class PersonTask extends ATask {
 
-    public PersonTask(Dispatcher d) {
-        super(d);
-    }
-
     public Person getPerson() {
-        return ((PersonDispatcher) dispatcher).getPerson();
+        return ((PersonDispatcher) this.getDispatcher()).getPerson();
     }
 
     public Testworld getWorld() {
@@ -31,6 +27,6 @@ abstract public class PersonTask extends ATask {
     }
 
     public void finished() {
-        dispatcher.handleTaskDone(bq);
+        this.getDispatcher().handleTaskDone(bq);
     }
 }

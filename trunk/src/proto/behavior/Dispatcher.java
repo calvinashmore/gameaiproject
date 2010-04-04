@@ -25,7 +25,9 @@ public class Dispatcher {
     public Dispatcher(IRole role)
     {
         this.role = role;
-        this.mq = new MultiQueue();
+        this.mq = new MultiQueue(this);
+
+        this.role.setOwningDispatcher(this);
 
         resetTimeout();
     }

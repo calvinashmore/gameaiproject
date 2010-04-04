@@ -21,6 +21,8 @@ public class BehaviorQueue {
     private LinkedList<ITask> tasks;
     private int priority;
 
+    private MultiQueue owningMultiQueue;
+
     /**
      * Create a BehaviorQueue for the provided template.  Priority will be set
      * based on system defaults for the properties of the template.
@@ -100,7 +102,7 @@ public class BehaviorQueue {
     public void addTask(ITask task)
     {
         tasks.add(task);
-        task.setBehaviorQueue(this);
+        task.setOwningBehaviorQueue(this);
     }
 
     public ITask peekTask()
@@ -115,5 +117,24 @@ public class BehaviorQueue {
         {
             state = ActiveState.cancelled;
         }
+    }
+
+    /**
+     * Sets the MultiQueue which is running this behavior  - in general, should
+     * only be called by MultiQueue when this behavior is added.
+     * @param mq MultiQueue adding this BehaviorQueue to a QueueSet.
+     */
+    public void setOwningMultiQueue(MultiQueue mq)
+    {
+        this.owningMultiQueue = mq;
+    }
+
+    /**
+     * Get the MultiQueue which owns this BehaviorQueue.
+     * @return Owning MultiQueue.
+     */
+    public MultiQueue getOwningMultiQueue()
+    {
+        return this.owningMultiQueue;
     }
 }
