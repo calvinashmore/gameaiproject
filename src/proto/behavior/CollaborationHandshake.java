@@ -11,9 +11,8 @@ import proto.behavior.IBehaviorTemplate.InitiationType;
 import testworld.objects.PersonDispatcher;
 
 /**
- * Container for information on a collaboration.  Should have pointers to the
- * BehaviorQueues for the collaboration and the flags for when certain tasks
- * are finished.
+ * Container for information on a collaboration, both in setting up the
+ * collaboration and in executing it.
  * @author hartsoka
  */
 public class CollaborationHandshake {
@@ -22,8 +21,11 @@ public class CollaborationHandshake {
 
     private PersonDispatcher initiator;
 
-    private Map<String, PersonDispatcher> participants; // role to agent
-    private Map<PersonDispatcher, String> roles; // agent to role
+    // Note: "title" refers to an agent's responsibility in the collaboration,
+    //  for example, "initiator" or "drummer" or "quarterback", whatever is
+    //  useful to the behavior
+    private Map<String, PersonDispatcher> participants; // title to agent
+    private Map<PersonDispatcher, String> titles; // agent to title
     private Map<PersonDispatcher, ICollaborativeBehavior> templates; // agent to behavior template
     private Map<PersonDispatcher, BehaviorQueue> queues; // agent to behavior implementation
 
@@ -31,7 +33,7 @@ public class CollaborationHandshake {
      * Create a CollaborationHandshake, which is an encapsulation of all the
      * messaging between participants in either a potential collaboration (not
      * yet agreed upon) or an actual collaboration (BehaviorQueues created).
-     * For this constructor, the initiator's role will be "initiator" .
+     * For this constructor, the initiator's title will be "initiator" .
      * @param priority If completed, the priority recommended to BehaviorQueues.
      * @param initiator Agent initiating the collaboration.
      */
@@ -46,12 +48,12 @@ public class CollaborationHandshake {
      * yet agreed upon) or an actual collaboration (BehaviorQueues created).
      * @param priority If completed, the priority recommended to BehaviorQueues.
      * @param initiator Agent initiating the collaboration.
-     * @param role Initiator's named role in the collaboration.
+     * @param title Initiator's named title in the collaboration.
      */
-    public CollaborationHandshake(int priority, Dispatcher initiator, String role)
+    public CollaborationHandshake(int priority, Dispatcher initiator, String title)
     {
         this.participants = new TreeMap<String, PersonDispatcher>();
-        this.roles = new TreeMap<PersonDispatcher, String>();
+        this.titles = new TreeMap<PersonDispatcher, String>();
         this.queues = new TreeMap<PersonDispatcher, BehaviorQueue>();
 
         // TODO
@@ -59,13 +61,13 @@ public class CollaborationHandshake {
         this.initiator = (PersonDispatcher)initiator;
         this.priority = priority;
         
-        this.participants.put(role, (PersonDispatcher)initiator);
-        this.roles.put((PersonDispatcher)initiator, role);
+        this.participants.put(title, (PersonDispatcher)initiator);
+        this.titles.put((PersonDispatcher)initiator, title);
     }
 
     /**
      * Called by non-initiators to signal the desire to participate in the
-     * collaboration.  Caller's role will be set to "reactor" .
+     * collaboration.  Caller's title will be set to "reactor" .
      * @param reactor Agent wanting to join the collaboration.
      */
     public void participate(Dispatcher reactor)
@@ -77,12 +79,16 @@ public class CollaborationHandshake {
      * Called by non-initiators to signal the desire to participate in the
      * collaboration.
      * @param reactor Agent wanting to join the collaboration.
-     * @param role Caller's named role in the collaboration.
+     * @param title Caller's title in the collaboration.
      */
-    public void participate(Dispatcher reactor, String role)
+    public void participate(Dispatcher reactor, String title)
     {
-        this.participants.put(role, (PersonDispatcher)reactor);
-        this.roles.put((PersonDispatcher)reactor, role);
+        if (participants.containsKey(title))
+        {
+            throw new UnsupportedOperationException("CollaborationHandshake does not yet support multiple participants for the same title");
+        }
+        this.participants.put(title, (PersonDispatcher)reactor);
+        this.titles.put((PersonDispatcher)reactor, title);
     }
 
     /**
@@ -106,15 +112,15 @@ public class CollaborationHandshake {
     }
 
     /**
-     * Returns the named role of a participant in the collaboration.
+     * Returns the title of a participant in the collaboration.
      * Useful to collaborators when completing the handshake, as it helps them
      * determine how to instantiate their behavior queues.
-     * @param d The agent whose role named is desired.
-     * @return The named role of that agent.
+     * @param d The agent whose title named is desired.
+     * @return The title of that agent.
      */
-    public String getRole(Dispatcher d)
+    public String getTitle(Dispatcher d)
     {
-        return roles.get(d);
+        return titles.get(d);
     }
 
     /**
@@ -136,8 +142,7 @@ public class CollaborationHandshake {
         }
         else
         {
-            System.out.println("Warning: unknown situation in completeHandshake in CollaborationHandshake");
-            qs = MultiQueue.QueueSet.collab;
+            throw new UnsupportedOperationException("Unsupported situation in CollaborationHandshake:completeHandshake()");
         }
 
         // Create the actual BehaviorQueue for each participant

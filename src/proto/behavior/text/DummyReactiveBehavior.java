@@ -7,6 +7,7 @@ package proto.behavior.text;
 
 import proto.behavior.ABehaviorTemplate;
 import proto.behavior.BehaviorQueue;
+import proto.behavior.CollaborationHandshake;
 import proto.behavior.Dispatcher;
 import proto.behavior.IReactiveBehavior;
 import proto.behavior.IWorldState;
@@ -37,6 +38,10 @@ public class DummyReactiveBehavior extends ABehaviorTemplate implements IReactiv
         bq.addTask(new DummyWordTask(d, "See"));
         bq.addTask(new DummyWordTask(d, "you."));
         return bq;
+    }
+
+    public BehaviorQueue completeHandshake(CollaborationHandshake handshake) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
