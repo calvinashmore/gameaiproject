@@ -53,7 +53,7 @@ public class PathPlanner {
             Vector2d influence = getInfluence(object.getLocation().getPosition(), objectRadius, toAvoid, basicObject.getLocation().getPosition());
 
             // multiply by a number to increase the repelling force
-            influence = influence.multiply(2);
+            influence = influence.multiply(1);
             direction = direction.add(influence);
         }
 

@@ -4,6 +4,8 @@
  */
 package testworld.objects;
 
+import java.util.ArrayList;
+import java.util.List;
 import proto.behavior.MultiQueue.QueueSet;
 import proto.navigation.BoundingSphere;
 import proto.world.Entity;
@@ -19,6 +21,7 @@ import utils.math.Vector2d;
 public class Person extends Entity {
 
     private String name;
+    private List<String> speech = new ArrayList<String>();
 
     public Person(String name) {
         super(new PersonDispatcher());
@@ -47,5 +50,33 @@ public class Person extends Entity {
         // ALSO: Implementation needs changing
         getDispatcher().handleNewBehavior(
                 new MoveToProactiveBehavior(destination).instantiate(World.getInstance()), QueueSet.pro);
+    }
+
+    /**
+     * Removes the current line from the person's speech.
+     */
+    public void popSpeech() {
+        if (speech.size() > 0) {
+            speech.remove(0);
+        }
+    }
+
+    /**
+     * Returns the string that the person is currently speaking.
+     * Returns null if nothing is being said.
+     * @return
+     */
+    public String peekSpeech() {
+        if(speech.size() == 0)
+            return null;
+        else return speech.get(0);
+    }
+
+    /**
+     * Adds the given line to speech for the character to say.
+     * @param line
+     */
+    public void pushSpeech(String line) {
+        speech.add(line);
     }
 }
