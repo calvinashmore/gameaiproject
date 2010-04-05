@@ -39,5 +39,4 @@ public class MoveToProactiveBehavior extends ABehaviorTemplate implements IProac
         bq.addTask(new MoveTo(destination));
         return bq;
     }
-
 }

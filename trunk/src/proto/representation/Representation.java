@@ -24,4 +24,14 @@ public abstract class Representation<T extends BasicObject> {
     }
 
     abstract public void render(PGraphics g);
+
+    /**
+     * Returns true if the given 2d coordinate overlaps with this representation.
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean inRange(float x, float y) {
+        return false;
+    }
 }

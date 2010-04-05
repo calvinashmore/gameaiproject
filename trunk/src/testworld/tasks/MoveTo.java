@@ -4,7 +4,6 @@
  */
 package testworld.tasks;
 
-import proto.behavior.Dispatcher;
 import utils.math.Vector2d;
 
 /**
@@ -36,7 +35,7 @@ public class MoveTo extends PersonTask {
 
         double distance = oldPosition.subtract(destination).magnitude();
 
-        if(distance <= DESTINATION_RANGE) {
+        if (distance <= DESTINATION_RANGE) {
             finished();
             return;
         }

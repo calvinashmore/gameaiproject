@@ -4,8 +4,13 @@
  */
 package testworld;
 
+import java.util.List;
+import proto.game.PlayerAction;
+import proto.world.BasicObject;
+import proto.world.Entity;
 import proto.world.World;
 import testworld.objects.Person;
+import utils.math.Vector2d;
 
 /**
  *
@@ -13,7 +18,7 @@ import testworld.objects.Person;
  */
 public class Testworld extends World {
 
-    private Person player;
+    private PlayerImplementation player;
 
     public Testworld() {
 
@@ -22,7 +27,7 @@ public class Testworld extends World {
         person.getLocation().getPosition().y = 100;
         getAllObjects().add(person);
 
-        player = person = new Person("Player");
+        person = player = new PlayerImplementation("Player");
         person.getLocation().getPosition().x = 200;
         person.getLocation().getPosition().y = 200;
         getAllObjects().add(person);
@@ -30,7 +35,21 @@ public class Testworld extends World {
         setEnvironment(new RoomEnvironment());
     }
 
-    public Person getPlayer() {
+    public PlayerImplementation getPlayer() {
         return player;
+    }
+
+    public List<PlayerAction> onClick(int x, int y) {
+        Entity clickedOn = null;
+
+        for (BasicObject basicObject : getAllObjects()) {
+            if (basicObject instanceof Entity &&
+                    basicObject.getRepresentation() != null &&
+                    basicObject.getRepresentation().inRange(x, y)) {
+                clickedOn = (Entity) basicObject;
+            }
+        }
+
+        return player.getActions(clickedOn, new Vector2d(x, y));
     }
 }
