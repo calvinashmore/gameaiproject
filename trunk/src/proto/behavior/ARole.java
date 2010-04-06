@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
@@ -24,6 +24,8 @@ public abstract class ARole implements IRole {
 
     public ARole()
     {
+        owningDispatcher = null;
+
         proactives = new LinkedList<IProactiveBehavior>();
         reactives = new LinkedList<IReactiveBehavior>();
         latents = new LinkedList<ILatentBehavior>();
@@ -60,7 +62,7 @@ public abstract class ARole implements IRole {
      * @param d Dispatcher so that the instantiated behavior knows its owner.
      * @return The instantiated BehaviorQueue of tasks.
      */
-    public BehaviorQueue instantiateProactiveBehavior(IWorldState ws, Dispatcher d)
+    public IBehaviorQueue instantiateProactiveBehavior(IWorldState ws)
     {
         List<BehaviorRelevance> brs =
                 new ArrayList<BehaviorRelevance>(proactives.size());
@@ -74,7 +76,7 @@ public abstract class ARole implements IRole {
         Collections.sort(brs); // comparator is implemented backwards, so greatest to least
 
         // try to instantiate them from most important to least until successful
-        BehaviorQueue bq = null;
+        IBehaviorQueue bq = null;
         for (BehaviorRelevance br : brs)
         {
             bq = br.pb.instantiate(ws);
@@ -99,9 +101,9 @@ public abstract class ARole implements IRole {
     public List<ILatentBehavior> getLatentBehaviors() {
         return latents;
     }
-    
-    public BehaviorQueue getReactiveBehavior(String id, CollaborationHandshake handshake) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    public List<IReactiveBehavior> getReactiveBehaviors() {
+        return reactives;
     }
 
     /**
@@ -111,6 +113,10 @@ public abstract class ARole implements IRole {
      */
     public void setOwningDispatcher(Dispatcher d)
     {
+        if (this.owningDispatcher != null)
+        {
+            throw new UnsupportedOperationException("ARole: cannot be given to a second dispatcher");
+        }
         this.owningDispatcher = d;
     }
 

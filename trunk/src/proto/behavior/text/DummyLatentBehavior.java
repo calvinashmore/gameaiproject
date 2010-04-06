@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior.text;
@@ -9,6 +9,7 @@ import java.util.Random;
 import proto.behavior.ABehaviorTemplate;
 import proto.behavior.BehaviorQueue;
 import proto.behavior.Dispatcher;
+import proto.behavior.IBehaviorQueue;
 import proto.behavior.ILatentBehavior;
 import proto.behavior.IWorldState;
 
@@ -31,13 +32,13 @@ public class DummyLatentBehavior extends ABehaviorTemplate implements ILatentBeh
         return "Cough";
     }
 
-    public BehaviorQueue instantiate(IWorldState ws) {
+    public IBehaviorQueue instantiate(IWorldState ws) {
         Random r = new Random();
         int numCoughs = r.nextInt(3) + 1;
-        BehaviorQueue bq = new BehaviorQueue(this, 2);
+        IBehaviorQueue bq = new BehaviorQueue(this, 2);
         for (int i = 0; i < numCoughs; ++i)
         {
-            bq.addTask(new DummyWordTask("*cough*"));
+            bq.queueTask(new DummyWordTask("*cough*"));
         }
         return bq;
     }

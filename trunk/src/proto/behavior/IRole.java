@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
@@ -14,13 +14,13 @@ import java.util.List;
  */
 public interface IRole {
 
-    public BehaviorQueue instantiateProactiveBehavior(IWorldState ws, Dispatcher d);
+    public IBehaviorQueue instantiateProactiveBehavior(IWorldState ws);
 
     public List<IProactiveBehavior> getProactiveBehaviors();
 
     public List<ILatentBehavior> getLatentBehaviors();
 
-    public BehaviorQueue getReactiveBehavior(String id, CollaborationHandshake handshake);
+    public List<IReactiveBehavior> getReactiveBehaviors();
 
     /**
      * Sets the Dispatcher which contains this role - in general, should only be

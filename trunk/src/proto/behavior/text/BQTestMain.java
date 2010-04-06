@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior.text;
@@ -8,6 +8,7 @@ package proto.behavior.text;
 import proto.behavior.Dispatcher;
 import proto.behavior.ILatentBehavior;
 import proto.behavior.MultiQueue.QueueSet;
+import testworld.objects.PersonDispatcher;
 
 /**
  *
@@ -17,22 +18,46 @@ public class BQTestMain {
 
     public static void main(String[] args)
     {
+        String[] characters = {"Bill", "Jane"};
+
         DummyWorldState dws = new DummyWorldState();
 
-        DummyRole role = new DummyRole();
-        Dispatcher d = new Dispatcher(role);
+        DummyRole billRole = new DummyRole();
+        DummyRole janeRole = new DummyRole();
+        Dispatcher bill = new Dispatcher(billRole);
+        Dispatcher jane = new Dispatcher(janeRole);
 
-        for (int i = 0; i < 50; ++i)
+        DummyDispatcherManager.register(bill);
+        DummyDispatcherManager.register(jane);
+
+        for (int i = 0; i < 500; ++i)
         {
-            d.handleTimer();
+            //System.out.println(i);
 
-            for (ILatentBehavior lb : role.getLatentBehaviors())
+            //System.out.println(characters[0] + ": ");
+            bill.handleTimer();
+
+            for (ILatentBehavior lb : billRole.getLatentBehaviors())
             {
                 if (lb.activate(dws))
                 {
-                    d.handleNewBehavior(lb.instantiate(dws), QueueSet.latent);
+                    bill.handleNewBehavior(lb.instantiate(dws), QueueSet.latent);
                 }
             }
+            System.out.println();
+
+            System.out.print("\t\t\t\t\t");
+            //System.out.println(characters[1] + ": ");
+            jane.handleTimer();
+
+            for (ILatentBehavior lb : janeRole.getLatentBehaviors())
+            {
+                if (lb.activate(dws))
+                {
+                    jane.handleNewBehavior(lb.instantiate(dws), QueueSet.latent);
+                }
+            }
+            System.out.println();
         }
     }
 }

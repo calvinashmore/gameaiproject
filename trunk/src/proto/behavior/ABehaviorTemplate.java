@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
@@ -18,14 +18,14 @@ public abstract class ABehaviorTemplate implements IBehaviorTemplate {
 
     public ABehaviorTemplate(InitiationType initType, CollaborationType collabType)
     {
+        this.owningRole = null;
         this.initType = initType;
         this.collabType = collabType;
 
         if (initType == InitiationType.reactive &&
             collabType != CollaborationType.collaborative)
         {
-            System.out.println("Warning: Reactive behavior is not collaborative");
-            //throw new Exception("Reactive behaviors must be collaborative");
+            throw new UnsupportedOperationException("ABehaviorTemplate: reactive roles must be collaborative");
         }
     }
 
@@ -38,10 +38,18 @@ public abstract class ABehaviorTemplate implements IBehaviorTemplate {
     }
 
     public void setOwningRole(IRole role) {
+        if (this.owningRole != null)
+        {
+            throw new UnsupportedOperationException("ABehaviorTemplate: cannot be owned by more than one role");
+        }
         this.owningRole = role;
     }
 
     public IRole getOwningRole() {
         return this.owningRole;
+    }
+
+    public Dispatcher getDispatcher() {
+        return this.owningRole.getOwningDispatcher();
     }
 }

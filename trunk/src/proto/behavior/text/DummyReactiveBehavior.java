@@ -1,14 +1,15 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior.text;
 
 import proto.behavior.ABehaviorTemplate;
-import proto.behavior.BehaviorQueue;
 import proto.behavior.CollaborationHandshake;
-import proto.behavior.Dispatcher;
+import proto.behavior.CollaborativeBehaviorQueue;
+import proto.behavior.IBehaviorQueue;
+import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IReactiveBehavior;
 import proto.behavior.IWorldState;
 
@@ -27,30 +28,42 @@ public class DummyReactiveBehavior extends ABehaviorTemplate implements IReactiv
         return "GreetAccept";
     }
 
-    public BehaviorQueue instantiate(IWorldState ws)
+    public IBehaviorQueue instantiate(IWorldState ws)
     {
         throw new UnsupportedOperationException("Purely reactive behaviors should not be instantiated outside of collaboration.");
     }
 
-    public BehaviorQueue completeHandshake(CollaborationHandshake handshake)
+    public ICollaborativeBehaviorQueue completeHandshake(CollaborationHandshake handshake)
     {
-        Dispatcher d = this.getOwningRole().getOwningDispatcher();
-
-        BehaviorQueue bq = new BehaviorQueue(this, 1);
-        bq.addTask(new WaitTask());
-        bq.addTask(new DummyWordTask("I"));
-        bq.addTask(new DummyWordTask("am"));
-        bq.addTask(new DummyWordTask("good,"));
-        bq.addTask(new DummyWordTask("thanks."));
-        bq.addTask(new WaitTask());
-        bq.addTask(new DummyWordTask("See"));
-        bq.addTask(new DummyWordTask("you."));
+        CollaborativeBehaviorQueue bq = new CollaborativeBehaviorQueue(this, 1, handshake);
+        bq.queueTask(new SyncTask());
+        bq.queueTask(new DummyWordTask("I"));
+        bq.queueTask(new DummyWordTask("am"));
+        bq.queueTask(new DummyWordTask("good,"));
+        bq.queueTask(new DummyWordTask("thanks."));
+        bq.queueTask(new SyncTask());
+        bq.queueTask(new SyncTask());
+        bq.queueTask(new DummyWordTask("See"));
+        bq.queueTask(new DummyWordTask("you."));
+        bq.queueTask(new SyncTask());
         return bq;
         
     }
 
-    public boolean tryCollaboration(CollaborationHandshake handshake) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean tryCollaboration(CollaborationHandshake handshake)
+    {
+        if (handshake.getInitiatingBehavior().getId().equals("GreetStart"))
+        {
+            if (handshake.getParticipants().size() >= 2)
+            {
+                return false;
+            }
+
+            handshake.participate(this.getDispatcher(), this);
+            return true;
+        }
+
+        return false;
     }
 
 }

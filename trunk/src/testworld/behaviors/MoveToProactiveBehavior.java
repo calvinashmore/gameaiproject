@@ -1,11 +1,12 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 package testworld.behaviors;
 
 import proto.behavior.ABehaviorTemplate;
 import proto.behavior.BehaviorQueue;
+import proto.behavior.IBehaviorQueue;
 import proto.behavior.IBehaviorTemplate.CollaborationType;
 import proto.behavior.IBehaviorTemplate.InitiationType;
 import proto.behavior.IProactiveBehavior;
@@ -34,9 +35,9 @@ public class MoveToProactiveBehavior extends ABehaviorTemplate implements IProac
         return getClass().getSimpleName();
     }
 
-    public BehaviorQueue instantiate(IWorldState ws) {
-        BehaviorQueue bq = new BehaviorQueue(this);
-        bq.addTask(new MoveTo(destination));
+    public IBehaviorQueue instantiate(IWorldState ws) {
+        IBehaviorQueue bq = new BehaviorQueue(this);
+        bq.queueTask(new MoveTo(destination));
         return bq;
     }
 }
