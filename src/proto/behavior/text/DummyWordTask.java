@@ -1,13 +1,11 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior.text;
 
 import proto.behavior.ATask;
-import proto.behavior.Dispatcher;
-import proto.behavior.ITask;
 
 /**
  *

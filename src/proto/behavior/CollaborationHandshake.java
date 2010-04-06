@@ -1,14 +1,14 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import proto.behavior.IBehaviorTemplate.InitiationType;
-import testworld.objects.PersonDispatcher;
 
 /**
  * Container for information on a collaboration, both in setting up the
@@ -19,15 +19,18 @@ public class CollaborationHandshake {
 
     private int priority;
 
-    private PersonDispatcher initiator;
+    private Dispatcher initiator;
 
     // Note: "title" refers to an agent's responsibility in the collaboration,
     //  for example, "initiator" or "drummer" or "quarterback", whatever is
     //  useful to the behavior
-    private Map<String, PersonDispatcher> participants; // title to agent
-    private Map<PersonDispatcher, String> titles; // agent to title
-    private Map<PersonDispatcher, ICollaborativeBehavior> templates; // agent to behavior template
-    private Map<PersonDispatcher, BehaviorQueue> queues; // agent to behavior implementation
+    private Map<String, Dispatcher> participants; // title to agent
+    private Map<Dispatcher, String> titles; // agent to title
+    private Map<Dispatcher, ICollaborativeBehavior> templates; // agent to behavior template
+    private Map<Dispatcher, ICollaborativeBehaviorQueue> queues; // agent to behavior implementation
+
+    private Map<Dispatcher, ICollaborationProgressReport> reports;
+    private Map<Dispatcher, Boolean> barrier;
 
     /**
      * Create a CollaborationHandshake, which is an encapsulation of all the
@@ -37,9 +40,9 @@ public class CollaborationHandshake {
      * @param priority If completed, the priority recommended to BehaviorQueues.
      * @param initiator Agent initiating the collaboration.
      */
-    public CollaborationHandshake(int priority, Dispatcher initiator)
+    public CollaborationHandshake(int priority, Dispatcher initiator, ICollaborativeBehavior initiatingBehavior)
     {
-        this(priority, initiator, "initiator");
+        this(priority, initiator, initiatingBehavior, "initiator");
     }
 
     /**
@@ -50,19 +53,24 @@ public class CollaborationHandshake {
      * @param initiator Agent initiating the collaboration.
      * @param title Initiator's named title in the collaboration.
      */
-    public CollaborationHandshake(int priority, Dispatcher initiator, String title)
+    public CollaborationHandshake(int priority, Dispatcher initiator, ICollaborativeBehavior initiatingBehavior, String title)
     {
-        this.participants = new TreeMap<String, PersonDispatcher>();
-        this.titles = new TreeMap<PersonDispatcher, String>();
-        this.queues = new TreeMap<PersonDispatcher, BehaviorQueue>();
+        this.participants = new TreeMap<String, Dispatcher>();
+        this.titles = new TreeMap<Dispatcher, String>();
+        this.templates = new TreeMap<Dispatcher, ICollaborativeBehavior>();
+        this.queues = new TreeMap<Dispatcher, ICollaborativeBehaviorQueue>();
+
+        this.reports = new TreeMap<Dispatcher, ICollaborationProgressReport>();
+        this.barrier = new TreeMap<Dispatcher, Boolean>();
 
         // TODO
         // change design so we don't have to use a hack
-        this.initiator = (PersonDispatcher)initiator;
+        this.initiator = initiator;
         this.priority = priority;
         
-        this.participants.put(title, (PersonDispatcher)initiator);
-        this.titles.put((PersonDispatcher)initiator, title);
+        this.participants.put(title, initiator);
+        this.titles.put(initiator, title);
+        this.templates.put(initiator, initiatingBehavior);
     }
 
     /**
@@ -70,9 +78,9 @@ public class CollaborationHandshake {
      * collaboration.  Caller's title will be set to "reactor" .
      * @param reactor Agent wanting to join the collaboration.
      */
-    public void participate(Dispatcher reactor)
+    public void participate(Dispatcher reactor, IReactiveBehavior reactiveBehavior)
     {
-        this.participate(reactor, "reactor");
+        this.participate(reactor, reactiveBehavior, "reactor");
     }
 
     /**
@@ -81,23 +89,33 @@ public class CollaborationHandshake {
      * @param reactor Agent wanting to join the collaboration.
      * @param title Caller's title in the collaboration.
      */
-    public void participate(Dispatcher reactor, String title)
+    public void participate(Dispatcher reactor, IReactiveBehavior reactiveBehavior, String title)
     {
         if (participants.containsKey(title))
         {
             throw new UnsupportedOperationException("CollaborationHandshake does not yet support multiple participants for the same title");
         }
-        this.participants.put(title, (PersonDispatcher)reactor);
-        this.titles.put((PersonDispatcher)reactor, title);
+        this.participants.put(title, reactor);
+        this.titles.put(reactor, title);
+        this.templates.put(reactor, reactiveBehavior);
     }
 
     /**
-     * Returns the recommended priority of BehaviorQueues for the collaboration.
-     * @return
+     * Gets the recommended priority of BehaviorQueues for the collaboration.
+     * @return Priority that the BehaviorQueues are recommended to be given.
      */
     public int getPriority()
     {
         return priority;
+    }
+
+    /**
+     * Gets the agent which initiated the collaboration.
+     * @return Initiating agent.
+     */
+    public Dispatcher getInitiator()
+    {
+        return this.initiator;
     }
 
     /**
@@ -146,13 +164,71 @@ public class CollaborationHandshake {
         }
 
         // Create the actual BehaviorQueue for each participant
-        for (PersonDispatcher pd : participants.values())
+        for (Dispatcher d : participants.values())
         {
-            ICollaborativeBehavior template = this.templates.get(pd);
-            BehaviorQueue bq = template.completeHandshake(this);
-            pd.handleNewBehavior(bq, qs);
+            ICollaborativeBehavior template = this.templates.get(d);
+            ICollaborativeBehaviorQueue bq = template.completeHandshake(this);
+            d.handleNewBehavior(bq, qs);
 
-            this.queues.put(pd, bq);
+            this.queues.put(d, bq);
+            this.barrier.put(d, Boolean.FALSE);
         }
+    }
+
+    /**
+     * Signals that an agent has reached a barrier point in the collaboration.
+     * If all agents have reached the barrier, sends a handleCollaborationDone
+     * signal to each agent.
+     * @param agent Agent who has reached the barrier
+     * @return True if all agents have reached the barrier, false otherwise.
+     */
+    public boolean triggerBarrier(Dispatcher agent)
+    {
+        this.barrier.put(agent, Boolean.TRUE);
+        
+        boolean done = true;
+        for (Boolean b : barrier.values())
+        {
+            if (!b)
+            {
+                done = false;
+            }
+        }
+
+        if (!done)
+        {
+            return false;
+        }
+
+        // otherwise done, so notify everyone that we're ready to move on
+        for (Entry<Dispatcher,Boolean> e : barrier.entrySet())
+        {
+            Dispatcher d = e.getKey();
+            d.handleCollaboratorDone(queues.get(d));
+
+            e.setValue(Boolean.FALSE); // reset barrier
+        }
+
+        return true;
+    }
+
+    public Map<String, Dispatcher> getParticipants()
+    {
+        return this.participants;
+    }
+
+    public Map<Dispatcher, String> getTitles()
+    {
+        return this.titles;
+    }
+
+    public Dispatcher getParticipant(String title)
+    {
+        return this.participants.get(title);
+    }
+
+    public ICollaborativeBehaviorQueue getQueue(Dispatcher d)
+    {
+        return this.queues.get(d);
     }
 }

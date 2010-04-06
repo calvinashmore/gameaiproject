@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
@@ -12,7 +12,7 @@ import proto.behavior.IBehaviorTemplate.InitiationType;
  * A BehaviorTemplate instantiated into a queue of specific tasks.
  * @author hartsoka
  */
-public class BehaviorQueue {
+public class BehaviorQueue implements IBehaviorQueue {
 
     public enum ActiveState { active, suspended, cancelled }
 
@@ -99,7 +99,7 @@ public class BehaviorQueue {
         return state == ActiveState.cancelled;
     }
 
-    public void addTask(ITask task)
+    public void queueTask(ITask task)
     {
         tasks.add(task);
         task.setOwningBehaviorQueue(this);
@@ -110,7 +110,7 @@ public class BehaviorQueue {
         return tasks.getFirst();
     }
 
-    public void popTask()
+    public void dequeueTask()
     {
         tasks.remove();
         if (tasks.isEmpty())

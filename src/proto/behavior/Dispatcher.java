@@ -1,17 +1,21 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
 
+import java.util.List;
 import proto.behavior.MultiQueue.QueueSet;
 
 /**
  * Controls and monitors changes to the MultiQueue.  See page 25 for signals.
  * @author hartsoka
  */
-public class Dispatcher {
+public class Dispatcher implements Comparable {
+
+    private static int nextId = 0;
+    private int id;
 
     private IWorldState currentWorld;
 
@@ -24,6 +28,9 @@ public class Dispatcher {
 
     public Dispatcher(IRole role)
     {
+        this.id = nextId;
+        nextId++;
+
         this.role = role;
         this.mq = new MultiQueue(this);
 
@@ -43,11 +50,11 @@ public class Dispatcher {
         timeoutClock++;
     }
 
-    public void handleNewBehavior(BehaviorQueue newBehavior, QueueSet qs)
+    public void handleNewBehavior(IBehaviorQueue newBehavior, QueueSet qs)
     {
-        BehaviorQueue currentBehavior = mq.getCurrentBehavior();
+        IBehaviorQueue currentBehavior = mq.getCurrentBehavior();
         if (currentBehavior != null &&
-                newBehavior.getPriority() < currentBehavior.getPriority())
+            currentBehavior.getPriority() > newBehavior.getPriority())
         {
             // TODO is this right? might want to add it anyway
             return;
@@ -57,23 +64,51 @@ public class Dispatcher {
         handleTaskStart();
     }
 
-    public void handleTaskDone(BehaviorQueue taskQueue)
+    public void handleTaskDone(IBehaviorQueue taskQueue)
     {
-        // TODO handle collaborative tasks specially
-        taskQueue.popTask();
+        // if a collaboration
+        if (taskQueue.isCollaborative())
+        {
+            ICollaborativeBehaviorQueue cbq =
+                    (ICollaborativeBehaviorQueue)taskQueue;
+
+            // if we've been told to sync up at the end up this task
+            if (cbq.isBarrierSet())
+            {
+                cbq.setSelfReadyAndWaiting();
+                
+                CollaborationHandshake handshake = cbq.getHandshake();
+                handshake.triggerBarrier(this);
+            }
+            else
+            {
+                taskQueue.dequeueTask();
+            }
+        }
+        else
+        {
+            taskQueue.dequeueTask();
+        }
     }
 
-    public void handleCollaboratorDone()
+    public void handleCollaboratorDone(ICollaborativeBehaviorQueue taskQueue)
     {
-        // TODO
+        taskQueue.endBarrier();
+
+        if (taskQueue.isSuspended())
+        {
+            taskQueue.activate();
+        }
+
+        taskQueue.dequeueTask();
     }
 
     // NOTE: THIS IS NOT CURRENTLY CALLED
     public void handlePhaseDone()
     {
         // TODO check this
-        BehaviorQueue currentBehavior = mq.getCurrentBehavior();
-        currentBehavior.popTask();
+        IBehaviorQueue currentBehavior = mq.getCurrentBehavior();
+        currentBehavior.dequeueTask();
 
         // listed in paper, but not needed as handleTaskStart() does this
         // resetTimeout();
@@ -85,31 +120,61 @@ public class Dispatcher {
     {
         resetTimeout();
 
-        BehaviorQueue currentBehavior = safelyGetCurrentBehavior();
+        IBehaviorQueue currentBehavior = safelyGetCurrentBehavior();
 
         currentBehavior.peekTask().resume();
     }
 
-    public void handleKillCollaboration(BehaviorQueue collaborativeQueue)
+    public void handleKillCollaboration(ICollaborativeBehaviorQueue collaborativeQueue)
     {
         mq.remove(collaborativeQueue);
 
         handleTaskStart();
+
+        // TODO implement this more fully
     }
 
     public void handleTimer()
     {
-        BehaviorQueue currentBehavior = safelyGetCurrentBehavior();
+        IBehaviorQueue currentBehavior = safelyGetCurrentBehavior();
         if(currentBehavior != null)
-            currentBehavior.peekTask().run();
+        {
+            if (currentBehavior.isCollaborative() &&
+                ((ICollaborativeBehaviorQueue)currentBehavior).isSelfReadyAndWaiting())
+            {
+                // collaborative and we are finished and waiting on our
+                //  collaborators, so do nothing but check timeouts
+                if (timeoutClock > MEDIUM_WAIT)
+                {
+                    currentBehavior.suspend();
+                }
+                // TODO actually handle LONG_WAIT
+            }
+            else
+            {
+                currentBehavior.peekTask().run();
+            }
+        }
     }
 
-    private BehaviorQueue safelyGetCurrentBehavior()
+    public void offerCollaboration(CollaborationHandshake handshake)
     {
-        BehaviorQueue currentBehavior = mq.getCurrentBehavior();
+        if (mq.testEyeContact(handshake.getPriority()))
+        {
+            List<IReactiveBehavior> reactives = role.getReactiveBehaviors();
+            for (IReactiveBehavior rb : reactives)
+            {
+                rb.tryCollaboration(handshake);
+            }
+        }
+    }
+
+    private IBehaviorQueue safelyGetCurrentBehavior()
+    {
+        IBehaviorQueue currentBehavior = mq.getCurrentBehavior();
         if (currentBehavior == null)
         {
-            currentBehavior = role.instantiateProactiveBehavior(currentWorld, this);
+            currentBehavior = role.instantiateProactiveBehavior(currentWorld);
             if(currentBehavior == null)
                 return null;
             handleNewBehavior(currentBehavior, QueueSet.pro);
@@ -120,5 +185,11 @@ public class Dispatcher {
 
     public IRole getRole() {
         return role;
+    }
+
+    public int compareTo(Object o) {
+        Dispatcher rhs = (Dispatcher)o;
+        Integer rhsId = rhs.id;
+        return ((Integer)(this.id)).compareTo(rhsId);
     }
 }

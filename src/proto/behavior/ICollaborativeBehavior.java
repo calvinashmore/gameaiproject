@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
@@ -11,6 +11,6 @@ package proto.behavior;
  */
 public interface ICollaborativeBehavior extends IBehaviorTemplate {
 
-    public BehaviorQueue completeHandshake(CollaborationHandshake handshake);
+    public ICollaborativeBehaviorQueue completeHandshake(CollaborationHandshake handshake);
 
 }

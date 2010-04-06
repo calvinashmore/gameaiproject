@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior;
@@ -19,16 +19,16 @@ public class MultiQueue
 
     // Contains three queue sets as described on bottom of page 24
     public enum QueueSet { pro, collab, latent }
-    private BehaviorQueue proactive; // IndepPro only
-    private List<BehaviorQueue> collaborative; // CollabPro, or CollabReact in response to CollabPro
-    private List<BehaviorQueue> latent; // IndepLat or CollabLat, or a CollabReact in response to a latent
+    private IBehaviorQueue proactive; // IndepPro only
+    private List<IBehaviorQueue> collaborative; // CollabPro, or CollabReact in response to CollabPro
+    private List<IBehaviorQueue> latent; // IndepLat or CollabLat, or a CollabReact in response to a latent
 
     public MultiQueue(Dispatcher owner)
     {
         owningDispatcher = owner;
         proactive = null;
-        collaborative = new ArrayList<BehaviorQueue>();
-        latent = new ArrayList<BehaviorQueue>();
+        collaborative = new ArrayList<IBehaviorQueue>();
+        latent = new ArrayList<IBehaviorQueue>();
     }
 
     /**
@@ -37,8 +37,13 @@ public class MultiQueue
      * @param qs A flag indicating what triggered this behavior; determines
      *              which set of queues it belongs in.
      */
-    public void addBehavior(BehaviorQueue bq, QueueSet qs)
+    public void addBehavior(IBehaviorQueue bq, QueueSet qs)
     {
+        // TODO
+        // paper mentions the possibility of having to delete existing queues
+        //  to make room for a new one (page 25, left bottom); evaluate whether
+        //  we want to do this
+
         bq.setOwningMultiQueue(this);
         switch (qs)
         {
@@ -60,12 +65,12 @@ public class MultiQueue
      * Finds the active instantiated behavior with the highest priority.
      * @return The current behavior.
      */
-    public BehaviorQueue getCurrentBehavior()
+    public IBehaviorQueue getCurrentBehavior()
     {
         // TODO cache this calculation for better performance
         //  trick is to determine when to refresh
 
-        BehaviorQueue currentQueue = null;
+        IBehaviorQueue currentQueue = null;
         int bestPriority = Integer.MIN_VALUE;
         if (proactive != null &&
             proactive.getPriority() > bestPriority && proactive.isActive())
@@ -73,14 +78,14 @@ public class MultiQueue
             currentQueue = proactive;
             bestPriority = proactive.getPriority();
         }
-        for (BehaviorQueue queue : collaborative) {
+        for (IBehaviorQueue queue : collaborative) {
             if (queue.getPriority() > bestPriority && queue.isActive())
             {
                 currentQueue = queue;
                 bestPriority = queue.getPriority();
             }
         }
-        for (BehaviorQueue queue : latent) {
+        for (IBehaviorQueue queue : latent) {
             if (queue.getPriority() > bestPriority && queue.isActive())
             {
                 currentQueue = queue;
@@ -94,7 +99,7 @@ public class MultiQueue
      * Removes the specified behavior completely (effectively cancelling it).
      * @param queue Reference to the BehaviorQueue which should be deleted.
      */
-    public void remove(BehaviorQueue queue)
+    public void remove(IBehaviorQueue queue)
     {
         if (proactive == queue)
         {
@@ -126,25 +131,25 @@ public class MultiQueue
             proactive = null;
         }
 
-        List<BehaviorQueue> toRemove =  new LinkedList<BehaviorQueue>();
-        for (BehaviorQueue queue : collaborative) {
+        List<IBehaviorQueue> toRemove =  new LinkedList<IBehaviorQueue>();
+        for (IBehaviorQueue queue : collaborative) {
             if (queue.isCancelled())
             {
                 toRemove.add(queue);
             }
         }
-        for (BehaviorQueue queue : toRemove) {
+        for (IBehaviorQueue queue : toRemove) {
             collaborative.remove(queue);
         }
 
         toRemove.clear();
-        for (BehaviorQueue queue : latent) {
+        for (IBehaviorQueue queue : latent) {
             if (queue.isCancelled())
             {
                 toRemove.add(queue);
             }
         }
-        for (BehaviorQueue queue : toRemove) {
+        for (IBehaviorQueue queue : toRemove) {
             latent.remove(queue);
         }
     }
@@ -176,14 +181,14 @@ public class MultiQueue
      */
     public boolean testEyeContact(int priority)
     {
-        for (BehaviorQueue queue : collaborative) {
+        for (IBehaviorQueue queue : collaborative) {
             if (queue.isActive() && queue.getPriority() >= priority)
             {
                 return false;
             }
         }
 
-        for (BehaviorQueue queue : latent) {
+        for (IBehaviorQueue queue : latent) {
             if (queue.isActive() && queue.getPriority() >= priority)
             {
                 return false;
@@ -193,6 +198,10 @@ public class MultiQueue
         return true;
     }
 
+    /**
+     * Get the Dispatcher which dispatches to this MultiQueue.
+     * @return Owning Dispatcher.
+     */
     public Dispatcher getOwningDispatcher()
     {
         return this.owningDispatcher;

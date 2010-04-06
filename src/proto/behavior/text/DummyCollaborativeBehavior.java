@@ -1,15 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior.text;
 
 import proto.behavior.ABehaviorTemplate;
-import proto.behavior.BehaviorQueue;
 import proto.behavior.CollaborationHandshake;
+import proto.behavior.CollaborativeBehaviorQueue;
 import proto.behavior.Dispatcher;
+import proto.behavior.IBehaviorQueue;
 import proto.behavior.ICollaborativeBehavior;
+import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
 import utils.math.RandomManager;
@@ -18,48 +20,54 @@ import utils.math.RandomManager;
  *
  * @author hartsoka
  */
-public class DummyCollaborativeBehavior extends ABehaviorTemplate implements IProactiveBehavior, ICollaborativeBehavior {
-
+public class DummyCollaborativeBehavior
+        extends ABehaviorTemplate
+        implements IProactiveBehavior, ICollaborativeBehavior
+{
     public DummyCollaborativeBehavior()
     {
-        super(InitiationType.proactive, CollaborationType.independent);
+        super(InitiationType.proactive, CollaborationType.collaborative);
     }
 
     public String getId() {
         return "GreetStart";
     }
 
-    public BehaviorQueue instantiate(IWorldState ws)
+    public IBehaviorQueue instantiate(IWorldState ws)
     {
         Dispatcher d = this.getOwningRole().getOwningDispatcher();
-
-        BehaviorQueue bq = new BehaviorQueue(this, 1);
-        bq.addTask(new DummyWordTask("Hi,"));
-        bq.addTask(new DummyWordTask("how"));
-        bq.addTask(new DummyWordTask("are"));
-        bq.addTask(new DummyWordTask("you?"));
-        bq.addTask(new WaitTask());
-        bq.addTask(new DummyWordTask("Gotta"));
-        bq.addTask(new DummyWordTask("run."));
-        bq.addTask(new WaitTask());
-        return bq;
-    }
-
-    /*
-    protected CollaborationHandshake seekCollaborators(Dispatcher d)
-    {
         CollaborationHandshake handshake =
-                new CollaborationHandshake(d);
+                new CollaborationHandshake(1, this.getOwningRole().getOwningDispatcher(), this);
+
+        DummyDispatcherManager.tryCollaborate(handshake);
+
+        if (handshake.getParticipants().size() == 2)
+        {
+            handshake.completeHandshake();
+            return handshake.getQueue(d);
+        }
+
+        return null;
     }
-     * 
-     */
 
     public int getImportance(IWorldState ws) {
-        return RandomManager.get().nextInt(3);
+        return RandomManager.get().nextInt(5);
     }
 
-    public BehaviorQueue completeHandshake(CollaborationHandshake handshake) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ICollaborativeBehaviorQueue completeHandshake(CollaborationHandshake handshake)
+    {
+        CollaborativeBehaviorQueue bq = new CollaborativeBehaviorQueue(this, 1, handshake);
+        bq.queueTask(new DummyWordTask("Hi,"));
+        bq.queueTask(new DummyWordTask("how"));
+        bq.queueTask(new DummyWordTask("are"));
+        bq.queueTask(new DummyWordTask("you?"));
+        bq.queueTask(new SyncTask());
+        bq.queueTask(new SyncTask());
+        bq.queueTask(new DummyWordTask("Gotta"));
+        bq.queueTask(new DummyWordTask("run."));
+        bq.queueTask(new SyncTask());
+        bq.queueTask(new SyncTask());
+        return bq;
     }
 
 }

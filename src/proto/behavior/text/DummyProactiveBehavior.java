@@ -1,13 +1,13 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Georgia Institute of Technology
+ * Calvin Ashmore & Ken Hartsook
  */
 
 package proto.behavior.text;
 
 import proto.behavior.ABehaviorTemplate;
 import proto.behavior.BehaviorQueue;
-import proto.behavior.Dispatcher;
+import proto.behavior.IBehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
 import utils.math.RandomManager;
@@ -43,11 +43,11 @@ public class DummyProactiveBehavior extends ABehaviorTemplate implements IProact
         return "Say:" + sentence;
     }
 
-    public BehaviorQueue instantiate(IWorldState ws) {
-        BehaviorQueue bq = new BehaviorQueue(this, 0);
+    public IBehaviorQueue instantiate(IWorldState ws) {
+        IBehaviorQueue bq = new BehaviorQueue(this, 0);
         for (String word : sentence.split(" "))
         {
-            bq.addTask(new DummyWordTask(word));
+            bq.queueTask(new DummyWordTask(word));
         }
         return bq;
     }
