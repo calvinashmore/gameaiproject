@@ -24,7 +24,7 @@ public class RadialMenu {
     private Entity clickedOn;
     private boolean alive = true;
     private float xPos, yPos;
-    private int selectedIndex;
+    private int selectedIndex = -1;
 
     public RadialMenu(Entity clickedOn, List<PlayerAction> actions, float xPos, float yPos) {
         this.actions = actions;
@@ -48,6 +48,8 @@ public class RadialMenu {
             renderText(g, clickedOn.getName(), -1);
         }
         g.popMatrix();
+
+        selectedIndex = -1;
 
         int radius = 50;
         for (int index = 0; index < actions.size(); index++) {
