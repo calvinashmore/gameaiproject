@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import processing.core.PGraphics;
 import proto.behavior.IWorldState;
+import proto.game.PlayerHandler;
 import proto.navigation.PathPlanner;
 import proto.representation.Representation;
 
@@ -15,11 +16,13 @@ import proto.representation.Representation;
  * Manages all the entities in the world and handles updates and rendering.
  * @author Calvin Ashmore
  */
-public class World implements IWorldState {
+abstract public class World implements IWorldState {
 
     private static World instance;
-    public static World getInstance() {return instance;}
 
+    public static World getInstance() {
+        return instance;
+    }
     private List<BasicObject> allObjects = new ArrayList<BasicObject>();
     private Environment environment;
     private PathPlanner planner;
@@ -66,4 +69,21 @@ public class World implements IWorldState {
         }
         // does this need anything?
     }
+
+    public Entity getEntityAt(float x, float y) {
+        Entity clickedOn = null;
+
+        for (BasicObject basicObject : getAllObjects()) {
+            if (basicObject instanceof Entity &&
+                    basicObject.getRepresentation() != null &&
+                    basicObject.getRepresentation().inRange(x, y)) {
+                clickedOn = (Entity) basicObject;
+            }
+        }
+
+        //return player.getActions(clickedOn, new Vector2d(x, y));
+        return clickedOn;
+    }
+
+    public abstract PlayerHandler getPlayer();
 }

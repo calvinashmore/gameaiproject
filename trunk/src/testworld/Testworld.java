@@ -4,13 +4,10 @@
  */
 package testworld;
 
-import java.util.List;
-import proto.game.PlayerAction;
 import proto.world.BasicObject;
 import proto.world.Entity;
 import proto.world.World;
 import testworld.objects.Person;
-import utils.math.Vector2d;
 
 /**
  *
@@ -37,19 +34,5 @@ public class Testworld extends World {
 
     public PlayerImplementation getPlayer() {
         return player;
-    }
-
-    public List<PlayerAction> onClick(int x, int y) {
-        Entity clickedOn = null;
-
-        for (BasicObject basicObject : getAllObjects()) {
-            if (basicObject instanceof Entity &&
-                    basicObject.getRepresentation() != null &&
-                    basicObject.getRepresentation().inRange(x, y)) {
-                clickedOn = (Entity) basicObject;
-            }
-        }
-
-        return player.getActions(clickedOn, new Vector2d(x, y));
     }
 }

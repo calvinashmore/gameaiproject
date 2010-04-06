@@ -4,10 +4,7 @@
  */
 package proto.world;
 
-import proto.behavior.BehaviorQueue;
 import proto.behavior.Dispatcher;
-import proto.behavior.ITask;
-import proto.behavior.MultiQueue;
 
 /**
  * An Entity is an object which can have behaviors and respond to events.
@@ -24,6 +21,8 @@ abstract public class Entity extends BasicObject {
     public Dispatcher getDispatcher() {
         return dispatcher;
     }
+
+    abstract public String getName();
 
     public void update() {
 

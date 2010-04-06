@@ -11,6 +11,7 @@ import proto.game.PlayerAction;
 import proto.game.PlayerHandler;
 import proto.world.Entity;
 import testworld.actions.AskAboutTheWeather;
+import testworld.actions.MockMercilesslyAction;
 import testworld.actions.MoveToAction;
 import testworld.actions.SaySomethingWittyAction;
 import testworld.objects.Person;
@@ -49,6 +50,7 @@ public class PlayerImplementation extends Person implements PlayerHandler {
         // the player clicked on another person
         if (entity instanceof Person) {
             actions.add(new AskAboutTheWeather((Person) entity));
+            actions.add(new MockMercilesslyAction((Person) entity));
             return actions;
         }
 
