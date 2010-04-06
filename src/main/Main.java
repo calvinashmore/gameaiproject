@@ -6,6 +6,7 @@ package main;
 
 import java.util.Random;
 import processing.core.PApplet;
+import proto.ui.UIRoot;
 import testworld.Testworld;
 import utils.math.Vector2d;
 
@@ -15,6 +16,12 @@ import utils.math.Vector2d;
  */
 public class Main extends PApplet {
 
+    private static Main instance;
+
+    public static Main getInstance() {
+        return instance;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -22,9 +29,12 @@ public class Main extends PApplet {
         PApplet.main(new String[]{"--bgcolor=#AF8F92", "main.Main"});
     }
     private Testworld world;
+    private UIRoot ui;
 
     public Main() {
+        instance = this;
         world = new Testworld();
+        ui = new UIRoot();
     }
 
     @Override
@@ -37,11 +47,13 @@ public class Main extends PApplet {
     public void draw() {
         world.update();
         world.render(g);
+        ui.render(g);
     }
 
     @Override
     public void mouseClicked() {
-        world.getPlayer().forceMoveTo(new Vector2d(mouseX, mouseY));
+        //world.getPlayer().forceMoveTo(new Vector2d(mouseX, mouseY));
+        ui.onClick(mouseX, mouseY);
     }
 
     @Override
