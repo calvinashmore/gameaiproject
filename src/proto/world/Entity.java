@@ -5,6 +5,8 @@
 package proto.world;
 
 import proto.behavior.Dispatcher;
+import proto.behavior.ILatentBehavior;
+import proto.behavior.MultiQueue.QueueSet;
 
 /**
  * An Entity is an object which can have behaviors and respond to events.
@@ -28,17 +30,12 @@ abstract public class Entity extends BasicObject {
 
         dispatcher.tick(World.getInstance());
         dispatcher.handleTimer();
-//        BehaviorQueue currentBehavior = multiQueue.getCurrentBehavior();
-//        if (currentBehavior == null) {
-//            return;
-//        }
-//
-//        ITask task = multiQueue.getCurrentBehavior().peekTask();
-//        if (task != null) {
-//            task.run();
-//        }
+
+        for (ILatentBehavior iLatentBehavior : dispatcher.getRole().getLatentBehaviors()) {
+            if (iLatentBehavior.activate(World.getInstance())) {
+                dispatcher.handleNewBehavior(iLatentBehavior.instantiate(World.getInstance()), QueueSet.latent);
+            }
+        }
+
     }
-//    public MultiQueue getMultiQueue() {
-//        return multiQueue;
-//    }
 }

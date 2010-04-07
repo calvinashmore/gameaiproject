@@ -6,6 +6,7 @@ package testworld.actions;
 
 import proto.game.PlayerAction;
 import proto.world.Entity;
+import testworld.behaviors.MoveToProactiveBehavior;
 import testworld.objects.Person;
 import utils.math.Vector2d;
 
@@ -30,6 +31,6 @@ public class MoveToAction implements PlayerAction {
     }
 
     public void performAction(Entity player) {
-        ((Person) player).forceMoveTo(destination);
+        ((Person) player).instantiateNewProactiveBehavior(new MoveToProactiveBehavior(destination));
     }
 }

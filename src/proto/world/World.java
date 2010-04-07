@@ -7,6 +7,8 @@ package proto.world;
 import java.util.ArrayList;
 import java.util.List;
 import processing.core.PGraphics;
+import proto.behavior.CollaborationHandshake;
+import proto.behavior.Dispatcher;
 import proto.behavior.IWorldState;
 import proto.game.PlayerHandler;
 import proto.navigation.PathPlanner;
@@ -68,6 +70,28 @@ abstract public class World implements IWorldState {
             }
         }
         // does this need anything?
+    }
+
+    public void tryCollaborate(CollaborationHandshake handshake) {
+        //for (Dispatcher d : dispatchers)
+        for (BasicObject basicObject : getAllObjects()) {
+
+            if (!(basicObject instanceof Entity)) {
+                continue;
+            }
+            Entity entity = (Entity) basicObject;
+
+            if (entity.getDispatcher() == null) {
+                continue;
+            }
+
+            Dispatcher d = entity.getDispatcher();
+
+            Dispatcher initiator = handshake.getInitiator();
+            if (d != initiator) {
+                d.offerCollaboration(handshake);
+            }
+        }
     }
 
     public Entity getEntityAt(float x, float y) {
