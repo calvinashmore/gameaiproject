@@ -33,7 +33,7 @@ public class DummyReactiveBehavior extends ABehaviorTemplate implements IReactiv
         throw new UnsupportedOperationException("Purely reactive behaviors should not be instantiated outside of collaboration.");
     }
 
-    public ICollaborativeBehaviorQueue completeHandshake(CollaborationHandshake handshake)
+    public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake)
     {
         CollaborativeBehaviorQueue bq = new CollaborativeBehaviorQueue(this, 1, handshake);
         bq.queueTask(new SyncTask());
@@ -52,18 +52,18 @@ public class DummyReactiveBehavior extends ABehaviorTemplate implements IReactiv
 
     public boolean tryCollaboration(CollaborationHandshake handshake)
     {
-        if (handshake.getInitiatingBehavior().getId().equals("GreetStart"))
+        if (handshake.getParticipants().size() >= 2)
         {
-            if (handshake.getParticipants().size() >= 2)
-            {
-                return false;
-            }
-
-            handshake.participate(this.getDispatcher(), this);
-            return true;
+            return false;
         }
 
-        return false;
+        handshake.participate(this.getDispatcher(), this);
+        return true;
     }
+
+    public boolean canCollaborate(String id) {
+        return id.equals("GreetStart");
+    }
+
 
 }
