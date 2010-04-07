@@ -54,7 +54,7 @@ public class DummyCollaborativeBehavior
         return RandomManager.get().nextInt(5);
     }
 
-    public ICollaborativeBehaviorQueue completeHandshake(CollaborationHandshake handshake)
+    public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake)
     {
         CollaborativeBehaviorQueue bq = new CollaborativeBehaviorQueue(this, 1, handshake);
         bq.queueTask(new DummyWordTask("Hi,"));

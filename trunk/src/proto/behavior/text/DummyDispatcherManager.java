@@ -39,4 +39,9 @@ public class DummyDispatcherManager {
             }
         }
     }
+
+    public static List<Dispatcher> getDispatchers()
+    {
+        return dispatchers;
+    }
 }

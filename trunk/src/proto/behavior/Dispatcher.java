@@ -122,7 +122,10 @@ public class Dispatcher implements Comparable {
 
         IBehaviorQueue currentBehavior = safelyGetCurrentBehavior();
 
-        currentBehavior.peekTask().resume();
+        if (currentBehavior != null)
+        {
+            currentBehavior.peekTask().resume();
+        }
     }
 
     public void handleKillCollaboration(ICollaborativeBehaviorQueue collaborativeQueue)

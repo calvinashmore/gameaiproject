@@ -167,7 +167,8 @@ public class CollaborationHandshake {
         for (Dispatcher d : participants.values())
         {
             ICollaborativeBehavior template = this.templates.get(d);
-            ICollaborativeBehaviorQueue bq = template.completeHandshake(this);
+            String title = this.titles.get(d);
+            ICollaborativeBehaviorQueue bq = template.completeHandshake(title, this);
             d.handleNewBehavior(bq, qs);
 
             this.queues.put(d, bq);
