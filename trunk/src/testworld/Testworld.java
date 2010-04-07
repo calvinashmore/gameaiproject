@@ -29,6 +29,16 @@ public class Testworld extends World {
         person.getLocation().getPosition().y = 200;
         getAllObjects().add(person);
 
+        person = new Person("Hilda");
+        person.getLocation().getPosition().x = 300;
+        person.getLocation().getPosition().y = 300;
+        getAllObjects().add(person);
+
+        person = new Person("Gayle");
+        person.getLocation().getPosition().x = 400;
+        person.getLocation().getPosition().y = 400;
+        getAllObjects().add(person);
+
         setEnvironment(new RoomEnvironment());
     }
 

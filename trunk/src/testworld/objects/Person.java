@@ -6,13 +6,12 @@ package testworld.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import proto.behavior.IProactiveBehavior;
 import proto.behavior.MultiQueue.QueueSet;
 import proto.navigation.BoundingSphere;
 import proto.world.Entity;
 import proto.world.World;
-import testworld.behaviors.MoveToProactiveBehavior;
 import testworld.representations.PersonRepresentation;
-import utils.math.Vector2d;
 
 /**
  *
@@ -44,12 +43,8 @@ public class Person extends Entity {
         return name;
     }
 
-    // TEMP: THIS DOES NOT BELONG HERE
-    public void forceMoveTo(Vector2d destination) {
-        //addBehaviorTemplate(new MoveToProactiveBehavior(destination));
-        // ALSO: Implementation needs changing
-        getDispatcher().handleNewBehavior(
-                new MoveToProactiveBehavior(destination).instantiate(World.getInstance()), QueueSet.pro);
+    public void instantiateNewProactiveBehavior(IProactiveBehavior behavior) {
+        getDispatcher().handleNewBehavior(behavior.instantiate(World.getInstance()), QueueSet.pro);
     }
 
     /**
@@ -67,9 +62,11 @@ public class Person extends Entity {
      * @return
      */
     public String peekSpeech() {
-        if(speech.size() == 0)
+        if (speech.size() == 0) {
             return null;
-        else return speech.get(0);
+        } else {
+            return speech.get(0);
+        }
     }
 
     /**
