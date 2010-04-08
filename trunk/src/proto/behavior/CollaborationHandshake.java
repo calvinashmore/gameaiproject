@@ -169,7 +169,13 @@ public class CollaborationHandshake {
             ICollaborativeBehavior template = this.templates.get(d);
             String title = this.titles.get(d);
             ICollaborativeBehaviorQueue bq = template.completeHandshake(title, this);
-            d.handleNewBehavior(bq, qs);
+
+            if (d != initiator || template.getInitiationType() == InitiationType.latent)
+            {
+                // we do not want to add Proactive behavior queues to the initiator
+                //  from here because it is done in the dispatcher
+                d.handleNewBehavior(bq, qs);
+            }
 
             this.queues.put(d, bq);
             this.barrier.put(d, Boolean.FALSE);

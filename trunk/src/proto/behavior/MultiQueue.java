@@ -126,7 +126,7 @@ public class MultiQueue
     {
         // TODO make this more efficient
         //  terribly unefficient but currently doesn't matter
-        if (proactive.isCancelled())
+        if (proactive != null && proactive.isCancelled())
         {
             proactive = null;
         }
@@ -205,5 +205,20 @@ public class MultiQueue
     public Dispatcher getOwningDispatcher()
     {
         return this.owningDispatcher;
+    }
+
+    public IBehaviorQueue getProactiveBehaviorQueue()
+    {
+        return proactive;
+    }
+
+    public List<IBehaviorQueue> getCollaborativeBehaviorQueueSet()
+    {
+        return collaborative;
+    }
+
+    public List<IBehaviorQueue> getLatentBehaviorQueueSet()
+    {
+        return latent;
     }
 }
