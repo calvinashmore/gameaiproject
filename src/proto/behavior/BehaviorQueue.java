@@ -107,6 +107,8 @@ public class BehaviorQueue implements IBehaviorQueue {
 
     public ITask peekTask()
     {
+        if(tasks.isEmpty())
+            return null;
         return tasks.getFirst();
     }
 
