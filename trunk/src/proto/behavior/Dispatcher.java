@@ -124,7 +124,9 @@ public class Dispatcher implements Comparable {
 
         if (currentBehavior != null)
         {
-            currentBehavior.peekTask().resume();
+            ITask task = currentBehavior.peekTask();
+            if(task != null)
+                task.resume();
         }
     }
 
@@ -155,7 +157,9 @@ public class Dispatcher implements Comparable {
             }
             else
             {
-                currentBehavior.peekTask().run();
+                ITask task = currentBehavior.peekTask();
+                if(task != null)
+                task.run();
             }
         }
     }
