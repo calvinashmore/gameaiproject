@@ -46,4 +46,6 @@ public interface IBehaviorQueue {
 
     void suspend();
 
+    IBehaviorTemplate getBehaviorTemplate();
+
 }

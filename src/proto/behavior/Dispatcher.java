@@ -23,8 +23,8 @@ public class Dispatcher implements Comparable {
     private MultiQueue mq;
     private int timeoutClock;
 
-    private static final int MEDIUM_WAIT = 50; // TODO choose these
-    private static final int LONG_WAIT = 100;
+    private static final int MEDIUM_WAIT = 500; // TODO choose these
+    private static final int LONG_WAIT = 1000;
 
     public Dispatcher(IRole role)
     {
@@ -152,6 +152,7 @@ public class Dispatcher implements Comparable {
                 if (timeoutClock > MEDIUM_WAIT)
                 {
                     currentBehavior.suspend();
+                    this.resetTimeout();
                 }
                 // TODO actually handle LONG_WAIT
             }
@@ -162,6 +163,8 @@ public class Dispatcher implements Comparable {
                 task.run();
             }
         }
+
+        mq.cleanup();
     }
 
     public void offerCollaboration(CollaborationHandshake handshake)
@@ -199,5 +202,10 @@ public class Dispatcher implements Comparable {
         Dispatcher rhs = (Dispatcher)o;
         Integer rhsId = rhs.id;
         return ((Integer)(this.id)).compareTo(rhsId);
+    }
+
+    public MultiQueue getMultiQueue()
+    {
+        return this.mq;
     }
 }

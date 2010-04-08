@@ -145,4 +145,9 @@ public class BehaviorQueue implements IBehaviorQueue {
     {
         return this.owningMultiQueue;
     }
+
+    public IBehaviorTemplate getBehaviorTemplate()
+    {
+        return this.behavior;
+    }
 }
