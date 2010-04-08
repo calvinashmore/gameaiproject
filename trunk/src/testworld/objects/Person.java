@@ -6,6 +6,7 @@ package testworld.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import proto.behavior.BehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.MultiQueue.QueueSet;
 import proto.navigation.BoundingSphere;
@@ -44,7 +45,9 @@ public class Person extends Entity {
     }
 
     public void instantiateNewProactiveBehavior(IProactiveBehavior behavior) {
-        getDispatcher().handleNewBehavior(behavior.instantiate(World.getInstance()), QueueSet.pro);
+        BehaviorQueue bq = (BehaviorQueue) behavior.instantiate(World.getInstance());
+        bq.setPriority(3);
+        getDispatcher().handleNewBehavior(bq, QueueSet.pro);
     }
 
     /**

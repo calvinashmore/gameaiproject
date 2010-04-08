@@ -11,6 +11,7 @@ import proto.behavior.IBehaviorTemplate.CollaborationType;
 import proto.behavior.IBehaviorTemplate.InitiationType;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
+import proto.world.World;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.MoveTo;
 import utils.math.Vector2d;
@@ -26,8 +27,20 @@ public class RandomizedMoveTo extends ABehaviorTemplate implements IProactiveBeh
     }
 
     public int getImportance(IWorldState ws) {
-        if(Math.random() < .1)
+
+        PersonDispatcher dispatcher = (PersonDispatcher) getDispatcher();
+        int neighbors = World.getInstance().getNearbyObjects(dispatcher.getPerson(), 100).size();
+        if (neighbors >= 3) {
+            // if we have several neighbors, movement is more likely
+            if (Math.random() < .5) {
+                return 2;
+            }
+        }
+
+        // decide to move randomly
+        if (Math.random() < .1) {
             return 2;
+        }
         return -1;
     }
 
@@ -38,8 +51,8 @@ public class RandomizedMoveTo extends ABehaviorTemplate implements IProactiveBeh
     public IBehaviorQueue instantiate(IWorldState ws) {
         PersonDispatcher dispatcher = (PersonDispatcher) getDispatcher();
 
-        double dx = 200*Math.random()-100;
-        double dy = 200*Math.random()-100;
+        double dx = 200 * Math.random() - 100;
+        double dy = 200 * Math.random() - 100;
 
         Vector2d destination = dispatcher.getPerson().getLocation().getPosition().add(new Vector2d(dx, dy));
 

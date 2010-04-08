@@ -171,7 +171,8 @@ public class Dispatcher implements Comparable {
             List<IReactiveBehavior> reactives = role.getReactiveBehaviors();
             for (IReactiveBehavior rb : reactives)
             {
-                rb.tryCollaboration(handshake);
+                if(rb.canCollaborate(handshake.getInitiatingBehavior().getId()))
+                    rb.tryCollaboration(handshake);
             }
         }
     }
