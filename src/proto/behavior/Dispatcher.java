@@ -179,7 +179,7 @@ public class Dispatcher implements Comparable {
     private IBehaviorQueue safelyGetCurrentBehavior()
     {
         IBehaviorQueue currentBehavior = mq.getCurrentBehavior();
-        if (currentBehavior == null)
+        if (currentBehavior == null || currentBehavior.isCancelled() || currentBehavior.peekTask() == null)
         {
             currentBehavior = role.instantiateProactiveBehavior(currentWorld);
             if(currentBehavior == null)

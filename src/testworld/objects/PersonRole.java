@@ -6,10 +6,9 @@
 package testworld.objects;
 
 import proto.behavior.ARole;
-import testworld.behaviors.IdleBehavior;
 import testworld.behaviors.LatentExclamativeBehavior;
-import testworld.behaviors.MoveToProactiveBehavior;
-import utils.math.Vector2d;
+import testworld.behaviors.PauseBehavior;
+import testworld.behaviors.RandomizedMoveTo;
 
 /**
  *
@@ -18,9 +17,13 @@ import utils.math.Vector2d;
 public class PersonRole extends ARole {
 
     public PersonRole() {
-        addBehaviorTemplate(new IdleBehavior());
+        //addBehaviorTemplate(new IdleBehavior());
+        addBehaviorTemplate(new PauseBehavior());
         addBehaviorTemplate(new LatentExclamativeBehavior());
+        addBehaviorTemplate(new RandomizedMoveTo());
     }
+
+
 
 //    public void forceMoveTo(Vector2d destination) {
 //        addBehaviorTemplate(new MoveToProactiveBehavior(destination));
