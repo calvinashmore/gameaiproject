@@ -4,8 +4,6 @@
  */
 package testworld;
 
-import proto.world.BasicObject;
-import proto.world.Entity;
 import proto.world.World;
 import testworld.objects.Person;
 

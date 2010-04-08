@@ -14,15 +14,17 @@ public class MoveTo extends PersonTask {
 
     private Vector2d destination;
     private float speed;
-    private static final float DEFAULT_SPEED = 5;
-    private static final float DESTINATION_RANGE = 20;
+    private float destinationRange;
+    public static final float DEFAULT_SPEED = 4;
+    public static final float DEFAULT_DESTINATION_RANGE = 20;
 
     public MoveTo(Vector2d destination) {
-        this(destination, DEFAULT_SPEED);
+        this(destination, DEFAULT_DESTINATION_RANGE, DEFAULT_SPEED);
     }
 
-    public MoveTo(Vector2d destination, float speed) {
+    public MoveTo(Vector2d destination, float destinationRange, float speed) {
         this.destination = destination;
+        this.destinationRange = destinationRange;
         this.speed = speed;
     }
 
@@ -35,7 +37,7 @@ public class MoveTo extends PersonTask {
 
         double distance = oldPosition.subtract(destination).magnitude();
 
-        if (distance <= DESTINATION_RANGE) {
+        if (distance <= destinationRange) {
             finished();
             return;
         }

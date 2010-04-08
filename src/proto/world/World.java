@@ -13,6 +13,7 @@ import proto.behavior.IWorldState;
 import proto.game.PlayerHandler;
 import proto.navigation.PathPlanner;
 import proto.representation.Representation;
+import utils.math.Vector2d;
 
 /**
  * Manages all the entities in the world and handles updates and rendering.
@@ -110,4 +111,20 @@ abstract public class World implements IWorldState {
     }
 
     public abstract PlayerHandler getPlayer();
+
+    public List<BasicObject> getNearbyObjects(BasicObject object, float range) {
+        return getNearbyObjects(object.getLocation().getPosition(), range);
+    }
+
+    public List<BasicObject> getNearbyObjects(Vector2d location, float range) {
+        List<BasicObject> nearbyObjects = new ArrayList<BasicObject>();
+
+        for (BasicObject basicObject : allObjects) {
+            if (basicObject.getLocation().getPosition().subtract(location).magnitude() < range) {
+                nearbyObjects.add(basicObject);
+            }
+        }
+
+        return nearbyObjects;
+    }
 }

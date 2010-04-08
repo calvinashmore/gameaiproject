@@ -12,15 +12,13 @@ import java.util.Random;
  */
 public class PauseTask extends PersonTask {
 
-    private long pause;
     private long expiry;
 
     public PauseTask() {
-        this(new Random().nextInt(300) + 200);
+        this(new Random().nextInt(400) + 300);
     }
 
     public PauseTask(long pause) {
-        this.pause = pause;
         expiry = System.currentTimeMillis() + pause;
     }
 

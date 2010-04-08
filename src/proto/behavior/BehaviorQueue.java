@@ -45,6 +45,12 @@ public class BehaviorQueue implements IBehaviorQueue {
         }
     }
 
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+
+
     /**
      * Create a BehaviorQueue for the provided template.
      * @param behavior Template from which the behavior is instantiated.

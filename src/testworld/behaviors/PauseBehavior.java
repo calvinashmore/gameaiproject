@@ -29,7 +29,7 @@ public class PauseBehavior extends ABehaviorTemplate implements IProactiveBehavi
 
     public IBehaviorQueue instantiate(IWorldState ws) {
         IBehaviorQueue bq = new BehaviorQueue(this);
-        bq.queueTask(new PauseTask((long) (100 + 300 * Math.random())));
+        bq.queueTask(new PauseTask());
         return bq;
     }
 
