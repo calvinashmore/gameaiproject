@@ -41,9 +41,10 @@ public class UIRoot {
         }
 
         World world = World.getInstance();
-        Entity entity = world.getEntityAt(x, y);
+        Vector2d pos = world.transformPoint(x, y);
+        Entity entity = world.getEntityAt((float) pos.x, (float) pos.y);
 
-        List<PlayerAction> actions = world.getPlayer().getActions(entity, new Vector2d(x, y));
+        List<PlayerAction> actions = world.getPlayer().getActions(entity, pos);
         activeMenu = new RadialMenu(entity, actions, x, y);
         return false;
     }
