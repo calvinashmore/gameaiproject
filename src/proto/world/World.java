@@ -29,6 +29,7 @@ abstract public class World implements IWorldState {
     private List<BasicObject> allObjects = new ArrayList<BasicObject>();
     private Environment environment;
     private PathPlanner planner;
+    private boolean paused = false;
 
     public World() {
         instance = this;
@@ -64,6 +65,10 @@ abstract public class World implements IWorldState {
     }
 
     public void update() {
+        if (paused) {
+            return;
+        }
+
         for (BasicObject basicObject : allObjects) {
             if (basicObject instanceof Entity) {
                 Entity entity = (Entity) basicObject;
@@ -126,5 +131,13 @@ abstract public class World implements IWorldState {
         }
 
         return nearbyObjects;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }
