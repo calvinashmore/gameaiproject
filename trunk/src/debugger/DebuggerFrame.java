@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import proto.world.BasicObject;
 import proto.world.Entity;
 import proto.world.World;
@@ -31,11 +32,14 @@ public class DebuggerFrame extends JFrame {
 
         agentView = new JPanel();
         agentView.setLayout(new BoxLayout(agentView, BoxLayout.Y_AXIS));
+        getContentPane().add(new JScrollPane(agentView), BorderLayout.CENTER);
 
         for (BasicObject basicObject : World.getInstance().getAllObjects()) {
             if (basicObject instanceof Entity) {
                 Entity entity = (Entity) basicObject;
-                viewPanels.add(new DispatcherPanel(entity.getDispatcher()));
+                DispatcherPanel dispatcherPanel = new DispatcherPanel(entity.getDispatcher());
+                viewPanels.add(dispatcherPanel);
+                agentView.add(dispatcherPanel);
             }
         }
     }

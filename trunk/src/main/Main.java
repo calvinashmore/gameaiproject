@@ -5,7 +5,7 @@
 package main;
 
 import debugger.DebuggerFrame;
-import java.util.Random;
+import javax.swing.JFrame;
 import processing.core.PApplet;
 import proto.ui.UIRoot;
 import testworld.Testworld;
@@ -40,6 +40,7 @@ public class Main extends PApplet {
         debugger = new DebuggerFrame();
         debugger.pack();
         debugger.setVisible(true);
+        debugger.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -67,19 +68,5 @@ public class Main extends PApplet {
 
     @Override
     public void keyTyped() {
-        if (key == 'g') {
-
-            String[] thingsToSay = new String[]{
-                "Have we met somewhere before?",
-                "I think the host is a real bore.",
-                "Does the pate taste funny to you?",
-                "Nice jacket!",
-                "No, do go on. That's terribly fascinating.",
-                "I see that you're certainly enjoying yourself.",
-                "..."};
-
-            int index = new Random().nextInt(thingsToSay.length);
-            world.getPlayer().pushSpeech(thingsToSay[index]);
-        }
     }
 }

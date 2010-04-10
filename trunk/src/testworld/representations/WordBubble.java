@@ -6,6 +6,7 @@ package testworld.representations;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import proto.world.World;
 
 /**
  *
@@ -21,7 +22,7 @@ public class WordBubble {
 
     public WordBubble(String text) {
         this.text = text;
-        expireTime = System.currentTimeMillis() + BASE_OFFSET + MS_PER_CHARACTER * text.length();
+        expireTime = World.getInstance().worldTime() + BASE_OFFSET + MS_PER_CHARACTER * text.length();
     }
 
     public void render(PGraphics g) {
@@ -56,6 +57,6 @@ public class WordBubble {
     }
 
     boolean isExpired() {
-        return System.currentTimeMillis() >= expireTime;
+        return World.getInstance().worldTime() >= expireTime;
     }
 }
