@@ -4,11 +4,11 @@
  */
 package main;
 
+import debugger.DebuggerFrame;
 import java.util.Random;
 import processing.core.PApplet;
 import proto.ui.UIRoot;
 import testworld.Testworld;
-import utils.math.Vector2d;
 
 /**
  *
@@ -30,11 +30,16 @@ public class Main extends PApplet {
     }
     private Testworld world;
     private UIRoot ui;
+    private DebuggerFrame debugger;
 
     public Main() {
         instance = this;
         world = new Testworld();
         ui = new UIRoot();
+
+        debugger = new DebuggerFrame();
+        debugger.pack();
+        debugger.setVisible(true);
     }
 
     @Override
@@ -48,6 +53,10 @@ public class Main extends PApplet {
         world.update();
         world.render(g);
         ui.render(g);
+
+        if (debugger != null) {
+            debugger.update();
+        }
     }
 
     @Override
