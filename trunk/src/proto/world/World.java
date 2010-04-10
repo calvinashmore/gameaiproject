@@ -153,4 +153,6 @@ abstract public class World implements IWorldState {
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
+
+    public abstract Vector2d transformPoint(float x, float y);
 }

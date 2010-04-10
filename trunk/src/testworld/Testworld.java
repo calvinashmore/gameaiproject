@@ -4,8 +4,11 @@
  */
 package testworld;
 
+import main.Main;
+import processing.core.PGraphics;
 import proto.world.World;
 import testworld.objects.Person;
+import utils.math.Vector2d;
 
 /**
  *
@@ -42,7 +45,28 @@ public class Testworld extends World {
         setEnvironment(new RoomEnvironment());
     }
 
+    @Override
+    public void render(PGraphics g) {
+
+        g.pushMatrix();
+
+        Vector2d transform = transformPoint(0, 0);
+        g.translate((float) -transform.x, (float) -transform.y);
+
+        super.render(g);
+
+        g.popMatrix();
+    }
+
     public PlayerImplementation getPlayer() {
         return player;
+    }
+
+    @Override
+    public Vector2d transformPoint(float x, float y) {
+        Vector2d playerPosition = player.getLocation().getPosition();
+        return new Vector2d(
+                x + playerPosition.x - Main.getInstance().getWidth() / 2,
+                y + playerPosition.y - Main.getInstance().getHeight() / 2);
     }
 }
