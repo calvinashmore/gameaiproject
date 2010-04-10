@@ -30,6 +30,12 @@ abstract public class World implements IWorldState {
     private Environment environment;
     private PathPlanner planner;
     private boolean paused = false;
+    private long worldTime = System.currentTimeMillis();
+    private long lastTimestamp = System.currentTimeMillis();
+
+    public long worldTime() {
+        return worldTime;
+    }
 
     public World() {
         instance = this;
@@ -65,9 +71,16 @@ abstract public class World implements IWorldState {
     }
 
     public void update() {
+
+        long currentTime = System.currentTimeMillis();
+        long dt = currentTime - lastTimestamp;
+        lastTimestamp = currentTime;
+
         if (paused) {
             return;
         }
+
+        worldTime += dt;
 
         for (BasicObject basicObject : allObjects) {
             if (basicObject instanceof Entity) {

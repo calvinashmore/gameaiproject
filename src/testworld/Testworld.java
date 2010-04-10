@@ -17,14 +17,16 @@ public class Testworld extends World {
 
     public Testworld() {
 
-        Person person = new Person("Frank");
-        person.getLocation().getPosition().x = 100;
-        person.getLocation().getPosition().y = 100;
-        getAllObjects().add(person);
+        Person person;
 
         person = player = new PlayerImplementation("Player");
         person.getLocation().getPosition().x = 200;
         person.getLocation().getPosition().y = 200;
+        getAllObjects().add(person);
+
+        person = new Person("Frank");
+        person.getLocation().getPosition().x = 100;
+        person.getLocation().getPosition().y = 100;
         getAllObjects().add(person);
 
         person = new Person("Hilda");

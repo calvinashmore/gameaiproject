@@ -38,50 +38,50 @@ public class PersonRepresentation extends Representation<Person> {
         g.textSize(14);
         g.text(getTarget().getName(), 0, 15);
 
-        Dispatcher d = super.getTarget().getRole().getOwningDispatcher();
-        MultiQueue mq = d.getMultiQueue();
-        StringBuilder debug = new StringBuilder();
-        if (mq.getProactiveBehaviorQueue() != null)
-        {
-            IBehaviorQueue bq = mq.getProactiveBehaviorQueue();
-            debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
-            debug.append(":");
-            if (bq.isActive())
-                debug.append("A");
-            else if (bq.isSuspended())
-                debug.append("S");
-            else if (bq.isCancelled())
-                debug.append("C");
-            debug.append(bq.getPriority());
-            debug.append("\n");
-        }
-        for (IBehaviorQueue bq : mq.getCollaborativeBehaviorQueueSet())
-        {
-            debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
-            debug.append(":");
-            if (bq.isActive())
-                debug.append("A");
-            else if (bq.isSuspended())
-                debug.append("S");
-            else if (bq.isCancelled())
-                debug.append("C");
-            debug.append(bq.getPriority());
-            debug.append("\n");
-        }
-        for (IBehaviorQueue bq : mq.getLatentBehaviorQueueSet())
-        {
-            debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
-            debug.append(":");
-            if (bq.isActive())
-                debug.append("A");
-            else if (bq.isSuspended())
-                debug.append("S");
-            else if (bq.isCancelled())
-                debug.append("C");
-            debug.append(bq.getPriority());
-            debug.append("\n");
-        }
-        g.text(debug.toString(),0,30);
+//        Dispatcher d = super.getTarget().getRole().getOwningDispatcher();
+//        MultiQueue mq = d.getMultiQueue();
+//        StringBuilder debug = new StringBuilder();
+//        if (mq.getProactiveBehaviorQueue() != null)
+//        {
+//            IBehaviorQueue bq = mq.getProactiveBehaviorQueue();
+//            debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
+//            debug.append(":");
+//            if (bq.isActive())
+//                debug.append("A");
+//            else if (bq.isSuspended())
+//                debug.append("S");
+//            else if (bq.isCancelled())
+//                debug.append("C");
+//            debug.append(bq.getPriority());
+//            debug.append("\n");
+//        }
+//        for (IBehaviorQueue bq : mq.getCollaborativeBehaviorQueueSet())
+//        {
+//            debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
+//            debug.append(":");
+//            if (bq.isActive())
+//                debug.append("A");
+//            else if (bq.isSuspended())
+//                debug.append("S");
+//            else if (bq.isCancelled())
+//                debug.append("C");
+//            debug.append(bq.getPriority());
+//            debug.append("\n");
+//        }
+//        for (IBehaviorQueue bq : mq.getLatentBehaviorQueueSet())
+//        {
+//            debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
+//            debug.append(":");
+//            if (bq.isActive())
+//                debug.append("A");
+//            else if (bq.isSuspended())
+//                debug.append("S");
+//            else if (bq.isCancelled())
+//                debug.append("C");
+//            debug.append(bq.getPriority());
+//            debug.append("\n");
+//        }
+//        g.text(debug.toString(),0,30);
         //mq.get
 
         checkSpeech(g);
