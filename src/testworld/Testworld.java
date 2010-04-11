@@ -8,6 +8,7 @@ import main.Main;
 import processing.core.PGraphics;
 import proto.world.World;
 import testworld.objects.Person;
+import testworld.objects.PersonExpression;
 import utils.math.Vector2d;
 
 /**
@@ -25,21 +26,25 @@ public class Testworld extends World {
         person = player = new PlayerImplementation("Player");
         person.getLocation().getPosition().x = 200;
         person.getLocation().getPosition().y = 200;
+        person.setExpression(PersonExpression.happySmallSmile);
         getAllObjects().add(person);
 
         person = new Person("Frank");
         person.getLocation().getPosition().x = 100;
         person.getLocation().getPosition().y = 100;
+        person.setExpression(PersonExpression.annoyed);
         getAllObjects().add(person);
 
         person = new Person("Hilda");
         person.getLocation().getPosition().x = 300;
         person.getLocation().getPosition().y = 300;
+        person.setExpression(PersonExpression.happyExcited);
         getAllObjects().add(person);
 
         person = new Person("Gayle");
         person.getLocation().getPosition().x = 400;
         person.getLocation().getPosition().y = 400;
+        person.setExpression(PersonExpression.malicious);
         getAllObjects().add(person);
 
         setEnvironment(new RoomEnvironment());

@@ -10,7 +10,8 @@ package testworld.objects;
  */
 public enum PersonExpression {
 
-    bored(0, 0, -.5),
+    bored(0, 0, -.2),
+    concerned(0, 0, -.5),
     happySmallSmile(.5, .5, 0),
     happyBigSmile(1, .5, 0),
     happyExcited(1, 1, 0),
