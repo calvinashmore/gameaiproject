@@ -47,5 +47,6 @@ public class MoveTo extends PersonTask {
         Vector2d movement = direction.multiply(speed);
         Vector2d newPosition = oldPosition.add(movement);
         getPerson().getLocation().setPosition(newPosition);
+        getPerson().setLookAt(destination);
     }
 }

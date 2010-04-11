@@ -13,6 +13,7 @@ import proto.navigation.BoundingSphere;
 import proto.world.Entity;
 import proto.world.World;
 import testworld.representations.PersonRepresentation;
+import utils.math.Vector2d;
 
 /**
  *
@@ -22,6 +23,7 @@ public class Person extends Entity {
 
     private String name;
     private List<String> speech = new ArrayList<String>();
+    private Vector2d lookAt = new Vector2d();
 
     public Person(String name) {
         super(new PersonDispatcher());
@@ -78,5 +80,13 @@ public class Person extends Entity {
      */
     public void pushSpeech(String line) {
         speech.add(line);
+    }
+
+    public Vector2d getLookAt() {
+        return lookAt;
+    }
+
+    public void setLookAt(Vector2d lookAt) {
+        this.lookAt = lookAt;
     }
 }

@@ -11,6 +11,7 @@ import proto.behavior.IBehaviorQueue;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IReactiveBehavior;
 import proto.behavior.IWorldState;
+import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.SpeechTask;
 import testworld.tasks.SyncTask;
@@ -57,12 +58,15 @@ public class ConversationWeatherReactive extends ABehaviorTemplate implements IR
 
     public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake) {
 
+        Person person = ((PersonDispatcher) handshake.getInitiator()).getPerson();
+
         CollaborativeBehaviorQueue bq = new CollaborativeBehaviorQueue(this, 1, handshake);
         bq.queueTask(new SyncTask());
-        if(Math.random() < .5)
-            bq.queueTask(new SpeechTask("Bah, I hate sunny weather"));
-        else
-            bq.queueTask(new SpeechTask("Looking forward to when it rains..."));
+        if (Math.random() < .5) {
+            bq.queueTask(new SpeechTask("Bah, I hate sunny weather", person));
+        } else {
+            bq.queueTask(new SpeechTask("Looking forward to when it rains...", person));
+        }
         bq.queueTask(new SyncTask());
         bq.queueTask(new SyncTask());
         return bq;

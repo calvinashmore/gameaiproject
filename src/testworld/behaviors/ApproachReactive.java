@@ -11,7 +11,10 @@ import proto.behavior.IBehaviorQueue;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IReactiveBehavior;
 import proto.behavior.IWorldState;
+import testworld.objects.PersonDispatcher;
+import testworld.tasks.LookAtTask;
 import testworld.tasks.SyncTask;
+import utils.math.Vector2d;
 
 /**
  *
@@ -46,7 +49,10 @@ public class ApproachReactive extends ABehaviorTemplate implements IReactiveBeha
 
     public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake) {
 
+        Vector2d position = ((PersonDispatcher) handshake.getInitiator()).getPerson().getLocation().getPosition();
+
         CollaborativeBehaviorQueue bq = new CollaborativeBehaviorQueue(this, 1, handshake);
+        bq.queueTask(new LookAtTask(position));
         bq.queueTask(new SyncTask());
         return bq;
     }

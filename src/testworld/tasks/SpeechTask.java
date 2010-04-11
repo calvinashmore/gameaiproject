@@ -4,6 +4,8 @@
  */
 package testworld.tasks;
 
+import testworld.objects.Person;
+
 /**
  *
  * @author Calvin Ashmore
@@ -12,9 +14,15 @@ public class SpeechTask extends PersonTask {
 
     boolean started = false;
     private String line;
+    private Person talkingTo;
 
     public SpeechTask(String line) {
         this.line = line;
+    }
+
+    public SpeechTask(String line, Person talkingTo) {
+        this.line = line;
+        this.talkingTo = talkingTo;
     }
 
     public void resume() {
@@ -24,6 +32,9 @@ public class SpeechTask extends PersonTask {
 
         if (!started) {
             getPerson().pushSpeech(line);
+            if (talkingTo != null) {
+                getPerson().setLookAt(talkingTo.getLocation().getPosition());
+            }
             started = true;
         }
 
