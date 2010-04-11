@@ -6,6 +6,7 @@ package proto.ui;
 
 import java.util.List;
 import main.Main;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PMatrix;
 import processing.core.PMatrix2D;
@@ -93,6 +94,7 @@ public class RadialMenu {
         }
         g.rect(-textWidth / 2 - padding, -padding, textWidth + 2 * padding, textSize + 2 * padding);
 
+        g.textAlign(PConstants.CENTER);
         g.fill(255f);
         g.text(text, 0, textSize);
     }
