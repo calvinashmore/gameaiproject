@@ -12,6 +12,7 @@ import proto.behavior.MultiQueue.QueueSet;
 import proto.navigation.BoundingSphere;
 import proto.world.Entity;
 import proto.world.World;
+import testworld.representations.PersonAppearance;
 import testworld.representations.PersonRepresentation;
 import utils.math.Vector2d;
 
@@ -24,6 +25,8 @@ public class Person extends Entity {
     private String name;
     private List<String> speech = new ArrayList<String>();
     private Vector2d lookAt = new Vector2d();
+    private PersonAppearance appearance = new PersonAppearance();
+    private PersonExpression expression = PersonExpression.happySmallSmile;
 
     public Person(String name) {
         super(new PersonDispatcher());
@@ -88,5 +91,13 @@ public class Person extends Entity {
 
     public void setLookAt(Vector2d lookAt) {
         this.lookAt = lookAt;
+    }
+
+    public PersonAppearance getAppearance() {
+        return appearance;
+    }
+
+    public PersonExpression getExpression() {
+        return expression;
     }
 }

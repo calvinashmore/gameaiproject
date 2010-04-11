@@ -16,6 +16,7 @@ public class WordBubble {
 
     private static final int MS_PER_CHARACTER = 75;
     private static final int BASE_OFFSET = 500;
+    private static final int Y_TRANSLATION = 65;
 
     private String text;
     private long expireTime;
@@ -33,7 +34,7 @@ public class WordBubble {
         float textWidth = g.textWidth(text);
 
         g.pushMatrix();
-        g.translate(0, -textSize - padding - 10 - 35);
+        g.translate(0, -textSize - padding - 10 - Y_TRANSLATION);
 
         g.textSize(textSize);
         g.fill(255f);
