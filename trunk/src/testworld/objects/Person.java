@@ -100,4 +100,8 @@ public class Person extends Entity {
     public PersonExpression getExpression() {
         return expression;
     }
+
+    public void setExpression(PersonExpression expression) {
+        this.expression = expression;
+    }
 }
