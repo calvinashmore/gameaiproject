@@ -22,6 +22,7 @@ public class RoomEnvironment extends Environment {
 
         g.background(200f);
         g.fill(230f);
-        g.rect(10, 10, (float) getWidth()-20, (float) getHeight()-20);
+        g.stroke(0);
+        g.rect(0, 0, (float) getWidth(), (float) getHeight());
     }
 }
