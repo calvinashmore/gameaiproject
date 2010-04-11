@@ -14,6 +14,8 @@ import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
 import proto.world.World;
+import testworld.objects.Person;
+import testworld.objects.PersonDispatcher;
 import testworld.tasks.SpeechTask;
 import testworld.tasks.SyncTask;
 
@@ -56,8 +58,11 @@ public class ConversationWeatherProactive
 
     public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake) {
 
+        Dispatcher participant = handshake.getParticipant("reactor");
+        Person person = ((PersonDispatcher) participant).getPerson();
+
         CollaborativeBehaviorQueue bq = new CollaborativeBehaviorQueue(this, 1, handshake);
-        bq.queueTask(new SpeechTask("How about that weather?"));
+        bq.queueTask(new SpeechTask("How about that weather?", person));
         bq.queueTask(new SyncTask());
         bq.queueTask(new SyncTask());
         bq.queueTask(new SpeechTask("I sure wish I could go out right now..."));
