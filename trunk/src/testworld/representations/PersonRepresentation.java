@@ -83,10 +83,11 @@ public class PersonRepresentation extends Representation<Person> {
     }
 
     private void drawHead(PGraphics g) {
+        drawHairBack(g);
         g.fill(appearance.skinColor1);
         g.stroke(appearance.skinColor2);
         g.ellipse(0, -40, 40, 40);
-        drawHair(g);
+        drawHairFront(g);
         drawEyebrows(g);
         drawEyes(g);
         drawMouth(g);
@@ -122,7 +123,95 @@ public class PersonRepresentation extends Representation<Person> {
 
     }
 
-    private void drawHair(PGraphics g) {
+    private void drawHairBack(PGraphics g) {
+
+        g.stroke(appearance.hairColor2);
+        float oldWeight = g.strokeWeight;
+        switch (appearance.hair) {
+            case straightLong:
+                g.strokeWeight(2);
+                g.fill(appearance.hairColor1);
+                g.rect(-20, -40, 40, 40);
+                break;
+            case straightMid:
+                g.strokeWeight(2);
+                g.fill(appearance.hairColor1);
+                g.rect(-20, -40, 40, 26);
+                break;
+            case straightBob:
+                g.strokeWeight(2);
+                g.fill(appearance.hairColor1);
+                g.rect(-20, -40, 40, 20);
+                break;
+            case longCurls:
+                g.fill(appearance.hairColor1);
+                for (int i = 0; i <= 3; i++) {
+                    float x = 20;
+                    float y = -40 + 5*i;
+                    g.ellipse(x, y, 7, 5);
+                    g.ellipse(-x, y, 7, 5);
+                }
+
+        }
+        g.strokeWeight(oldWeight);
+    }
+
+    private void drawHairFront(PGraphics g) {
+
+        g.stroke(appearance.hairColor2);
+        float oldWeight = g.strokeWeight;
+
+        switch (appearance.hair) {
+            case simpleTopFlat:
+                g.strokeWeight(2);
+                g.noFill();
+                g.arc(0, -40, 40, 40, (float) (-Math.PI / 2 - .5), (float) (-Math.PI / 2 + .5));
+                break;
+            case simpleFullFlat:
+                g.strokeWeight(2);
+                g.noFill();
+                g.arc(0, -40, 40, 40, (float) (-Math.PI / 2 - 1.1), (float) (-Math.PI / 2 + 1.1));
+                break;
+            case straightLong:
+            case straightMid:
+            case straightBob:
+                g.strokeWeight(2);
+                g.noFill();
+                g.arc(0, -40, 40, 40, (float) (-Math.PI), 0);
+                g.line(-20, -40, -20, -30);
+                g.line(20, -40, 20, -30);
+                break;
+            case blob:
+                g.fill(appearance.hairColor1);
+                g.ellipse(0, -60, 20, 5);
+                break;
+            case shortTopCurls:
+                g.fill(appearance.hairColor1);
+                for (int i = -2; i <= 2; i++) {
+                    float x = (float) (20 * Math.sin(i * .3));
+                    float y = (float) (-40 - 20 * Math.cos(i * .3));
+                    g.ellipse(x, y, 7, 5);
+                }
+                break;
+            case shortFullCurls:
+                g.fill(appearance.hairColor1);
+                for (int i = -4; i <= 4; i++) {
+                    float x = (float) (20 * Math.sin(i * .3));
+                    float y = (float) (-40 - 20 * Math.cos(i * .3));
+                    g.ellipse(x, y, 7, 5);
+                }
+                break;
+            case longCurls:
+                g.fill(appearance.hairColor1);
+                for (int i = -5; i <= 5; i++) {
+                    float x = (float) (20 * Math.sin(i * .3));
+                    float y = (float) (-40 - 20 * Math.cos(i * .3));
+                    g.ellipse(x, y, 7, 5);
+                }
+                break;
+        }
+
+        g.strokeWeight(oldWeight);
     }
 
     private void drawEyebrows(PGraphics g) {
