@@ -29,7 +29,11 @@ public class Person extends Entity {
     private PersonExpression expression = PersonExpression.happySmallSmile;
 
     public Person(String name) {
-        super(new PersonDispatcher());
+        this(name, new PersonDispatcher());
+    }
+
+    public Person(String name, PersonDispatcher dispatcher) {
+        super(dispatcher);
         ((PersonDispatcher) getDispatcher()).setPerson(this);
         this.name = name;
         setRepresentation(new PersonRepresentation(this));
@@ -85,8 +89,7 @@ public class Person extends Entity {
         speech.add(line);
     }
 
-    public List<String> getSpeechQueue()
-    {
+    public List<String> getSpeechQueue() {
         return this.speech;
     }
 

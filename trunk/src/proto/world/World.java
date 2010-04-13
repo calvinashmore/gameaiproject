@@ -102,8 +102,7 @@ abstract public class World implements IWorldState {
         // does this need anything?
     }
 
-    public List<Dispatcher> getDispatchers()
-    {
+    public List<Dispatcher> getDispatchers() {
         // TODO cache this or save it permanently
         List<Dispatcher> dispatchers = new LinkedList<Dispatcher>();
         for (BasicObject basicObject : getAllObjects()) {
@@ -176,6 +175,21 @@ abstract public class World implements IWorldState {
         }
 
         return nearbyObjects;
+    }
+
+    /**
+     * Utility method to get all objects of the given type
+     * @param type
+     * @return
+     */
+    public List<BasicObject> getAllObjectsOfType(Class type) {
+        List<BasicObject> r = new ArrayList<BasicObject>();
+        for (BasicObject basicObject : allObjects) {
+            if (type.isAssignableFrom(basicObject.getClass())) {
+                r.add(basicObject);
+            }
+        }
+        return r;
     }
 
     public boolean isPaused() {
