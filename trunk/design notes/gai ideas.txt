@@ -1,0 +1,77 @@
+GAI thoughts:
+
+
+1) defining collaborative behaviors. What do we want to have?
+   a toast / cheers
+   idle conversation (several types of these?)
+   conversation about events AT the party
+   gossip about other characters at the party (when they are out of earshot)
+   dancing? (likely to be complicated to implement)
+   eating
+   drinking
+
+   some small moods?
+     eg, a character is in a foul mood leads to them being snitty with others.
+
+   some relationship dependent interactions
+     eg, a married couple sticks together
+     a guy flirts with a girl
+
+   separate types of character roles
+     bartender: will gossip and flirt, also serve drinks
+     waiting staff: will travel delivering o'deouves, drinks
+     entertainers: singer?
+     important guests
+     less important guests
+     host, should attend the guests
+
+   some degree of personality to the guests?
+
+   needs sliders similar to Sims?
+     but not as absurdist?
+     eg, gets hungry sometimes, goes to the bathroom sometimes, but these show up only intermittently
+     drunkeness. 
+
+
+2) defining gameplay:
+   what should be some example player interactions?
+
+   some conversations "unlock" based on knowledge (represent knowledge, favors as tokens)
+   have special template conversational options available to the player specifically, which grant the tokens as a result of the behavior actions.
+
+
+   default neutral behavior:
+     have nested radial menus, with several potential conversation topics: eg, "ask about..."
+     and then about: "job", "gossip", etc.
+
+
+3) plot
+   we should identify some
+   who is being poisoned, why? 
+   who is at the party?
+   what sort of setting is it (eg, contemporary, Bond '60s, roaring '20s?)
+   who is the host?
+
+   Cast
+     General military guy
+     Mafiaesque guy
+     High class prostitute
+     Entertainer / celebrity
+     another spy
+     investigator
+     ambassador
+
+   how many characters?
+     major plus extras
+
+   maybe...... 
+     PC is supposed to kill the celebrity (who is a sleazeball)
+     they stole someone's oscar / audition / script
+     hilarious because of pettiness?
+
+
+4) environment
+   what are spaces in the environment?
+   bar, entry way, more private areas, more public areas, dining room   
+
+
