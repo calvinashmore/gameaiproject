@@ -7,8 +7,11 @@ package main;
 import debugger.DebuggerFrame;
 import javax.swing.JFrame;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import proto.ui.UIRoot;
 import testworld.Testworld;
+import testworld.actions.MoveToAction;
+import utils.math.Vector2d;
 
 /**
  *
@@ -63,7 +66,13 @@ public class Main extends PApplet {
     @Override
     public void mouseClicked() {
         //world.getPlayer().forceMoveTo(new Vector2d(mouseX, mouseY));
-        ui.onClick(mouseX, mouseY);
+
+        if (mouseButton == PConstants.RIGHT) {
+            Vector2d pos = world.transformPoint(mouseX, mouseY);
+            new MoveToAction(pos).performAction(world.getPlayer());
+        } else {
+            ui.onClick(mouseX, mouseY);
+        }
     }
 
     @Override
