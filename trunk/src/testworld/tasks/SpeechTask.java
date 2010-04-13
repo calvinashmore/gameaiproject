@@ -41,7 +41,16 @@ public class SpeechTask extends PersonTask {
         // NOTE: This uses equality on Strings.
         // this is intentional. We check to see if the person is speaking this line, 
         // if the person is no longer speaking this line, then mark the task as done.
-        if (getPerson().peekSpeech() != line) {
+        /*if (getPerson().peekSpeech() != line) {
+            finished();
+        }*/
+        boolean found = false;
+        for (String s : getPerson().getSpeechQueue())
+        {
+            if (s == line) found = true;
+        }
+        if (!found)
+        {
             finished();
         }
     }

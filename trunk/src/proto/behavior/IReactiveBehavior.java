@@ -21,7 +21,7 @@ public interface IReactiveBehavior extends ICollaborativeBehavior {
     public boolean canCollaborate(String id);
 
     /**
-     * Provide the agent a change to join a particular collaboration.
+     * Provide the agent a chance to join a particular collaboration.
      * @param handshake Handshake to which the agent can add itself.
      * @return True if the agent joined the collaboration, false otherwise.
      */

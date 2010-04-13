@@ -85,6 +85,11 @@ public class Person extends Entity {
         speech.add(line);
     }
 
+    public List<String> getSpeechQueue()
+    {
+        return this.speech;
+    }
+
     public Vector2d getLookAt() {
         return lookAt;
     }

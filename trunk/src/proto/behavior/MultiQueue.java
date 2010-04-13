@@ -51,6 +51,10 @@ public class MultiQueue
                 proactive = bq;
                 break;
             case collab:
+                if (!collaborative.isEmpty())
+                {
+                    int a = 8;
+                }
                 collaborative.add(bq);
                 break;
             case latent:

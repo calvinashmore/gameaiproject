@@ -5,6 +5,8 @@
 
 package proto.behavior;
 
+import java.util.List;
+
 /**
  *
  * @author hartsoka
@@ -47,5 +49,7 @@ public interface IBehaviorQueue {
     void suspend();
 
     IBehaviorTemplate getBehaviorTemplate();
+
+    List<ITask> getTasks();
 
 }

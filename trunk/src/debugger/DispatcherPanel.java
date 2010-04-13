@@ -8,9 +8,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import proto.behavior.Dispatcher;
 import proto.behavior.IBehaviorQueue;
+import proto.behavior.ITask;
 import proto.behavior.MultiQueue;
 
 /**
@@ -29,7 +31,9 @@ public class DispatcherPanel extends JPanel {
 
         textArea = new JTextArea();
         textArea.setEditable(false);
-        add(textArea, BorderLayout.CENTER);
+        JScrollPane scroll = new JScrollPane(textArea);
+
+        add(scroll, BorderLayout.CENTER);
         setPreferredSize(new Dimension(300, 150));
     }
 
@@ -49,6 +53,13 @@ public class DispatcherPanel extends JPanel {
             }
             debug.append(bq.getPriority());
             debug.append("\n");
+
+            for (ITask t : bq.getTasks())
+            {
+                debug.append("    ");
+                debug.append(t.getClass().getSimpleName());
+                debug.append("\n");
+            }
         }
         for (IBehaviorQueue bq : mq.getCollaborativeBehaviorQueueSet()) {
             debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
@@ -62,6 +73,13 @@ public class DispatcherPanel extends JPanel {
             }
             debug.append(bq.getPriority());
             debug.append("\n");
+
+            for (ITask t : bq.getTasks())
+            {
+                debug.append("    ");
+                debug.append(t.getClass().getSimpleName());
+                debug.append("\n");
+            }
         }
         for (IBehaviorQueue bq : mq.getLatentBehaviorQueueSet()) {
             debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
@@ -75,6 +93,13 @@ public class DispatcherPanel extends JPanel {
             }
             debug.append(bq.getPriority());
             debug.append("\n");
+
+            for (ITask t : bq.getTasks())
+            {
+                debug.append("    ");
+                debug.append(t.getClass().getSimpleName());
+                debug.append("\n");
+            }
         }
         //g.text(debug.toString(),0,30);
         textArea.setText(debug.toString());

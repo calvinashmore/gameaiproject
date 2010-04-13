@@ -6,6 +6,8 @@
 package proto.behavior;
 
 import java.util.LinkedList;
+import java.util.List;
+import proto.behavior.IBehaviorTemplate.CollaborationType;
 import proto.behavior.IBehaviorTemplate.InitiationType;
 
 /**
@@ -33,7 +35,14 @@ public class BehaviorQueue implements IBehaviorQueue {
         this(behavior, 0);
         if (behavior.getInitiationType() == InitiationType.proactive)
         {
-            this.priority = 0;
+            if (behavior.getCollaborationType() == CollaborationType.collaborative)
+            {
+                this.priority = 1;
+            }
+            else
+            {
+                this.priority = 0;
+            }
         }
         else if (behavior.getInitiationType() == InitiationType.reactive)
         {
@@ -149,5 +158,10 @@ public class BehaviorQueue implements IBehaviorQueue {
     public IBehaviorTemplate getBehaviorTemplate()
     {
         return this.behavior;
+    }
+
+    public List<ITask> getTasks()
+    {
+        return this.tasks;
     }
 }
