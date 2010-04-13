@@ -26,6 +26,10 @@ public class PersonDispatcher extends Dispatcher {
         super(new PersonRole());
     }
 
+    public PersonDispatcher(PersonRole role) {
+        super(role);
+    }
+
     @Override
     public String toString() {
         return person.getName();

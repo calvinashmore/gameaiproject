@@ -76,8 +76,10 @@ public class PersonRepresentation extends Representation<Person> {
     }
 
     private void drawBody(PGraphics g) {
-        g.fill(196);
-
+        
+        g.stroke(appearance.clothesColor2);
+        g.fill(appearance.clothesColor1);
+        
         g.rect(-20, -1, 40, 6);
         g.arc(0, 0, 40, 40, (float) Math.PI, 2 * (float) Math.PI);
     }
