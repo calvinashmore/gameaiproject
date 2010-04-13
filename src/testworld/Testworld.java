@@ -7,6 +7,7 @@ package testworld;
 import main.Main;
 import processing.core.PGraphics;
 import proto.world.World;
+import testworld.behaviors.GroupChat;
 import testworld.objects.Person;
 import testworld.objects.PersonExpression;
 import testworld.representations.PersonAppearance.Hair;
@@ -25,6 +26,7 @@ public class Testworld extends World {
         Person person;
 
         person = player = new PlayerImplementation("Player");
+        person.getRole().addBehaviorTemplate(GroupChat.makeReactive());
         person.getLocation().getPosition().x = 200;
         person.getLocation().getPosition().y = 200;
         person.setExpression(PersonExpression.happySmallSmile);
@@ -32,6 +34,7 @@ public class Testworld extends World {
         getAllObjects().add(person);
 
         person = new Person("Frank");
+        person.getRole().addBehaviorTemplate(GroupChat.makeProactive());
         person.getLocation().getPosition().x = 100;
         person.getLocation().getPosition().y = 100;
         person.setExpression(PersonExpression.annoyed);
@@ -39,6 +42,7 @@ public class Testworld extends World {
         getAllObjects().add(person);
 
         person = new Person("Hilda");
+        person.getRole().addBehaviorTemplate(GroupChat.makeReactive());
         person.getLocation().getPosition().x = 300;
         person.getLocation().getPosition().y = 300;
         person.setExpression(PersonExpression.happyExcited);
@@ -46,6 +50,7 @@ public class Testworld extends World {
         getAllObjects().add(person);
 
         person = new Person("Gayle");
+        person.getRole().addBehaviorTemplate(GroupChat.makeReactive());
         person.getLocation().getPosition().x = 400;
         person.getLocation().getPosition().y = 400;
         person.setExpression(PersonExpression.malicious);

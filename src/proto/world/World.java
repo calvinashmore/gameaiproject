@@ -7,6 +7,7 @@ package proto.world;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import processing.core.PGraphics;
 import proto.behavior.CollaborationHandshake;
@@ -99,6 +100,27 @@ abstract public class World implements IWorldState {
             }
         }
         // does this need anything?
+    }
+
+    public List<Dispatcher> getDispatchers()
+    {
+        // TODO cache this or save it permanently
+        List<Dispatcher> dispatchers = new LinkedList<Dispatcher>();
+        for (BasicObject basicObject : getAllObjects()) {
+
+            if (!(basicObject instanceof Entity)) {
+                continue;
+            }
+            Entity entity = (Entity) basicObject;
+
+            Dispatcher d = entity.getDispatcher();
+            if (d == null) {
+                continue;
+            }
+
+            dispatchers.add(d);
+        }
+        return dispatchers;
     }
 
     public void tryCollaborate(CollaborationHandshake handshake) {

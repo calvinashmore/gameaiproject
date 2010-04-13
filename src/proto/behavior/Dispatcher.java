@@ -188,7 +188,14 @@ public class Dispatcher implements Comparable {
             currentBehavior = role.instantiateProactiveBehavior(currentWorld);
             if(currentBehavior == null)
                 return null;
-            handleNewBehavior(currentBehavior, QueueSet.pro);
+            if (currentBehavior.isCollaborative())
+            {
+                handleNewBehavior(currentBehavior, QueueSet.collab);
+            }
+            else
+            {
+                handleNewBehavior(currentBehavior, QueueSet.pro);
+            }
         }
 
         return currentBehavior;
