@@ -11,10 +11,10 @@ import proto.behavior.IBehaviorQueue;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IReactiveBehavior;
 import proto.behavior.IWorldState;
+import proto.behavior.SyncTask;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.SpeechTask;
-import testworld.tasks.SyncTask;
 
 /**
  *

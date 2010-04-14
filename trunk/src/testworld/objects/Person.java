@@ -12,6 +12,7 @@ import proto.behavior.MultiQueue.QueueSet;
 import proto.navigation.BoundingSphere;
 import proto.world.Entity;
 import proto.world.World;
+import testworld.behaviors.conversations.ConversationContent;
 import testworld.representations.PersonAppearance;
 import testworld.representations.PersonRepresentation;
 import utils.math.Vector2d;
@@ -111,5 +112,9 @@ public class Person extends Entity {
 
     public void setExpression(PersonExpression expression) {
         this.expression = expression;
+    }
+
+    public ConversationContent makeConversation(Person reactor) {
+throw new UnsupportedOperationException();
     }
 }
