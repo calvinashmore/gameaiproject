@@ -15,11 +15,11 @@ import proto.behavior.IBehaviorTemplate.InitiationType;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
+import proto.behavior.SyncTask;
 import proto.world.World;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.LookAtTask;
 import testworld.tasks.MoveTo;
-import testworld.tasks.SyncTask;
 import utils.math.Vector2d;
 
 /**
@@ -88,7 +88,7 @@ public class ApproachBehavior extends AJointBehavior implements IProactiveBehavi
             bq.queueTask(new SyncTask());
             return bq;
         } else {
-            throw new UnsupportedOperationException("Title " + title + " is invalid");
+            throw new IllegalArgumentException("Title " + title + " is invalid");
         }
     }
 
