@@ -29,8 +29,10 @@ public class CollaborationHandshake {
     private Map<Dispatcher, ICollaborativeBehavior> templates; // agent to behavior template
     private Map<Dispatcher, ICollaborativeBehaviorQueue> queues; // agent to behavior implementation
 
-    private Map<Dispatcher, ICollaborationProgressReport> reports;
+    private Map<Dispatcher, ICollaborationProgressReport> reports; // TODO get rid of this?
     private Map<Dispatcher, Boolean> barrier;
+
+    private Map<String, Object> blackboard;
 
     /**
      * Create a CollaborationHandshake, which is an encapsulation of all the
@@ -63,6 +65,8 @@ public class CollaborationHandshake {
         this.reports = new TreeMap<Dispatcher, ICollaborationProgressReport>();
         this.barrier = new TreeMap<Dispatcher, Boolean>();
 
+        this.blackboard = null; // uses lazy instantiation
+
         // TODO
         // change design so we don't have to use a hack
         this.initiator = initiator;
@@ -75,7 +79,7 @@ public class CollaborationHandshake {
 
     /**
      * Called by non-initiators to signal the desire to participate in the
-     * collaboration.  Caller's title will be set to "reactor" .
+     * collaboration.  Caller's title will be set to "reactor".
      * @param reactor Agent wanting to join the collaboration.
      */
     public void participate(Dispatcher reactor, IReactiveBehavior reactiveBehavior)
@@ -152,11 +156,11 @@ public class CollaborationHandshake {
         IBehaviorTemplate initiatingBehavior = getInitiatingBehavior();
         if (initiatingBehavior.getInitiationType() == InitiationType.latent)
         {
-            qs = MultiQueue.QueueSet.latent;
+            qs = MultiQueue.QueueSet.LATENT_OR_LATENT_RESPONSE;
         }
         else if (initiatingBehavior.getInitiationType() == InitiationType.proactive)
         {
-            qs = MultiQueue.QueueSet.collab;
+            qs = MultiQueue.QueueSet.COLLABORATIVE_NON_LATENT;
         }
         else
         {
@@ -219,23 +223,55 @@ public class CollaborationHandshake {
         return true;
     }
 
+    /**
+     * Used for getting the Dispatcher of an agent from its collaborative Title.
+     * @return A map of Titles to Dispatchers.
+     */
     public Map<String, Dispatcher> getParticipants()
     {
         return this.participants;
     }
 
+    /**
+     * Used for getting the Title of an agent from its Dispatcher.
+     * @return A map of Dispatchers to Titles.
+     */
     public Map<Dispatcher, String> getTitles()
     {
         return this.titles;
     }
 
+    /**
+     * Used for getting the Dispatcher of an agent from its collaborative Title.
+     * @param title Collaborative Title whose Dispatcher you want.
+     * @return Dispatcher of the agent with that Title.
+     */
     public Dispatcher getParticipant(String title)
     {
         return this.participants.get(title);
     }
 
+    /**
+     * Used for getting the actual collaboration task queue of an agent
+     * @param d The agent's Dispatcher.
+     * @return That agent's behavior queue.
+     */
     public ICollaborativeBehaviorQueue getQueue(Dispatcher d)
     {
         return this.queues.get(d);
+    }
+
+    /**
+     * A collaborative blackboard for agents to share information during a
+     * collaboration.
+     * @return A blackboard.
+     */
+    public Map<String, Object> getBlackboard()
+    {
+        if (this.blackboard == null)
+        {
+            this.blackboard = new TreeMap<String, Object>();
+        }
+        return this.blackboard;
     }
 }

@@ -56,7 +56,7 @@ public class Person extends Entity {
     public void instantiateNewProactiveBehavior(IProactiveBehavior behavior) {
         BehaviorQueue bq = (BehaviorQueue) behavior.instantiate(World.getInstance());
         bq.setPriority(3);
-        getDispatcher().handleNewBehavior(bq, QueueSet.pro);
+        getDispatcher().handleNewBehavior(bq, QueueSet.PROACTIVE_INDEPENDENT);
     }
 
     /**

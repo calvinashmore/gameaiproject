@@ -56,7 +56,10 @@ public class Dispatcher implements Comparable {
         if (currentBehavior != null &&
             currentBehavior.getPriority() > newBehavior.getPriority())
         {
-            // TODO is this right? might want to add it anyway
+            // TODO may want to consider adding some lower priority behaviors
+            //  anyway
+            // TODO if we ARE going to skip new behaviors, do we skip only
+            //  those with lesser priority or lesser-than-or-equal-to
             return;
         }
 
@@ -64,6 +67,11 @@ public class Dispatcher implements Comparable {
         handleTaskStart();
     }
 
+    /**
+     * Handles when the implementation of a task claims it is finished.  Only
+     * removes task from the queue if synchronization requirements are met.
+     * @param taskQueue
+     */
     public void handleTaskDone(IBehaviorQueue taskQueue)
     {
         // if a collaboration
@@ -82,12 +90,12 @@ public class Dispatcher implements Comparable {
             }
             else
             {
-                taskQueue.dequeueTask();
+                finishCurrentTask(taskQueue);
             }
         }
         else
         {
-            taskQueue.dequeueTask();
+            finishCurrentTask(taskQueue);
         }
     }
 
@@ -100,13 +108,12 @@ public class Dispatcher implements Comparable {
             taskQueue.activate();
         }
 
-        taskQueue.dequeueTask();
+        finishCurrentTask(taskQueue);
     }
 
-    // NOTE: THIS IS NOT CURRENTLY CALLED
+    // TODO: This is not currently called.  Get rid of it?
     public void handlePhaseDone()
     {
-        // TODO check this
         IBehaviorQueue currentBehavior = mq.getCurrentBehavior();
         currentBehavior.dequeueTask();
 
@@ -130,13 +137,13 @@ public class Dispatcher implements Comparable {
         }
     }
 
+    // TODO: Figure out how to handle collaboration departures.
+    //  This fn is not currently called.
     public void handleKillCollaboration(ICollaborativeBehaviorQueue collaborativeQueue)
     {
         mq.remove(collaborativeQueue);
 
         handleTaskStart();
-
-        // TODO implement this more fully
     }
 
     public void handleTimer()
@@ -159,8 +166,9 @@ public class Dispatcher implements Comparable {
             else
             {
                 ITask task = currentBehavior.peekTask();
-                if(task != null)
-                task.run();
+                if(task != null) {
+                    task.run();
+                }
             }
         }
 
@@ -190,15 +198,26 @@ public class Dispatcher implements Comparable {
                 return null;
             if (currentBehavior.isCollaborative())
             {
-                handleNewBehavior(currentBehavior, QueueSet.collab);
+                handleNewBehavior(currentBehavior, QueueSet.COLLABORATIVE_NON_LATENT);
             }
             else
             {
-                handleNewBehavior(currentBehavior, QueueSet.pro);
+                handleNewBehavior(currentBehavior, QueueSet.PROACTIVE_INDEPENDENT);
             }
         }
 
         return currentBehavior;
+    }
+
+    /**
+     * Used by Dispatcher when a task has signalled it is done AND dispatcher
+     * has determined it is ready to be removed from its queue.
+     * @param taskQueue
+     */
+    private void finishCurrentTask(IBehaviorQueue taskQueue)
+    {
+        taskQueue.dequeueTask();
+        handleTaskStart();
     }
 
     public IRole getRole() {

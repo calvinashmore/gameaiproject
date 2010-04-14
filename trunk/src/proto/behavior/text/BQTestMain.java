@@ -41,7 +41,7 @@ public class BQTestMain {
             {
                 if (lb.activate(dws))
                 {
-                    bill.handleNewBehavior(lb.instantiate(dws), QueueSet.latent);
+                    bill.handleNewBehavior(lb.instantiate(dws), QueueSet.LATENT_OR_LATENT_RESPONSE);
                 }
             }
             System.out.println();
@@ -54,7 +54,7 @@ public class BQTestMain {
             {
                 if (lb.activate(dws))
                 {
-                    jane.handleNewBehavior(lb.instantiate(dws), QueueSet.latent);
+                    jane.handleNewBehavior(lb.instantiate(dws), QueueSet.LATENT_OR_LATENT_RESPONSE);
                 }
             }
             System.out.println();

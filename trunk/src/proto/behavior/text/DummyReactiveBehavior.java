@@ -5,6 +5,7 @@
 
 package proto.behavior.text;
 
+import proto.behavior.SyncTask;
 import proto.behavior.ABehaviorTemplate;
 import proto.behavior.CollaborationHandshake;
 import proto.behavior.CollaborativeBehaviorQueue;

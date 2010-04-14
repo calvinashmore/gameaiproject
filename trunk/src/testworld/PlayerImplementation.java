@@ -13,6 +13,7 @@ import testworld.actions.AskAboutTheWeather;
 import testworld.actions.MockMercilesslyAction;
 import testworld.actions.MoveToAction;
 import testworld.actions.SaySomethingWittyAction;
+import testworld.objects.GuestPerson;
 import testworld.objects.Person;
 import utils.math.Vector2d;
 
@@ -20,7 +21,7 @@ import utils.math.Vector2d;
  *
  * @author Calvin Ashmore
  */
-public class PlayerImplementation extends Person implements PlayerHandler {
+public class PlayerImplementation extends GuestPerson implements PlayerHandler {
 
     public PlayerImplementation(String name) {
         super(name);

@@ -18,7 +18,7 @@ public class MultiQueue
     private Dispatcher owningDispatcher;
 
     // Contains three queue sets as described on bottom of page 24
-    public enum QueueSet { pro, collab, latent }
+    public enum QueueSet { PROACTIVE_INDEPENDENT, COLLABORATIVE_NON_LATENT, LATENT_OR_LATENT_RESPONSE };
     private IBehaviorQueue proactive; // IndepPro only
     private List<IBehaviorQueue> collaborative; // CollabPro, or CollabReact in response to CollabPro
     private List<IBehaviorQueue> latent; // IndepLat or CollabLat, or a CollabReact in response to a latent
@@ -39,25 +39,20 @@ public class MultiQueue
      */
     public void addBehavior(IBehaviorQueue bq, QueueSet qs)
     {
-        // TODO
-        // paper mentions the possibility of having to delete existing queues
-        //  to make room for a new one (page 25, left bottom); evaluate whether
-        //  we want to do this
+        // TODO paper mentions the possibility of having to delete existing
+        //  queues to make room for a new one (page 25, left bottom); evaluate
+        //  whether we want to do this
 
         bq.setOwningMultiQueue(this);
         switch (qs)
         {
-            case pro:
+            case PROACTIVE_INDEPENDENT:
                 proactive = bq;
                 break;
-            case collab:
-                if (!collaborative.isEmpty())
-                {
-                    int a = 8;
-                }
+            case COLLABORATIVE_NON_LATENT:
                 collaborative.add(bq);
                 break;
-            case latent:
+            case LATENT_OR_LATENT_RESPONSE:
                 latent.add(bq);
                 break;
             default:
@@ -128,34 +123,28 @@ public class MultiQueue
      */
     public void cleanup()
     {
-        // TODO make this more efficient
-        //  terribly unefficient but currently doesn't matter
         if (proactive != null && proactive.isCancelled())
         {
             proactive = null;
         }
 
-        List<IBehaviorQueue> toRemove =  new LinkedList<IBehaviorQueue>();
+        List<IBehaviorQueue> swap =  new LinkedList<IBehaviorQueue>();
         for (IBehaviorQueue queue : collaborative) {
-            if (queue.isCancelled())
+            if (!queue.isCancelled())
             {
-                toRemove.add(queue);
+                swap.add(queue);
             }
         }
-        for (IBehaviorQueue queue : toRemove) {
-            collaborative.remove(queue);
-        }
+        collaborative = swap;
 
-        toRemove.clear();
+        swap = new LinkedList<IBehaviorQueue>();
         for (IBehaviorQueue queue : latent) {
-            if (queue.isCancelled())
+            if (!queue.isCancelled())
             {
-                toRemove.add(queue);
+                swap.add(queue);
             }
         }
-        for (IBehaviorQueue queue : toRemove) {
-            latent.remove(queue);
-        }
+        latent = swap;
     }
 
     /**
@@ -185,6 +174,9 @@ public class MultiQueue
      */
     public boolean testEyeContact(int priority)
     {
+        // TODO consider allowing more important proactive behaviors to keep
+        //  running?
+
         for (IBehaviorQueue queue : collaborative) {
             if (queue.isActive() && queue.getPriority() >= priority)
             {
@@ -211,17 +203,31 @@ public class MultiQueue
         return this.owningDispatcher;
     }
 
-    public IBehaviorQueue getProactiveBehaviorQueue()
+    /**
+     * Get the current proactive independent behavior queue (can be only one).
+     * @return Current proactive indep behavior queue if exists, else null.
+     */
+    public IBehaviorQueue getProactiveIndependentBQ()
     {
         return proactive;
     }
 
-    public List<IBehaviorQueue> getCollaborativeBehaviorQueueSet()
+    /**
+     * Gets all the behavior queues in the collaborative queue set.
+     * @return List of all current collaborative behaviors which were not
+     * triggered by latent behaviors.  May be empty.
+     */
+    public List<IBehaviorQueue> getCollaborativeNonLatentBQSet()
     {
         return collaborative;
     }
 
-    public List<IBehaviorQueue> getLatentBehaviorQueueSet()
+    /**
+     * Gets all the behavior queues in the latent queue set.
+     * @return List of all current behaviors which were initiated by a latent
+     * behavior, whether collaborative or independent.  May be empty.
+     */
+    public List<IBehaviorQueue> getLatentAndLatentResponseBQSet()
     {
         return latent;
     }

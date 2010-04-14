@@ -33,7 +33,7 @@ abstract public class Entity extends BasicObject {
 
         for (ILatentBehavior iLatentBehavior : dispatcher.getRole().getLatentBehaviors()) {
             if (iLatentBehavior.activate(World.getInstance())) {
-                dispatcher.handleNewBehavior(iLatentBehavior.instantiate(World.getInstance()), QueueSet.latent);
+                dispatcher.handleNewBehavior(iLatentBehavior.instantiate(World.getInstance()), QueueSet.LATENT_OR_LATENT_RESPONSE);
             }
         }
 

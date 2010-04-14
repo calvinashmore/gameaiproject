@@ -4,6 +4,8 @@
  */
 package testworld.objects;
 
+import testworld.behaviors.RequestAndServeBehavior;
+
 /**
  *
  * @author Calvin Ashmore
@@ -11,5 +13,7 @@ package testworld.objects;
 class ServerPersonRole extends PersonRole {
 
     public ServerPersonRole() {
+        super();
+        addBehaviorTemplate(RequestAndServeBehavior.makeServeBehavior());
     }
 }
