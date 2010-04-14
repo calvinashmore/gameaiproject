@@ -132,7 +132,7 @@ public class RequestAndServeBehavior
             bq.queueTask(new SyncTask()); // 3
             bq.queueTask(new SpeechTask("Of course, right away."));
             bq.queueTask(new Fetch<Pickup>(Pickup.class));
-            bq.queueTask(new MoveTo(destination));
+            bq.queueTask(new MoveTo(destination, SERVER_PROXIMITY));
             bq.queueTask(new SpeechTask("Here you are."));
             bq.queueTask(new SyncTask()); // 4
             bq.queueTask(new SyncTask()); // 5

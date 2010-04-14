@@ -5,6 +5,9 @@
 
 package testworld.representations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Calvin Ashmore
@@ -19,6 +22,7 @@ public class PersonAppearance {
     public int hairColor2 = 0xff0000ff;
     public int clothesColor1 = 0xffddccaa; // surface color
     public int clothesColor2 = 0xff888888; // outline color
+    public List<Integer> clothesColors = new ArrayList<Integer>();
 
     public Hair hair = Hair.longCurls;
     public Clothes clothes = Clothes.plain;
@@ -36,7 +40,7 @@ public class PersonAppearance {
     };
 
     public enum Clothes {
-        plain,
+        plain, tuxedo
         
     }
 }

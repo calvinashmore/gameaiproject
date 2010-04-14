@@ -32,6 +32,7 @@ public class PersonRepresentation extends Representation<Person> {
 
         drawHead(g);
         drawBody(g);
+        drawClothes(g);
 
         g.fill(0);
         g.textAlign(PConstants.CENTER);
@@ -93,6 +94,33 @@ public class PersonRepresentation extends Representation<Person> {
         drawEyebrows(g);
         drawEyes(g);
         drawMouth(g);
+    }
+
+    private void drawClothes(PGraphics g) {
+
+        g.pushMatrix();
+
+        switch (appearance.clothes) {
+            case plain:
+                break;
+            case tuxedo:
+                
+                g.translate(0, -17);
+
+                g.fill(appearance.clothesColors.get(0));
+                g.stroke(appearance.clothesColors.get(0));
+
+                g.ellipse(0, 0, 15, 3);
+                
+                g.triangle(0, 0, 10, 5, 10, -5);
+                g.triangle(0, 0, -10, 5, -10, -5);
+
+                break;
+            default:
+                break;
+        }
+
+        g.popMatrix();
     }
 
     private void drawEyes(PGraphics g) {
