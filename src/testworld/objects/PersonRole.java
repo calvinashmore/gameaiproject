@@ -2,12 +2,10 @@
  * Georgia Institute of Technology
  * Calvin Ashmore & Ken Hartsook
  */
-
 package testworld.objects;
 
 import proto.behavior.ARole;
-import testworld.behaviors.ApproachProactive;
-import testworld.behaviors.ApproachReactive;
+import testworld.behaviors.ApproachBehavior;
 import testworld.behaviors.ConversationWeatherProactive;
 import testworld.behaviors.ConversationWeatherReactive;
 import testworld.behaviors.LatentExclamativeBehavior;
@@ -26,19 +24,14 @@ public class PersonRole extends ARole {
         addBehaviorTemplate(new LatentExclamativeBehavior());
         addBehaviorTemplate(new RandomizedMoveTo());
 
-        addBehaviorTemplate(new ApproachProactive());
-        addBehaviorTemplate(new ApproachReactive());
+        addBehaviorTemplate(ApproachBehavior.makeProactive());
+        addBehaviorTemplate(ApproachBehavior.makeReactive());
 
         addBehaviorTemplate(new ConversationWeatherProactive());
         addBehaviorTemplate(new ConversationWeatherReactive());
     }
-
-
-
 //    public void forceMoveTo(Vector2d destination) {
 //        addBehaviorTemplate(new MoveToProactiveBehavior(destination));
 //
 //    }
-
-
 }
