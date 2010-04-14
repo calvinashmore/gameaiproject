@@ -40,8 +40,8 @@ public class DispatcherPanel extends JPanel {
     void update() {
         MultiQueue mq = dispatcher.getMultiQueue();
         StringBuilder debug = new StringBuilder();
-        if (mq.getProactiveBehaviorQueue() != null) {
-            IBehaviorQueue bq = mq.getProactiveBehaviorQueue();
+        if (mq.getProactiveIndependentBQ() != null) {
+            IBehaviorQueue bq = mq.getProactiveIndependentBQ();
             debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
             debug.append(":");
             if (bq.isActive()) {
@@ -61,7 +61,7 @@ public class DispatcherPanel extends JPanel {
                 debug.append("\n");
             }
         }
-        for (IBehaviorQueue bq : mq.getCollaborativeBehaviorQueueSet()) {
+        for (IBehaviorQueue bq : mq.getCollaborativeNonLatentBQSet()) {
             debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
             debug.append(":");
             if (bq.isActive()) {
@@ -81,7 +81,7 @@ public class DispatcherPanel extends JPanel {
                 debug.append("\n");
             }
         }
-        for (IBehaviorQueue bq : mq.getLatentBehaviorQueueSet()) {
+        for (IBehaviorQueue bq : mq.getLatentAndLatentResponseBQSet()) {
             debug.append(bq.getBehaviorTemplate().getClass().getSimpleName());
             debug.append(":");
             if (bq.isActive()) {

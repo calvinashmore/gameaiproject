@@ -15,21 +15,28 @@ import proto.behavior.Dispatcher;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
-import proto.behavior.text.SyncTask;
+import proto.behavior.SyncTask;
 import proto.world.World;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
+import testworld.tasks.MoveTo;
 import testworld.tasks.SpeechTask;
 import utils.math.RandomManager;
+import utils.math.Vector2d;
 
 /**
  *
  * @author hartsoka
  */
-public class GroupChat extends AJointBehavior implements IProactiveBehavior {
+public class GroupChat
+        extends AJointPersonBehavior
+        implements IProactiveBehavior
+{
 
     public static final String PROACTIVE_ID = "GroupChatStart";
     public static final String REACTIVE_ID = "GroupChatAccept";
+
+    private static final int RADIUS_PER_PERSON = 50;
 
     private String id;
 
@@ -59,23 +66,7 @@ public class GroupChat extends AJointBehavior implements IProactiveBehavior {
     public List<Dispatcher> getPotentialCollaborators() {
         List<Dispatcher> dispatchers = World.getInstance().getDispatchers();
 
-        final Person me = ((PersonDispatcher)this.getDispatcher()).getPerson();
-
-        Collections.sort(dispatchers, new Comparator<Dispatcher>(){
-
-            public int compare(Dispatcher o1, Dispatcher o2) {
-                Person p1 = ((PersonDispatcher)o1).getPerson();
-                Person p2 = ((PersonDispatcher)o2).getPerson();
-
-                double dist1 = me.getLocation().getPosition().subtract(p1.getLocation().getPosition()).magnitude();
-                double dist2 = me.getLocation().getPosition().subtract(p2.getLocation().getPosition()).magnitude();
-
-                if (dist1 == dist2) return 0;
-                else if (dist1 < dist2) return -1;
-                else return 1;
-            }
-
-        });
+        super.sortPeopleByDistance(dispatchers);
 
         return dispatchers;
     }
@@ -94,6 +85,8 @@ public class GroupChat extends AJointBehavior implements IProactiveBehavior {
         {
             ICollaborativeBehaviorQueue bq =
                     new CollaborativeBehaviorQueue(this, 1, handshake);
+
+            bq.queueTask(new MoveTo(calculateGroupCenter(handshake),50));
             bq.queueTask(new SpeechTask("I would like to propose a toast!"));
             bq.queueTask(new SyncTask());
 
@@ -110,8 +103,11 @@ public class GroupChat extends AJointBehavior implements IProactiveBehavior {
                     new CollaborativeBehaviorQueue(this, 1, handshake);
             
             int myNum = Integer.parseInt(title.replaceFirst("reactor", ""));
+            int radius = handshake.getParticipants().size() * RADIUS_PER_PERSON;
 
+            bq.queueTask(new MoveTo(calculateGroupCenter(handshake),radius));
             bq.queueTask(new SyncTask()); // initiator
+            
             int numReactors = handshake.getParticipants().size() - 1;
             for (int i = 0; i < numReactors; ++i)
             {
@@ -147,6 +143,18 @@ public class GroupChat extends AJointBehavior implements IProactiveBehavior {
 
     public int getImportance(IWorldState ws) {
         return RandomManager.get().nextInt(5);
+    }
+
+    private Vector2d calculateGroupCenter(CollaborationHandshake handshake)
+    {
+        Vector2d center = new Vector2d();
+        for (Dispatcher d : handshake.getParticipants().values())
+        {
+            center = center.add(((PersonDispatcher)d).getPerson().getLocation().getPosition());
+        }
+        center = center.multiply(1.0 / handshake.getParticipants().size());
+
+        return center;
     }
 
 }

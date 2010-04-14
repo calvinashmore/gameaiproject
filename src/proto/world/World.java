@@ -192,6 +192,22 @@ abstract public class World implements IWorldState {
         return r;
     }
 
+    public BasicObject getClosestObjectOfType(Class type, Vector2d location) {
+        BasicObject r = null;
+        double nearestDistance = Double.MAX_VALUE;
+        for (BasicObject basicObject : allObjects) {
+            if (type.isAssignableFrom(basicObject.getClass())) {
+                Vector2d diff = location.subtract(basicObject.getLocation().getPosition());
+                double dist = diff.magnitude();
+                if (dist < nearestDistance) {
+                    r = basicObject;
+                    nearestDistance = dist;
+                }
+            }
+        }
+        return r;
+    }
+
     public boolean isPaused() {
         return paused;
     }

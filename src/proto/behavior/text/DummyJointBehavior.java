@@ -5,6 +5,7 @@
 
 package proto.behavior.text;
 
+import proto.behavior.SyncTask;
 import java.util.List;
 import proto.behavior.AJointBehavior;
 import proto.behavior.CollaborationHandshake;

@@ -17,7 +17,7 @@ public interface ITask {
     public void resume();
 
     /**
-     * Perform one frame's worth of work towards completing the task.
+     * Perform one update cycle's worth of work towards completing the task.
      */
     public void run(); // TODO more params
 
@@ -34,6 +34,5 @@ public interface ITask {
      */
     public IBehaviorQueue getOwningBehaviorQueue();
 
-    // TODO maybe an isFinished() flag?
-    // TODO maybe a method for when the task is removed from current
+    // TODO maybe a method for when the task is removed from current queue
 }

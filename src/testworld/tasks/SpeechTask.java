@@ -47,6 +47,8 @@ public class SpeechTask extends PersonTask {
         boolean found = false;
         for (String s : getPerson().getSpeechQueue())
         {
+            // we can't use .contains() because we want reference equality,
+            //  not object equality
             if (s == line) found = true;
         }
         if (!found)
