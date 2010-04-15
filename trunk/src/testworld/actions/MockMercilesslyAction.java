@@ -4,8 +4,11 @@
  */
 package testworld.actions;
 
+import java.util.Random;
 import proto.game.PlayerAction;
 import proto.world.Entity;
+import testworld.behaviors.conversations.ApproachConversationBehavior;
+import testworld.behaviors.conversations.SimpleConversationContent;
 import testworld.objects.Person;
 
 /**
@@ -29,5 +32,14 @@ public class MockMercilesslyAction implements PlayerAction {
     }
 
     public void performAction(Entity player) {
+        String[][] possibleConversations = new String[][]{
+            new String[]{"My goodness, you're ugly, aren't you?", "You jerk!"},
+            new String[]{"That was the dumbest toast I've ever heard", "How rude!"},
+            new String[]{"Don't worry, no one is paying attention to the dumb things you say.", "Ugh!"},};
+
+        String[] conversation = possibleConversations[new Random().nextInt(possibleConversations.length)];
+
+        ((Person) player).instantiateNewProactiveBehavior(
+                ApproachConversationBehavior.makeProactive(new SimpleConversationContent("mock", conversation), other));
     }
 }

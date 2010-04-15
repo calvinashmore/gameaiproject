@@ -56,6 +56,10 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
         this.determinedContent = determinedContent;
     }
 
+    protected float getConversationRange() {
+        return CONVERSATION_RANGE;
+    }
+
     private static class ConversationHandshake extends CollaborationHandshake {
 
         private ConversationContent content;
@@ -86,7 +90,7 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
         Person initiator = ((PersonDispatcher) getDispatcher()).getPerson();
 
         List<Dispatcher> dispatchers = new ArrayList<Dispatcher>();
-        List<BasicObject> nearbyObjects = World.getInstance().getNearbyObjects(initiator, CONVERSATION_RANGE);
+        List<BasicObject> nearbyObjects = World.getInstance().getNearbyObjects(initiator, getConversationRange());
         for (BasicObject basicObject : nearbyObjects) {
             if (basicObject instanceof Person) {
                 dispatchers.add(((Person) basicObject).getDispatcher());
@@ -99,11 +103,14 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
     public boolean confirmHandshake(CollaborationHandshake handshake) {
 
         if (handshake.getParticipants().size() == 2) {
-            Person initiator = ((PersonDispatcher) handshake.getInitiator()).getPerson();
-            Person reactor = ((PersonDispatcher) handshake.getParticipant("reactor")).getPerson();
 
-            ConversationContent content = initiator.makeConversation(reactor);
-            ((ConversationHandshake) handshake).setContent(content);
+            if (((ConversationHandshake) handshake).getContent() == null) {
+                Person initiator = ((PersonDispatcher) handshake.getInitiator()).getPerson();
+                Person reactor = ((PersonDispatcher) handshake.getParticipant("reactor")).getPerson();
+
+                ConversationContent content = initiator.makeConversation(reactor);
+                ((ConversationHandshake) handshake).setContent(content);
+            }
 
             return true;
         } else {
@@ -137,13 +144,14 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
             return false;
         }
 
-        PersonDispatcher initiator = (PersonDispatcher) handshake.getInitiator();
-        PersonDispatcher reactor = (PersonDispatcher) getDispatcher();
+//        PersonDispatcher initiator = (PersonDispatcher) handshake.getInitiator();
+//        PersonDispatcher reactor = (PersonDispatcher) getDispatcher();
 
-        double distance = initiator.getPerson().getLocation().getPosition().subtract(reactor.getPerson().getLocation().getPosition()).magnitude();
-        if (distance > 60) {
-            return false;
-        }
+//        double distance = initiator.getPerson().getLocation().getPosition().subtract(reactor.getPerson().getLocation().getPosition()).magnitude();
+//        if (distance > getConversationRange()) {
+        // NOTE: This is the conversation range for the REACTOR, not the INITIATOR
+//            return false;
+//        }
 
         handshake.participate(getDispatcher(), this);
         return true;

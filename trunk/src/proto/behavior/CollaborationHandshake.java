@@ -274,4 +274,8 @@ public class CollaborationHandshake {
         }
         return this.blackboard;
     }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 }
