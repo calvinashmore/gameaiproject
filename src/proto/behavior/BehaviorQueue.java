@@ -114,6 +114,12 @@ public class BehaviorQueue implements IBehaviorQueue {
         return state == ActiveState.cancelled;
     }
 
+    public void queueTask(ITask task, int place)
+    {
+        tasks.add(place,task);
+        task.setOwningBehaviorQueue(this);
+    }
+
     public void queueTask(ITask task)
     {
         tasks.add(task);

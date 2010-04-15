@@ -16,6 +16,7 @@ public interface IBehaviorQueue {
     void activate();
 
     void queueTask(ITask task);
+    void queueTask(ITask task, int place);
 
     void cancel();
 
