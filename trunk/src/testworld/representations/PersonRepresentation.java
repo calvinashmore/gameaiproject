@@ -94,6 +94,8 @@ public class PersonRepresentation extends Representation<Person> {
         drawEyebrows(g);
         drawEyes(g);
         drawMouth(g);
+
+        drawFaceAccessory(g);
     }
 
     private void drawClothes(PGraphics g) {
@@ -124,6 +126,20 @@ public class PersonRepresentation extends Representation<Person> {
         }
 
         g.popMatrix();
+    }
+
+    private void drawFaceAccessory(PGraphics g) {
+        switch (appearance.faceAccessory) {
+            case none:
+                break;
+            case monocle:
+                g.fill(0xaabbccdd);
+                //g.stroke(appearance.skinColor2);
+                g.stroke(0x00000000);
+                g.ellipse(-9, -44, 19, 18); // eye size 15,14
+                g.line(-9-19/2, -44, -9-19/2-1, -44+16);
+                break;
+        }
     }
 
     private void drawEyes(PGraphics g) {

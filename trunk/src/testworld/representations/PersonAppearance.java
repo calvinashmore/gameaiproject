@@ -28,6 +28,7 @@ public class PersonAppearance {
 
     public Hair hair = Hair.longCurls;
     public Clothes clothes = Clothes.plain;
+    public FaceAccessory faceAccessory = FaceAccessory.none;
 
     public enum Hair {
         simpleTopFlat,
@@ -43,6 +44,9 @@ public class PersonAppearance {
 
     public enum Clothes {
         plain, tuxedo
-        
+    }
+
+    public enum FaceAccessory {
+        none, monocle
     }
 }

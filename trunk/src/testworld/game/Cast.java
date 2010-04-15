@@ -10,6 +10,7 @@ import testworld.objects.Person;
 import testworld.objects.PersonExpression;
 import testworld.objects.ServerPerson;
 import testworld.representations.PersonAppearance.Clothes;
+import testworld.representations.PersonAppearance.FaceAccessory;
 import testworld.representations.PersonAppearance.Hair;
 
 /**
@@ -49,6 +50,7 @@ public class Cast {
         person.getAppearance().clothesColor2 = 0x00000000;
         person.getAppearance().clothesColors.add(0x00000000);
         person.getAppearance().clothesColors.add(0xffffffff);
+        person.getAppearance().faceAccessory = FaceAccessory.monocle;
         frank = person;
 
         person = new GuestPerson("Hilda");
