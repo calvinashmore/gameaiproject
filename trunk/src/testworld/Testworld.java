@@ -12,6 +12,7 @@ import testworld.objects.Person;
 import testworld.objects.PersonExpression;
 import testworld.objects.Pickup;
 import testworld.objects.ServerPerson;
+import testworld.representations.PersonAppearance.Clothes;
 import testworld.representations.PersonAppearance.Hair;
 import utils.math.Vector2d;
 
@@ -32,6 +33,11 @@ public class Testworld extends World {
         person.getLocation().getPosition().y = 300;
         person.setExpression(PersonExpression.happySmallSmile);
         person.getAppearance().hair = Hair.simpleFullFlat;
+        person.getAppearance().clothes = Clothes.tuxedo;
+        person.getAppearance().clothesColor1 = 0x00000000;
+        person.getAppearance().clothesColor2 = 0x00000000;
+        person.getAppearance().clothesColors.add(0x00000000);
+        person.getAppearance().clothesColors.add(0xffffffff);
         getAllObjects().add(person);
 
         person = new GuestPerson("Frank");
@@ -39,6 +45,11 @@ public class Testworld extends World {
         person.getLocation().getPosition().y = 300;
         person.setExpression(PersonExpression.annoyed);
         person.getAppearance().hair = Hair.blob;
+        person.getAppearance().clothes = Clothes.tuxedo;
+        person.getAppearance().clothesColor1 = 0x00000000;
+        person.getAppearance().clothesColor2 = 0x00000000;
+        person.getAppearance().clothesColors.add(0x00000000);
+        person.getAppearance().clothesColors.add(0xffffffff);
         getAllObjects().add(person);
 
         person = new GuestPerson("Hilda");
@@ -46,6 +57,7 @@ public class Testworld extends World {
         person.getLocation().getPosition().y = 400;
         person.setExpression(PersonExpression.happyExcited);
         person.getAppearance().hair = Hair.longCurls;
+        person.getAppearance().width = 20;
         getAllObjects().add(person);
 
         person = new GuestPerson("Gayle");
