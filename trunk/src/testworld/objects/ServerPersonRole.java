@@ -5,6 +5,7 @@
 package testworld.objects;
 
 import testworld.behaviors.RequestAndServeBehavior;
+import testworld.behaviors.UseRandomAnnotatedItem;
 
 /**
  *
@@ -15,5 +16,6 @@ class ServerPersonRole extends PersonRole {
     public ServerPersonRole() {
         super();
         addBehaviorTemplate(RequestAndServeBehavior.makeServeBehavior());
+        addBehaviorTemplate(new UseRandomAnnotatedItem());
     }
 }
