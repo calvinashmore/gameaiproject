@@ -24,7 +24,7 @@ public class MockMercilesslyAction implements PlayerAction {
     }
 
     public String getName() {
-        return "Mock " + other.getName() + " mercilessly, with wanton disrespect.";
+        return "Mock " + other.getName() + " mercilessly.";
     }
 
     public String getDescription() {

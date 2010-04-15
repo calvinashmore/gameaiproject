@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package testworld.behaviors.conversations;
+package testworld.game;
 
+import testworld.behaviors.conversations.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
