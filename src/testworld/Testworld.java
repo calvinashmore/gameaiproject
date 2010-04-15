@@ -12,6 +12,7 @@ import testworld.objects.Person;
 import testworld.objects.PersonExpression;
 import testworld.objects.Pickup;
 import testworld.objects.ServerPerson;
+import testworld.objects.annotated.DanceFloor;
 import testworld.representations.PersonAppearance.Clothes;
 import testworld.representations.PersonAppearance.Hair;
 import utils.math.Vector2d;
@@ -83,6 +84,11 @@ public class Testworld extends World {
         p.getLocation().getPosition().x = 300;
         p.getLocation().getPosition().y = 150;
         getAllObjects().add(p);
+
+        DanceFloor d = new DanceFloor(100);
+        d.getLocation().getPosition().x = -120;
+        d.getLocation().getPosition().y = 200;
+        getAllObjects().add(d);
 
         setEnvironment(new RoomEnvironment());
     }
