@@ -17,16 +17,15 @@ import proto.behavior.SyncAndSuspendTask;
 import proto.behavior.SyncTask;
 import proto.world.BasicObject;
 import proto.world.World;
+import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.objects.Pickup;
 import testworld.objects.ServerPerson;
 import testworld.tasks.Chase;
 import testworld.tasks.Fetch;
 import testworld.tasks.Flee;
-import testworld.tasks.MoveTo;
 import testworld.tasks.SpeechTask;
 import utils.math.RandomManager;
-import utils.math.Vector2d;
 
 /**
  *
@@ -104,16 +103,18 @@ public class RequestAndServeBehavior
             ICollaborativeBehaviorQueue bq =
                     new CollaborativeBehaviorQueue(this, REQUEST_PRIORITY, handshake);
 
+            Person server = ((PersonDispatcher) handshake.getParticipant("reactor")).getPerson();
+
             bq.queueTask(new SpeechTask("*signals for server*"));
             bq.queueTask(new SyncTask()); // 1
             bq.queueTask(new SyncAndSuspendTask()); // 2
 
-            bq.queueTask(new SpeechTask("I would like another drink, please."));
+            bq.queueTask(new SpeechTask("I would like another drink, please.", server));
             bq.queueTask(new SyncTask()); // 3
             bq.queueTask(new SyncAndSuspendTask()); // 4
 
-            bq.queueTask(new SpeechTask("Thank you."));
-            bq.queueTask(new SpeechTask("Now scram!"));
+            bq.queueTask(new SpeechTask("Thank you.", server));
+            bq.queueTask(new SpeechTask("Now scram!", server));
             bq.queueTask(new SyncAndSuspendTask()); // 5
 
             return bq;
@@ -123,20 +124,20 @@ public class RequestAndServeBehavior
             ICollaborativeBehaviorQueue bq =
                     new CollaborativeBehaviorQueue(this, REQUEST_PRIORITY, handshake);
 
-            PersonDispatcher patron = (PersonDispatcher) handshake.getParticipant("initiator");
+            Person patron = ((PersonDispatcher) handshake.getParticipant("initiator")).getPerson();
 
             bq.queueTask(new SyncTask()); // 1
-            bq.queueTask(new Chase(patron.getPerson(), SERVER_PROXIMITY));
-            bq.queueTask(new SpeechTask("How may I help you?"));
+            bq.queueTask(new Chase(patron, SERVER_PROXIMITY));
+            bq.queueTask(new SpeechTask("How may I help you?", patron));
             bq.queueTask(new SyncTask()); // 2
             bq.queueTask(new SyncTask()); // 3
-            bq.queueTask(new SpeechTask("Of course, right away."));
+            bq.queueTask(new SpeechTask("Of course, right away.", patron));
             bq.queueTask(new Fetch<Pickup>(Pickup.class));
-            bq.queueTask(new Chase(patron.getPerson(), SERVER_PROXIMITY));
-            bq.queueTask(new SpeechTask("Here you are."));
+            bq.queueTask(new Chase(patron, SERVER_PROXIMITY));
+            bq.queueTask(new SpeechTask("Here you are.", patron));
             bq.queueTask(new SyncTask()); // 4
             bq.queueTask(new SyncTask()); // 5
-            bq.queueTask(new Flee(patron.getPerson()));
+            bq.queueTask(new Flee(patron));
 
             return bq;
         }
