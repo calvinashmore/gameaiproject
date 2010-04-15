@@ -4,6 +4,7 @@
  */
 package testworld.tasks;
 
+import proto.world.BasicObject;
 import utils.math.Vector2d;
 
 /**
@@ -12,16 +13,44 @@ import utils.math.Vector2d;
  */
 public class MoveTo extends AMoveTo {
 
+    private Vector2d vectorDestination;
+    private BasicObject objectDestination;
+
     public MoveTo(Vector2d destination, float destinationRange, float speed) {
-        super(destination, destinationRange, speed);
+        super(destinationRange, speed);
+        this.vectorDestination = destination;
     }
 
     public MoveTo(Vector2d destination, float destinationRange) {
-        super(destination, destinationRange);
+        super(destinationRange);
+        this.vectorDestination = destination;
     }
 
     public MoveTo(Vector2d destination) {
-        super(destination);
+        this.vectorDestination = destination;
+    }
+
+    public MoveTo(BasicObject destination, float destinationRange, float speed) {
+        super(destinationRange, speed);
+        this.objectDestination = destination;
+    }
+
+    public MoveTo(BasicObject destination, float destinationRange) {
+        super(destinationRange);
+        this.objectDestination = destination;
+    }
+
+    public MoveTo(BasicObject destination) {
+        this.objectDestination = destination;
+    }
+
+    @Override
+    protected Vector2d getDestination() {
+        if (vectorDestination != null) {
+            return vectorDestination;
+        } else {
+            return objectDestination.getLocation().getPosition();
+        }
     }
 
     public void resume() {

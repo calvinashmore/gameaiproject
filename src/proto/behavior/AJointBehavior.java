@@ -27,6 +27,8 @@ public abstract class AJointBehavior
 
         // Behavior creates a handshake (fill in priority and initiator's title)
         CollaborationHandshake handshake = makeHandshake(ws);
+        if(handshake == null)
+            return null;
 
         // Behavior supplies a sorted list of collaborators it wants to extend
         //  the handshake to

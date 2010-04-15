@@ -117,11 +117,11 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
 
     public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake) {
         Person initiator = ((PersonDispatcher) handshake.getParticipant("initiator")).getPerson();
-        Person responder = ((PersonDispatcher) handshake.getParticipant("responder")).getPerson();
+        Person responder = ((PersonDispatcher) handshake.getParticipant("reactor")).getPerson();
 
         if (title.equals("initiator")) {
             return ((ConversationHandshake) handshake).getContent().getInitiatorQueue(initiator, responder, this, handshake);
-        } else if (title.equals("responder")) {
+        } else if (title.equals("reactor")) {
             return ((ConversationHandshake) handshake).getContent().getResponderQueue(initiator, responder, this, handshake);
         } else {
             throw new IllegalArgumentException("Title " + title + " is invalid");

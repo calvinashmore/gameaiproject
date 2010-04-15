@@ -57,6 +57,9 @@ public class GroupChat
 
     @Override
     public CollaborationHandshake makeHandshake(IWorldState ws) {
+        if(Math.random() < .7)
+            return null;
+
         CollaborationHandshake handshake =
                 new CollaborationHandshake(1, this.getDispatcher(), this);
         return handshake;
