@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class PersonAppearance {
 
+    public int width = 40;
+    public int height = 40;
     public int skinColor1 = 0xffddffdd;
     public int skinColor2 = 0xff888888;
     public int eyeColor = 0xff008800;

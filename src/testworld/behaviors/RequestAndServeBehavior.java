@@ -20,6 +20,7 @@ import proto.world.World;
 import testworld.objects.PersonDispatcher;
 import testworld.objects.Pickup;
 import testworld.objects.ServerPerson;
+import testworld.tasks.Chase;
 import testworld.tasks.Fetch;
 import testworld.tasks.Flee;
 import testworld.tasks.MoveTo;
@@ -123,16 +124,15 @@ public class RequestAndServeBehavior
                     new CollaborativeBehaviorQueue(this, REQUEST_PRIORITY, handshake);
 
             PersonDispatcher patron = (PersonDispatcher) handshake.getParticipant("initiator");
-            //Vector2d destination = patron.getPerson().getLocation().getPosition();
 
             bq.queueTask(new SyncTask()); // 1
-            bq.queueTask(new MoveTo(patron.getPerson(), SERVER_PROXIMITY));
+            bq.queueTask(new Chase(patron.getPerson(), SERVER_PROXIMITY));
             bq.queueTask(new SpeechTask("How may I help you?"));
             bq.queueTask(new SyncTask()); // 2
             bq.queueTask(new SyncTask()); // 3
             bq.queueTask(new SpeechTask("Of course, right away."));
             bq.queueTask(new Fetch<Pickup>(Pickup.class));
-            bq.queueTask(new MoveTo(patron.getPerson(), SERVER_PROXIMITY));
+            bq.queueTask(new Chase(patron.getPerson(), SERVER_PROXIMITY));
             bq.queueTask(new SpeechTask("Here you are."));
             bq.queueTask(new SyncTask()); // 4
             bq.queueTask(new SyncTask()); // 5

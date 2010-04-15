@@ -81,15 +81,15 @@ public class PersonRepresentation extends Representation<Person> {
         g.stroke(appearance.clothesColor2);
         g.fill(appearance.clothesColor1);
         
-        g.rect(-20, -1, 40, 6);
-        g.arc(0, 0, 40, 40, (float) Math.PI, 2 * (float) Math.PI);
+        g.rect(-appearance.width/2, -1, appearance.width, 6);
+        g.arc(0, 0, appearance.width, appearance.height, (float) Math.PI, 2 * (float) Math.PI);
     }
 
     private void drawHead(PGraphics g) {
         drawHairBack(g);
         g.fill(appearance.skinColor1);
         g.stroke(appearance.skinColor2);
-        g.ellipse(0, -40, 40, 40);
+        g.ellipse(0, -appearance.height, 40, 40);
         drawHairFront(g);
         drawEyebrows(g);
         drawEyes(g);
@@ -104,14 +104,17 @@ public class PersonRepresentation extends Representation<Person> {
             case plain:
                 break;
             case tuxedo:
-                
-                g.translate(0, -17);
 
+                // undershirt
+                g.fill(appearance.clothesColors.get(1));
+                g.stroke(appearance.clothesColors.get(1));
+                g.arc(0, 0, appearance.width, appearance.width, (float)Math.PI *3/ 2 - (float)Math.PI/6, (float)Math.PI *3/ 2 + (float)Math.PI/6);
+                
+                // tie
+                g.translate(0, -appearance.height/2+3);
                 g.fill(appearance.clothesColors.get(0));
                 g.stroke(appearance.clothesColors.get(0));
-
                 g.ellipse(0, 0, 15, 3);
-                
                 g.triangle(0, 0, 10, 5, 10, -5);
                 g.triangle(0, 0, -10, 5, -10, -5);
 

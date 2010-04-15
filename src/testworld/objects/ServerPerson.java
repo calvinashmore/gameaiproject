@@ -20,6 +20,7 @@ public class ServerPerson extends Person {
         this.getAppearance().clothesColor1 = 0xffffffff;
         this.getAppearance().clothesColor2 = 0x00000000;
         this.getAppearance().clothesColors.add(0x00000000); // tie
+        this.getAppearance().clothesColors.add(0xffffffff); // shirt
     }
 
 }
