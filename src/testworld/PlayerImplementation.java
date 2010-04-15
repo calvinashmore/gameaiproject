@@ -13,6 +13,7 @@ import testworld.actions.AskAboutTheWeather;
 import testworld.actions.MockMercilesslyAction;
 import testworld.actions.MoveToAction;
 import testworld.actions.SaySomethingWittyAction;
+import testworld.game.DependentAction;
 import testworld.objects.GuestPerson;
 import testworld.objects.Person;
 import utils.math.Vector2d;
@@ -49,8 +50,15 @@ public class PlayerImplementation extends GuestPerson implements PlayerHandler {
 
         // the player clicked on another person
         if (entity instanceof Person) {
-            actions.add(new AskAboutTheWeather((Person) entity));
-            actions.add(new MockMercilesslyAction((Person) entity));
+
+            Person person = (Person) entity;
+            // see what we can do with this person.
+            for (DependentAction dependentAction : person.getDependentActions()) {
+                if (dependentAction.canActivate()) {
+                    actions.add(dependentAction.createAction(person));
+                }
+            }
+            actions.add(new MockMercilesslyAction(person));
             return actions;
         }
 

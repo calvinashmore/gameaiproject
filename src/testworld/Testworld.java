@@ -7,14 +7,10 @@ package testworld;
 import main.Main;
 import processing.core.PGraphics;
 import proto.world.World;
-import testworld.objects.GuestPerson;
-import testworld.objects.Person;
-import testworld.objects.PersonExpression;
+import testworld.game.Cast;
+import testworld.game.Plot;
 import testworld.objects.Pickup;
-import testworld.objects.ServerPerson;
 import testworld.objects.annotated.DanceFloor;
-import testworld.representations.PersonAppearance.Clothes;
-import testworld.representations.PersonAppearance.Hair;
 import utils.math.Vector2d;
 
 /**
@@ -27,53 +23,15 @@ public class Testworld extends World {
 
     public Testworld() {
 
-        Person person;
+        Plot.initializePlot();
 
-        person = player = new PlayerImplementation("Player");
-        person.getLocation().getPosition().x = 200;
-        person.getLocation().getPosition().y = 300;
-        person.setExpression(PersonExpression.happySmallSmile);
-        person.getAppearance().hair = Hair.simpleFullFlat;
-        person.getAppearance().clothes = Clothes.tuxedo;
-        person.getAppearance().clothesColor1 = 0x00000000;
-        person.getAppearance().clothesColor2 = 0x00000000;
-        person.getAppearance().clothesColors.add(0x00000000);
-        person.getAppearance().clothesColors.add(0xffffffff);
-        getAllObjects().add(person);
+        player = (PlayerImplementation) Cast.player;
 
-        person = new GuestPerson("Frank");
-        person.getLocation().getPosition().x = 100;
-        person.getLocation().getPosition().y = 300;
-        person.setExpression(PersonExpression.annoyed);
-        person.getAppearance().hair = Hair.blob;
-        person.getAppearance().clothes = Clothes.tuxedo;
-        person.getAppearance().clothesColor1 = 0x00000000;
-        person.getAppearance().clothesColor2 = 0x00000000;
-        person.getAppearance().clothesColors.add(0x00000000);
-        person.getAppearance().clothesColors.add(0xffffffff);
-        getAllObjects().add(person);
-
-        person = new GuestPerson("Hilda");
-        person.getLocation().getPosition().x = 300;
-        person.getLocation().getPosition().y = 400;
-        person.setExpression(PersonExpression.happyExcited);
-        person.getAppearance().hair = Hair.longCurls;
-        person.getAppearance().width = 20;
-        getAllObjects().add(person);
-
-        person = new GuestPerson("Gayle");
-        person.getLocation().getPosition().x = 400;
-        person.getLocation().getPosition().y = 200;
-        person.setExpression(PersonExpression.malicious);
-        person.getAppearance().hair = Hair.straightMid;
-        getAllObjects().add(person);
-
-        person = new ServerPerson("Fred");
-        person.getLocation().getPosition().x = 10;
-        person.getLocation().getPosition().y = 10;
-        person.setExpression(PersonExpression.feignedInterest);
-        person.getAppearance().hair = Hair.simpleFullFlat;
-        getAllObjects().add(person);
+        getAllObjects().add(Cast.player);
+        getAllObjects().add(Cast.frank);
+        getAllObjects().add(Cast.fred);
+        getAllObjects().add(Cast.gayle);
+        getAllObjects().add(Cast.hilda);
 
         Pickup p = new Pickup();
         p.getLocation().getPosition().x = 20;

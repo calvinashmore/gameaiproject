@@ -23,13 +23,24 @@ import testworld.tasks.MoveTo;
 public class ApproachConversationBehavior extends ConversationBehavior {
 
     private Person target;
+    public static final String APPROACH_PROACTIVE_ID = "ApproachConversationProactive";
+    public static final String APPROACH_REACTIVE_ID = "ApproachConversationReactive";
 
     public static ApproachConversationBehavior makeProactive(ConversationContent content) {
-        return new ApproachConversationBehavior(InitiationType.proactive, PROACTIVE_ID, content, null);
+        return new ApproachConversationBehavior(InitiationType.proactive, APPROACH_PROACTIVE_ID, content, null);
     }
 
     public static ApproachConversationBehavior makeProactive(ConversationContent content, Person target) {
-        return new ApproachConversationBehavior(InitiationType.proactive, PROACTIVE_ID, content, target);
+        return new ApproachConversationBehavior(InitiationType.proactive, APPROACH_PROACTIVE_ID, content, target);
+    }
+
+    public static ApproachConversationBehavior makeReactive() {
+        return new ApproachConversationBehavior(InitiationType.reactive, APPROACH_REACTIVE_ID, null, null);
+    }
+
+    @Override
+    public boolean canCollaborate(String id) {
+        return id.equals(APPROACH_PROACTIVE_ID);
     }
 
     protected ApproachConversationBehavior(InitiationType initType, String id, ConversationContent determinedContent, Person target) {

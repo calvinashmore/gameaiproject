@@ -13,8 +13,9 @@ import proto.behavior.MultiQueue.QueueSet;
 import proto.navigation.BoundingSphere;
 import proto.world.Entity;
 import proto.world.World;
-import testworld.behaviors.conversations.BasicConversations;
+import testworld.game.BasicConversations;
 import testworld.behaviors.conversations.ConversationContent;
+import testworld.game.DependentAction;
 import testworld.representations.PersonAppearance;
 import testworld.representations.PersonRepresentation;
 import utils.math.Vector2d;
@@ -31,6 +32,7 @@ public class Person extends Entity {
     private PersonAppearance appearance = new PersonAppearance();
     private PersonExpression expression = PersonExpression.happySmallSmile;
     private List<ConversationContent> conversations = BasicConversations.conversations;
+    private List<DependentAction> dependentActions = new ArrayList<DependentAction>();
 
     public Person(String name) {
         this(name, new PersonDispatcher());
@@ -123,5 +125,13 @@ public class Person extends Entity {
     public ConversationContent makeConversation(Person reactor) {
         int index = new Random().nextInt(conversations.size());
         return conversations.get(index);
+    }
+
+    public void addDependentAction(DependentAction action) {
+        dependentActions.add(action);
+    }
+
+    public List<DependentAction> getDependentActions() {
+        return dependentActions;
     }
 }
