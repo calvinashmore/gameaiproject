@@ -6,12 +6,14 @@ package testworld.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import proto.behavior.BehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.MultiQueue.QueueSet;
 import proto.navigation.BoundingSphere;
 import proto.world.Entity;
 import proto.world.World;
+import testworld.behaviors.conversations.BasicConversations;
 import testworld.behaviors.conversations.ConversationContent;
 import testworld.representations.PersonAppearance;
 import testworld.representations.PersonRepresentation;
@@ -28,6 +30,7 @@ public class Person extends Entity {
     private Vector2d lookAt = new Vector2d();
     private PersonAppearance appearance = new PersonAppearance();
     private PersonExpression expression = PersonExpression.happySmallSmile;
+    private List<ConversationContent> conversations = BasicConversations.conversations;
 
     public Person(String name) {
         this(name, new PersonDispatcher());
@@ -115,6 +118,7 @@ public class Person extends Entity {
     }
 
     public ConversationContent makeConversation(Person reactor) {
-throw new UnsupportedOperationException();
+        int index = new Random().nextInt(conversations.size());
+        return conversations.get(index);
     }
 }

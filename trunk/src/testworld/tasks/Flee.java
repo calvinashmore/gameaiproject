@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package testworld.tasks;
 
 import proto.world.BasicObject;
@@ -15,11 +14,9 @@ import utils.math.Vector2d;
 public class Flee extends AMoveTo {
 
     protected BasicObject target;
-
     static final protected int DESTINATION_RANGE = 50;
-
     static final protected int FLEE_DISTANCE = 150;
-    
+
     public Flee(BasicObject target) {
         super(DESTINATION_RANGE);
         this.target = target;
@@ -29,12 +26,16 @@ public class Flee extends AMoveTo {
         // nch
     }
 
-    public void run() {
-        
+    @Override
+    protected Vector2d getDestination() {
+
         Vector2d targetPos = target.getLocation().getPosition();
         Vector2d awayVector = super.getMyPosition().subtract(targetPos);
 
-        this.destination = awayVector.getNormalizedVector().multiply(FLEE_DISTANCE);
+        return awayVector.getNormalizedVector().multiply(FLEE_DISTANCE);
+    }
+
+    public void run() {
 
         if (super.isWithinRange()) {
             finished();
@@ -45,5 +46,4 @@ public class Flee extends AMoveTo {
 
         move();
     }
-
 }

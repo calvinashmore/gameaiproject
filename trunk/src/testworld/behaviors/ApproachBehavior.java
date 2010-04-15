@@ -108,7 +108,7 @@ public class ApproachBehavior extends AJointBehavior implements IProactiveBehavi
 
     public int getImportance(IWorldState ws) {
         if (Math.random() < .2) {
-            return 5;
+            return 8;
         }
         return -1;
     }
