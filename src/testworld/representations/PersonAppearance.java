@@ -15,7 +15,7 @@ import java.util.List;
 public class PersonAppearance {
 
     public int width = 40;
-    public int height = 40;
+    public int torsoSize = 20; // belly button to neck
     public int skinColor1 = 0xffddffdd;
     public int skinColor2 = 0xff888888;
     public int eyeColor = 0xff008800;
@@ -39,14 +39,21 @@ public class PersonAppearance {
         straightMid,
         shortTopCurls,
         shortFullCurls,
-        longCurls
+        longCurls,
+        topHat,
+        shortParted
     };
 
     public enum Clothes {
-        plain, tuxedo
+
+        // comments are the colors which need to be in clothesColors for that type
+        plain,
+        bowtie, // tie, undershirt
+        jacket,
+        officer
     }
 
     public enum FaceAccessory {
-        none, monocle
+        none, monocle, earrings, glasses
     }
 }

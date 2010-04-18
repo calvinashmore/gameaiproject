@@ -16,7 +16,7 @@ public class ServerPerson extends Person {
     public ServerPerson(String name) {
         super(name, new PersonDispatcher(new ServerPersonRole()));
 
-        this.getAppearance().clothes = Clothes.tuxedo;
+        this.getAppearance().clothes = Clothes.bowtie;
         this.getAppearance().clothesColor1 = 0xffffffff;
         this.getAppearance().clothesColor2 = 0x00000000;
         this.getAppearance().clothesColors.add(0x00000000); // tie

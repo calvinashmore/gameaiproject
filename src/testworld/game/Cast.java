@@ -32,8 +32,8 @@ public class Cast {
         person.getLocation().getPosition().x = 220;
         person.getLocation().getPosition().y = 320;
         person.setExpression(PersonExpression.happySmallSmile);
-        person.getAppearance().hair = Hair.simpleFullFlat;
-        person.getAppearance().clothes = Clothes.tuxedo;
+        person.getAppearance().hair = Hair.shortParted;
+        person.getAppearance().clothes = Clothes.bowtie;
         person.getAppearance().clothesColor1 = 0x00000000;
         person.getAppearance().clothesColor2 = 0x00000000;
         person.getAppearance().clothesColors.add(0x00000000);
@@ -45,10 +45,10 @@ public class Cast {
         person.getLocation().getPosition().y = 300;
         person.setExpression(PersonExpression.annoyed);
         person.getAppearance().hair = Hair.blob;
-        person.getAppearance().clothes = Clothes.tuxedo;
+        person.getAppearance().clothes = Clothes.officer;
         person.getAppearance().clothesColor1 = 0x00000000;
         person.getAppearance().clothesColor2 = 0x00000000;
-        person.getAppearance().clothesColors.add(0x00000000);
+        person.getAppearance().clothesColors.add(0xffff0000);
         person.getAppearance().clothesColors.add(0xffffffff);
         person.getAppearance().faceAccessory = FaceAccessory.monocle;
         frank = person;
@@ -59,6 +59,7 @@ public class Cast {
         person.setExpression(PersonExpression.happyExcited);
         person.getAppearance().hair = Hair.longCurls;
         person.getAppearance().width = 20;
+        person.getAppearance().faceAccessory = FaceAccessory.earrings;
         hilda = person;
 
         person = new GuestPerson("Gayle");

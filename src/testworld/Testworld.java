@@ -9,7 +9,10 @@ import processing.core.PGraphics;
 import proto.world.World;
 import testworld.game.Cast;
 import testworld.game.Plot;
+import testworld.objects.Emotions;
+import testworld.objects.Personality;
 import testworld.objects.Pickup;
+import testworld.objects.Stimuli;
 import testworld.objects.annotated.DanceFloor;
 import utils.math.Vector2d;
 
@@ -40,7 +43,7 @@ public class Testworld extends World {
 
         p = new Pickup();
         p.getLocation().getPosition().x = 300;
-        p.getLocation().getPosition().y = 150;
+        p.getLocation().getPosition().y = 50;
         getAllObjects().add(p);
 
         DanceFloor d = new DanceFloor(100);
@@ -49,6 +52,9 @@ public class Testworld extends World {
         getAllObjects().add(d);
 
         setEnvironment(new RoomEnvironment());
+
+        Emotions e = new Emotions();
+        System.out.println(e.evaluateFuzzy(new Personality(), new Stimuli(), "sex", true));
     }
 
     @Override
