@@ -14,43 +14,6 @@ import java.util.TreeMap;
  */
 public class Stimuli
 {
-    protected static final double DEFAULT_EFFECTS_AMT = 0.0;
-    protected static final double DEFAULT_NEEDS_AMT = 0.0;
-
-    protected static final double DEFAULT_EFFECTS_RATE = 0.5;
-    protected static final double DEFAULT_NEEDS_RATE = 0.5;
-
-    protected Map<String, Double> effects;
-    protected Map<String, Double> needs;
-
-    protected Map<String, Double> effectsRates;
-    protected Map<String, Double> needsRates;
-
-    public Stimuli()
-    {
-        effects = new TreeMap<String, Double>();
-        for (Effect e : Effect.values())
-        {
-            effects.put(e.toString(), DEFAULT_EFFECTS_AMT);
-        }
-        needs = new TreeMap<String, Double>();
-        for (Need n : Need.values())
-        {
-            needs.put(n.toString(), DEFAULT_NEEDS_AMT);
-        }
-
-        effectsRates = new TreeMap<String, Double>();
-        for (Effect e : Effect.values())
-        {
-            effectsRates.put(e.toString(), DEFAULT_EFFECTS_RATE);
-        }
-        needsRates = new TreeMap<String, Double>();
-        for (Need n : Need.values())
-        {
-            needsRates.put(n.toString(), DEFAULT_NEEDS_RATE);
-        }
-    }
-
     // Effects are increased by external stimuli, and decay naturally over time
     // The rate at which external stimuli alter them comes from the effect
     //  rates inside a personality
@@ -77,6 +40,44 @@ public class Stimuli
         toilet,
         sleep,
         gossip
+    }
+
+    protected static final double MAX_VALUE = 100;
+    protected static final double MIN_VALUE = 0;
+
+    protected static final double DEFAULT_EFFECTS_AMT = 0.0;
+    protected static final double DEFAULT_NEEDS_AMT = 0.0;
+
+    protected static final double DEFAULT_EFFECTS_RATE = 0.5;
+    protected static final double DEFAULT_NEEDS_RATE = 0.5;
+
+    protected Map<String, Double> effects = new TreeMap<String, Double>();
+    protected Map<String, Double> needs = new TreeMap<String, Double>();
+
+    protected Map<String, Double> effectsRates = new TreeMap<String, Double>();
+    protected Map<String, Double> needsRates = new TreeMap<String, Double>();
+
+    protected long lastUpdate = 0;
+
+    public Stimuli()
+    {
+        for (Effect e : Effect.values())
+        {
+            effects.put(e.toString(), DEFAULT_EFFECTS_AMT);
+        }
+        for (Need n : Need.values())
+        {
+            needs.put(n.toString(), DEFAULT_NEEDS_AMT);
+        }
+
+        for (Effect e : Effect.values())
+        {
+            effectsRates.put(e.toString(), DEFAULT_EFFECTS_RATE);
+        }
+        for (Need n : Need.values())
+        {
+            needsRates.put(n.toString(), DEFAULT_NEEDS_RATE);
+        }
     }
 
     /**
@@ -125,5 +126,35 @@ public class Stimuli
     public void setNeedRate(Need need, double value)
     {
         needsRates.put(need.toString(), value);
+    }
+
+    public void update()
+    {
+        long time = System.currentTimeMillis();
+        if (time - lastUpdate > 1000)
+        {
+            lastUpdate = time;
+            updateImpl();
+        }
+    }
+
+    protected void updateImpl()
+    {
+        for (Effect e : Effect.values())
+        {
+            String s = e.toString();
+            double newValue = effects.get(s) - effectsRates.get(s);
+            newValue = Math.min(MAX_VALUE,
+                                Math.max(MIN_VALUE, newValue));
+            effects.put(s, newValue);
+        }
+        for (Need n : Need.values())
+        {
+            String s = n.toString();
+            double newValue = needs.get(s) - needsRates.get(s);
+            newValue = Math.min(MAX_VALUE,
+                                Math.max(MIN_VALUE, newValue));
+            needs.put(s, newValue);
+        }
     }
 }
