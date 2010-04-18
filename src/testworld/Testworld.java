@@ -52,9 +52,6 @@ public class Testworld extends World {
         getAllObjects().add(d);
 
         setEnvironment(new RoomEnvironment());
-
-        Emotions e = new Emotions();
-        System.out.println(e.evaluateFuzzy(new Personality(), new Stimuli(), "sex", true));
     }
 
     @Override

@@ -31,6 +31,7 @@ public class Person extends Entity {
     private Vector2d lookAt = new Vector2d();
     private PersonAppearance appearance = new PersonAppearance();
     private PersonExpression expression = PersonExpression.happySmallSmile;
+    private Emotions emotions = new Emotions();
     private List<ConversationContent> conversations = BasicConversations.conversations;
     private List<DependentAction> dependentActions = new ArrayList<DependentAction>();
 
@@ -57,6 +58,10 @@ public class Person extends Entity {
 
     public String getName() {
         return name;
+    }
+
+    public Emotions getEmotions() {
+        return emotions;
     }
 
     public void instantiateNewProactiveBehavior(IProactiveBehavior behavior) {
