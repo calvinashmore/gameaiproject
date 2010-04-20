@@ -4,7 +4,10 @@
  */
 package testworld.objects;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import proto.behavior.Dispatcher;
+import testworld.social.Stimuli.Effect;
 
 /**
  *
@@ -33,5 +36,15 @@ public class PersonDispatcher extends Dispatcher {
     @Override
     public String toString() {
         return person.getName();
+    }
+
+    @Override
+    public void handleTimer() {
+        this.getPerson().getEmotions().getStimuli().update();
+        Map<String,Double> deltas =
+            this.getPerson().getEmotions().evaluateFuzzy_PersonalityAndStimuli("update_internals_from_needs");
+        this.getPerson().getEmotions().getStimuli().setEffect(
+                Effect.irritation, this.getPerson().getEmotions().getStimuli().getAttribute(Effect.irritation.toString()) + deltas.get("d_irritation")/10);
+        super.handleTimer();
     }
 }
