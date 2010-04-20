@@ -3,20 +3,20 @@
  * and open the template in the editor.
  */
 
-package testworld.objects;
+package testworld.social;
 
 import java.util.Map;
 import java.util.TreeMap;
-import testworld.objects.Stimuli.Effect;
-import testworld.objects.Stimuli.Need;
+import testworld.social.Stimuli.Effect;
+import testworld.social.Stimuli.Need;
 
 /**
  * Static character attributes.
  * @author hartsoka
  */
-public class Personality
+public class Personality implements AttributeMap
 {
-    protected static final double DEFAULT_TRAIT = 0.5;
+    protected static final double DEFAULT_TRAIT = 50;
 
     protected Map<String, Double> traits;
 

@@ -1,3 +1,208 @@
+FUNCTION_BLOCK update_internals_from_needs
+
+VAR_INPUT
+        euphoria : REAL;
+        irritation : REAL;
+        anxiety : REAL;
+
+        sexdrive : REAL;
+        alcohol : REAL;
+        cigarette : REAL;
+        cocaine : REAL;
+        food : REAL;
+        beverage : REAL;
+        toilet : REAL;
+        sleep : REAL;
+        gossip : REAL;
+END_VAR
+
+VAR_OUTPUT
+        d_euphoria : REAL;
+        d_irritation : REAL;
+        d_anxiety : REAL;
+END_VAR
+
+FUZZIFY sexdrive
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY alcohol
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY cigarette
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY cocaine
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY food
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY beverage
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY toilet
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY sleep
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+FUZZIFY gossip
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+DEFUZZIFY d_euphoria
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_irritation
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_anxiety
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+        // bad effects
+        RULE 1 : IF sexdrive IS high            THEN d_euphoria IS very_negative;
+        RULE 2 : IF alcohol IS high             THEN d_anxiety IS positive,         d_irritation IS very_positive;
+        RULE 4 : IF cocaine IS high             THEN d_anxiety IS very_positive,    d_irritation IS positive;
+        RULE 5 : IF cigarette IS high           THEN d_irritation IS very_positive;
+        RULE 6 : IF food IS high                THEN d_euphoria IS negative,        d_irritation IS positive;
+        RULE 7 : IF beverage IS high            THEN d_euphoria IS negative,        d_anxiety IS positive;
+        RULE 8 : IF toilet IS high              THEN d_irritation IS very_positive;
+        RULE 9 : IF sleep IS high               THEN d_irritation IS positive,      d_anxiety IS positive;
+        RULE 10 : IF gossip IS high             THEN d_euphoria IS negative,        d_anxiety IS positive;
+
+        // neutralizing effects
+        RULE 11 : IF food IS NOT high AND beverage IS NOT high      THEN d_anxiety IS neutral;
+        RULE 12 : IF sexdrive IS NOT high AND gossip IS NOT high    THEN d_euphoria IS neutral;
+        RULE 13 : IF cigarette IS NOT high AND sleep IS NOT high    THEN d_irritation IS neutral;
+        RULE 14 : IF alcohol IS NOT high AND cocaine IS NOT high    THEN d_anxiety IS neutral;
+        RULE 15 : IF toilet IS NOT high                             THEN d_irritation IS neutral;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+// ****************************************************************************
+
+FUNCTION_BLOCK compliment
+
+VAR_INPUT
+        euphoria : REAL;
+        irritation : REAL;
+        anxiety : REAL;
+
+        affinity : REAL;
+        dominance : REAL;
+
+        confidence : REAL;
+END_VAR
+
+VAR_OUTPUT
+	d_affinity : REAL;
+        d_euphoria : REAL;
+        d_irritation : REAL;
+END_VAR
+
+FUZZIFY sexdrive
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY stimulant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY depressant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY confidence
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY morality
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+DEFUZZIFY willingness
+        TERM never := (0,1) (10,1) (30,0);
+        TERM barely := (10, 0) (30, 1) (40, 1) (50, 0);
+        TERM somewhat := (40, 0) (50, 1) (60, 1) (70, 0);
+        TERM quite := (60, 0) (70, 1) (80, 1) (90, 0);
+        TERM very := (80, 0) (90, 1) (100, 1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	//RULE 1 : IF service IS poor OR food is rancid THEN tip IS cheap;
+	//RULE 2 : IF service IS good THEN tip IS average;
+	//RULE 3 : IF service IS excellent AND food IS delicious THEN tip is generous;
+
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+// ****************************************************************************
+
 FUNCTION_BLOCK sex_willingness
 
 VAR_INPUT

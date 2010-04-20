@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package testworld.objects;
+package testworld.social;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,18 +12,19 @@ import java.util.TreeMap;
  * Dynamic character attributes and how quickly they change.
  * @author hartsoka
  */
-public class Stimuli
+public class Stimuli implements AttributeMap
 {
     // Effects are increased by external stimuli, and decay naturally over time
     // The rate at which external stimuli alter them comes from the effect
     //  rates inside a personality
     public enum Effect
     {
-        euphoria,
+        euphoria,       // happiness
+        anxiety,        // fear, sadness
+        irritation,     // anger, annoyance
+
         depressant,
         stimulant,
-        anxiety,
-        irritation,
     }
 
     // Needs are increased naturally over time, and decreased by external stimuli
@@ -151,7 +152,7 @@ public class Stimuli
         for (Need n : Need.values())
         {
             String s = n.toString();
-            double newValue = needs.get(s) - needsRates.get(s);
+            double newValue = needs.get(s) + needsRates.get(s);
             newValue = Math.min(MAX_VALUE,
                                 Math.max(MIN_VALUE, newValue));
             needs.put(s, newValue);

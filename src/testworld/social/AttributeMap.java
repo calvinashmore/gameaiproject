@@ -1,0 +1,16 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package testworld.social;
+
+/**
+ *
+ * @author hartsoka
+ */
+public interface AttributeMap {
+
+    public Double getAttribute(String name);
+
+}

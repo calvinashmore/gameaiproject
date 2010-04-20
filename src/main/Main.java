@@ -5,6 +5,7 @@
 package main;
 
 import debugger.DebuggerFrame;
+import debugger.EmotionsFrame;
 import javax.swing.JFrame;
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -34,6 +35,7 @@ public class Main extends PApplet {
     private Testworld world;
     private UIRoot ui;
     private DebuggerFrame debugger;
+    private EmotionsFrame emotions;
 
     public Main() {
         instance = this;
@@ -44,6 +46,11 @@ public class Main extends PApplet {
         debugger.pack();
         debugger.setVisible(true);
         debugger.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        emotions = new EmotionsFrame();
+        emotions.pack();
+        emotions.setVisible(true);
+        emotions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -60,6 +67,9 @@ public class Main extends PApplet {
 
         if (debugger != null) {
             debugger.update();
+        }
+        if (emotions != null) {
+            emotions.update();
         }
     }
 

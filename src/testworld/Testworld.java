@@ -9,10 +9,10 @@ import processing.core.PGraphics;
 import proto.world.World;
 import testworld.game.Cast;
 import testworld.game.Plot;
-import testworld.objects.Emotions;
-import testworld.objects.Personality;
+import testworld.social.Emotions;
+import testworld.social.Personality;
 import testworld.objects.Pickup;
-import testworld.objects.Stimuli;
+import testworld.social.Stimuli;
 import testworld.objects.annotated.DanceFloor;
 import utils.math.Vector2d;
 

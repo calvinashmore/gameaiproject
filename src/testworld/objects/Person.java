@@ -4,6 +4,7 @@
  */
 package testworld.objects;
 
+import testworld.social.Emotions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
