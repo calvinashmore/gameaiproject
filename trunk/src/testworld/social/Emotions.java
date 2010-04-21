@@ -14,6 +14,7 @@ import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 import testworld.objects.Person;
+import testworld.social.Stimuli.Effect;
 
 /**
  * Manifestation of a character's personality and stimuli.
@@ -140,5 +141,18 @@ public class Emotions
     public double debugGetAttribute(List<AttributeMap> maps, String varName)
     {
         return getAttribute(maps, varName);
+    }
+    
+    public void update()
+    {
+        getStimuli().update();
+        Map<String,Double> deltas =
+            evaluateFuzzy_PersonalityAndStimuli("update_internals_from_needs");
+        getStimuli().setEffect(
+                Effect.irritation, getStimuli().getAttribute(Effect.irritation.toString()) + deltas.get("d_irritation")/10);
+        getStimuli().setEffect(
+                Effect.euphoria, getStimuli().getAttribute(Effect.euphoria.toString()) + deltas.get("d_euphoria")/10);
+        getStimuli().setEffect(
+                Effect.anxiety, getStimuli().getAttribute(Effect.anxiety.toString()) + deltas.get("d_anxiety")/10);
     }
 }
