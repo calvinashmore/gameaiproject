@@ -6,6 +6,7 @@
 package debugger;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BoxLayout;
@@ -43,6 +44,8 @@ public class EmotionsFrame extends JFrame {
                 agentView.add(emotionsPanel);
             }
         }
+
+        this.setPreferredSize(new Dimension(320,640));
     }
 
     public void update() {

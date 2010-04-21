@@ -16,7 +16,9 @@ import testworld.social.Stimuli.Need;
  */
 public class Personality implements AttributeMap
 {
-    protected static final double DEFAULT_TRAIT = 50;
+    protected static final double DEFAULT_MIN = -100;
+    protected static final double DEFAULT_MAX = 100;
+    protected static final double DEFAULT_VALUE = 0;
 
     protected Map<String, Double> traits;
 
@@ -27,13 +29,35 @@ public class Personality implements AttributeMap
         arrogance,
     }
 
+    static
+    {
+        AttributeInfo info = AttributeInfo.getInstance();
+        for (Trait t : Trait.values())
+        {
+            info.maximums.put(t.toString(), DEFAULT_MAX);
+            info.minimums.put(t.toString(), DEFAULT_MIN);
+            info.defaults.put(t.toString(), DEFAULT_VALUE);
+        }
+    }
+
     public Personality()
     {
+        AttributeInfo info = AttributeInfo.getInstance();
+
         traits = new TreeMap<String, Double>();
         for (Trait t : Trait.values())
         {
-            traits.put(t.toString(), DEFAULT_TRAIT);
+            traits.put(t.toString(), info.defaults.get(t.toString()));
         }
+    }
+
+    public void setTrait(Trait trait, double value)
+    {
+        String key = trait.toString();
+        AttributeInfo info = AttributeInfo.getInstance();
+        if (info.maximums.get(key) < value) value = info.maximums.get(key);
+        if (info.minimums.get(key) > value) value = info.minimums.get(key);
+        traits.put(key, value);
     }
 
     /**
