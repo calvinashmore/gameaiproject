@@ -26,7 +26,9 @@ public class Personality implements AttributeMap
     {
         morality,
         confidence,
-        arrogance,
+        //arrogance,
+        open_minded,
+        manners,
     }
 
     static

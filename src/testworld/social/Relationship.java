@@ -15,9 +15,9 @@ import testworld.objects.Person;
  */
 public class Relationship implements AttributeMap {
 
-    protected static final double DEFAULT_MAX = 1.0;
-    protected static final double DEFAULT_MIN = 0.0;
-    protected static final double DEFAULT_VALUE = 0.5;
+    protected static final double DEFAULT_MAX = 100.0;
+    protected static final double DEFAULT_MIN = -100.0;
+    protected static final double DEFAULT_VALUE = 0.0;
 
     protected Person target;
     protected Map<String, Double> stats = new TreeMap<String, Double>();
