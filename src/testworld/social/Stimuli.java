@@ -43,8 +43,8 @@ public class Stimuli implements AttributeMap
         gossip
     }
 
-    protected static final double MAX_VALUE = 100;
-    protected static final double MIN_VALUE = 0;
+    protected static final double DEFAULT_MAX_VALUE = 100;
+    protected static final double DEFAULT_MIN_VALUE = 0;
 
     protected static final double DEFAULT_EFFECTS_AMT = 0.0;
     protected static final double DEFAULT_NEEDS_AMT = 0.0;
@@ -60,24 +60,45 @@ public class Stimuli implements AttributeMap
 
     protected long lastUpdate = 0;
 
+    static
+    {
+        AttributeInfo info = AttributeInfo.getInstance();
+        for (Effect e : Effect.values())
+        {
+            info.minimums.put(e.toString(), DEFAULT_MIN_VALUE);
+            info.maximums.put(e.toString(), DEFAULT_MAX_VALUE);
+            info.defaults.put(e.toString(), DEFAULT_EFFECTS_AMT);
+
+            info.defaults.put(e.toString() + "Rate", DEFAULT_EFFECTS_RATE);
+        }
+        for (Need n : Need.values())
+        {
+            info.minimums.put(n.toString(), DEFAULT_MIN_VALUE);
+            info.maximums.put(n.toString(), DEFAULT_MAX_VALUE);
+            info.defaults.put(n.toString(), DEFAULT_NEEDS_AMT);
+
+            info.defaults.put(n.toString() + "Rate", DEFAULT_NEEDS_RATE);
+        }
+        
+        // customized defaults
+        info.defaults.put(Need.alcohol.toString() + "Rate", 0.0);
+        info.defaults.put(Need.cocaine.toString() + "Rate", 0.0);
+        info.defaults.put(Need.toilet.toString() + "Rate", 0.0);
+        info.defaults.put(Need.cigarette.toString() + "Rate", 0.0);
+    }
+
     public Stimuli()
     {
+        AttributeInfo info = AttributeInfo.getInstance();
         for (Effect e : Effect.values())
         {
-            effects.put(e.toString(), DEFAULT_EFFECTS_AMT);
+            effects.put(e.toString(), info.defaults.get(e.toString()));
+            effectsRates.put(e.toString(), info.defaults.get(e.toString() + "Rate"));
         }
         for (Need n : Need.values())
         {
-            needs.put(n.toString(), DEFAULT_NEEDS_AMT);
-        }
-
-        for (Effect e : Effect.values())
-        {
-            effectsRates.put(e.toString(), DEFAULT_EFFECTS_RATE);
-        }
-        for (Need n : Need.values())
-        {
-            needsRates.put(n.toString(), DEFAULT_NEEDS_RATE);
+            needs.put(n.toString(), info.defaults.get(n.toString()));
+            needsRates.put(n.toString(), info.defaults.get(n.toString() + "Rate"));
         }
     }
 
@@ -111,7 +132,11 @@ public class Stimuli implements AttributeMap
 
     public void setEffect(Effect effect, double value)
     {
-        effects.put(effect.toString(), value);
+        String key = effect.toString();
+        AttributeInfo info = AttributeInfo.getInstance();
+        if (info.maximums.get(key) < value) value = info.maximums.get(key);
+        if (info.minimums.get(key) > value) value = info.minimums.get(key);
+        effects.put(key, value);
     }
 
     public void setEffectRate(Effect effect, double value)
@@ -121,7 +146,11 @@ public class Stimuli implements AttributeMap
 
     public void setNeed(Need need, double value)
     {
-        needs.put(need.toString(), value);
+        String key = need.toString();
+        AttributeInfo info = AttributeInfo.getInstance();
+        if (info.maximums.get(key) < value) value = info.maximums.get(key);
+        if (info.minimums.get(key) > value) value = info.minimums.get(key);
+        needs.put(key, value);
     }
 
     public void setNeedRate(Need need, double value)
@@ -145,17 +174,13 @@ public class Stimuli implements AttributeMap
         {
             String s = e.toString();
             double newValue = effects.get(s) - effectsRates.get(s);
-            newValue = Math.min(MAX_VALUE,
-                                Math.max(MIN_VALUE, newValue));
-            effects.put(s, newValue);
+            this.setEffect(e, newValue);
         }
         for (Need n : Need.values())
         {
             String s = n.toString();
             double newValue = needs.get(s) + needsRates.get(s);
-            newValue = Math.min(MAX_VALUE,
-                                Math.max(MIN_VALUE, newValue));
-            needs.put(s, newValue);
+            this.setNeed(n, newValue);
         }
     }
 }

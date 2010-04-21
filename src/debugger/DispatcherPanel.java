@@ -34,6 +34,7 @@ public class DispatcherPanel extends JPanel {
         JScrollPane scroll = new JScrollPane(textArea);
 
         add(scroll, BorderLayout.CENTER);
+        this.add(new JLabel("     "), BorderLayout.EAST); // hack for visible scrollbars
         setPreferredSize(new Dimension(300, 150));
     }
 
