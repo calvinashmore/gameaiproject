@@ -18,19 +18,8 @@ public abstract class AMoveTo extends PersonTask {
     public static final float DEFAULT_SPEED = 4;
     public static final float DEFAULT_DESTINATION_RANGE = 20;
 
-//    public AMoveTo(Vector2d destination) {
-//        this(destination, DEFAULT_DESTINATION_RANGE, DEFAULT_SPEED);
-//    }
-//
-//    public AMoveTo(Vector2d destination, float destinationRange) {
-//        this(destination, destinationRange, DEFAULT_SPEED);
-//    }
-//
-//    public AMoveTo(Vector2d destination, float destinationRange, float speed) {
-//        this.destination = destination;
-//        this.destinationRange = destinationRange;
-//        this.speed = speed;
-//    }
+    protected Vector2d lastMovement = new Vector2d();
+    
     protected abstract Vector2d getDestination();
 
     public AMoveTo() {
@@ -69,6 +58,16 @@ public abstract class AMoveTo extends PersonTask {
         Vector2d direction = getWorld().getPathPlanner().getDirection(getPerson(), getDestination());
 
         Vector2d movement = direction.multiply(speed);
+
+        // this test checks to see if the last movement was close to the opposite of the current movement
+        if(lastMovement.getNormalizedVector().dot(movement.getNormalizedVector()) < -.8) {
+            // terminate the current task if this is the case
+            // otherwise, jerky behavior occurs.
+            finished();
+        }
+
+        lastMovement = movement;
+
         Vector2d newPosition = oldPosition.add(movement);
         getPerson().getLocation().setPosition(newPosition);
     }

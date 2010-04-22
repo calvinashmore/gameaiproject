@@ -51,4 +51,8 @@ public class Vector2d {
     public String toString() {
         return "[" + x + ", " + y + "]";
     }
+
+    public double dot(Vector2d v) {
+        return x * v.x + y * v.y;
+    }
 }
