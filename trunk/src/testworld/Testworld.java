@@ -9,10 +9,8 @@ import processing.core.PGraphics;
 import proto.world.World;
 import testworld.game.Cast;
 import testworld.game.Plot;
-import testworld.social.Emotions;
-import testworld.social.Personality;
 import testworld.objects.Pickup;
-import testworld.social.Stimuli;
+import testworld.objects.annotated.Bathroom;
 import testworld.objects.annotated.DanceFloor;
 import utils.math.Vector2d;
 
@@ -50,6 +48,11 @@ public class Testworld extends World {
         d.getLocation().getPosition().x = -120;
         d.getLocation().getPosition().y = 200;
         getAllObjects().add(d);
+
+        Bathroom b = new Bathroom();
+        b.getLocation().getPosition().x = 200;
+        b.getLocation().getPosition().y = -90;
+        getAllObjects().add(b);
 
         setEnvironment(new RoomEnvironment());
     }

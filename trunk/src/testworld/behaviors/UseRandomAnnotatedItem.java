@@ -40,9 +40,14 @@ public class UseRandomAnnotatedItem
 
     public IBehaviorQueue instantiate(IWorldState ws)
     {
+        return this.instantiateImpl(ws, AAnnotatedItem.class);
+    }
+
+    protected IBehaviorQueue instantiateImpl(IWorldState ws, Class cl)
+    {
         Person me = ((PersonDispatcher)this.getDispatcher()).getPerson();
 
-        List<BasicObject> items = World.getInstance().getAllObjectsOfType(AAnnotatedItem.class);
+        List<BasicObject> items = World.getInstance().getAllObjectsOfType(cl);
         List<AAnnotatedItem> legalItems = new LinkedList<AAnnotatedItem>();
 
         for (BasicObject bo : items)
