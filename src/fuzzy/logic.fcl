@@ -300,6 +300,7 @@ RULEBLOCK No2
 
         RULE 29 : IF affection IS hate       THEN    d_irritation IS very_positive,  d_affection IS neutral;
         RULE 30 : IF affection IS dislike    THEN    d_irritation IS positive,       d_affection IS neutral;
+        RULE 30 : IF affection IS neutral    THEN    d_affection IS positive;
         RULE 31 : IF affection IS like       THEN    d_irritation IS very_negative,  d_affection IS positive;
         RULE 32 : IF affection IS love       THEN    d_irritation IS negative,       d_affection IS neutral;
 
