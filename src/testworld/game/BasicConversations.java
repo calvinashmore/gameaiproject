@@ -22,13 +22,13 @@ public class BasicConversations {
         List<ConversationContent> allConversations = new ArrayList<ConversationContent>();
 
         allConversations.add(new SimpleConversationContent("idle1",
-                "Are you enjoying the party?", "It's less exciting than I had hoped"));
+                "Are you enjoying the party?", "It's less exciting than I had hoped..."));
 
         allConversations.add(new SimpleConversationContent("idle2",
-                "I can't believe that she actually wore that dress", "I know!"));
+                "I can't believe that she actually wore that dress!", "I know!"));
 
         allConversations.add(new SimpleConversationContent("idle3",
-                "What do you usually do for entertainment around here", "It's mostly just the drinking and socializing.",
+                "What do you usually do for entertainment around here?", "It's mostly just the drinking and socializing.",
                 "Hmm... I think I can manage that.", "It works well for everyone."));
 
         allConversations.add(new SimpleConversationContent("idle4",

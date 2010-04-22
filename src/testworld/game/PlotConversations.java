@@ -17,10 +17,15 @@ public class PlotConversations {
     public static final ConversationContent frankRumor;
     public static final ConversationContent embarrassFrank;
     public static final ConversationContent approachGayle;
+    public static final ConversationContent warnHilda;
+    public static final ConversationContent annoyFrankFurther;
 
     static {
         frankRumor = new SimpleTokenConversationContent("frankRumor", Plot.heardAboutRumor, "Heard any good news lately?", "Yes, Frank is having an affair with Gayle.");
-        embarrassFrank = new SimpleConversationContent("embarrassFrank", "So, I hear you're having an affair?", "Oh no! Please don't tell my wife!", "Maybe I won't...");
+        embarrassFrank = new SimpleTokenConversationContent("embarrassFrank", Plot.frankWantsRevenge, "So, I hear you're having an affair?", "Oh no! Please don't tell my wife!", "Maybe I won't...");
         approachGayle = new SimpleConversationContent("approachGayle", "So, I hear you're having an affair?", "Yep. I'd keep quiet if I were you.", "Yes ma'am");
+
+        warnHilda = new SimpleConversationContent("warnHilda", "Frank is pretty pissed right now.", "I'll bet he is.", "Are you worried?", "Hardly!");
+        annoyFrankFurther = new SimpleConversationContent("annoyFrankFurther", "If you don't want your wife to know, you need to do something for me", "Ha, you can't prove anything!");
     }
 }
