@@ -10,6 +10,7 @@ import proto.behavior.IWorldState;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.objects.annotated.Bathroom;
+import testworld.social.AttributeInfo;
 import testworld.social.Stimuli;
 import utils.math.RandomManager;
 
@@ -37,8 +38,16 @@ public class UseBathroom
     {
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
 
+        Double need = p.getEmotions().getStimuli().getAttribute(Stimuli.Need.toilet.toString());
+
+        if (need < AttributeInfo.getInstance().maximums.get(Stimuli.Need.toilet.toString()) * 0.6
+                    + AttributeInfo.getInstance().minimums.get(Stimuli.Need.toilet.toString()))
+        {
+            return 0;
+        }
+
         return RandomManager.get().nextInt(
-                    (int)(p.getEmotions().getStimuli().getAttribute(Stimuli.Need.toilet.toString())/10) + 1
+                    (int)(need/10) + 1
                 );
     }
 
