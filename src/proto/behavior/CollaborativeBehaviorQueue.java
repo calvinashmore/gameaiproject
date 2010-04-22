@@ -5,6 +5,9 @@
 
 package proto.behavior;
 
+import proto.world.World;
+import testworld.Testworld;
+
 /**
  *
  * @author hartsoka
@@ -60,6 +63,16 @@ public class CollaborativeBehaviorQueue
 
     public boolean isSelfReadyAndWaiting() {
         return this.readyAndWaiting;
+    }
+
+    @Override
+    public int getPriority() {
+        // TODO
+        // do this without a hack
+        if (handshake.getInitiator() == ((Testworld)World.getInstance()).getPlayer().getDispatcher()) {
+            return super.getPriority() + 50;
+        }
+        return super.getPriority();
     }
 
 }
