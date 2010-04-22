@@ -218,6 +218,12 @@ public class Dispatcher implements Comparable {
     {
         taskQueue.dequeueTask();
         handleTaskStart();
+        
+        IBehaviorQueue currentBehavior = this.safelyGetCurrentBehavior();
+
+        if (currentBehavior.peekTask() instanceof InstantaneousTask) {
+            currentBehavior.peekTask().run();
+        }
     }
 
     public IRole getRole() {

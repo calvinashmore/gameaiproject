@@ -13,7 +13,7 @@ package proto.behavior;
  * of SyncTasks.
  * @author hartsoka
  */
-public class SyncTask extends ATask {
+public class SyncTask extends ATask implements InstantaneousTask {
 
     public void resume() {
         
