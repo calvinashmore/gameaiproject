@@ -38,8 +38,10 @@ public class LatentExclamativeBehavior extends ABehaviorTemplate implements ILat
                 exclamation = "*cough*";
                 break;
             case 1:
+                exclamation = "*yawn*";
+                break;
             case 2:
-                exclamation = "*sip*";
+                exclamation = "*clears throat*";
                 break;
         }
         bq.queueTask(new SpeechTask(exclamation));

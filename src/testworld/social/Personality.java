@@ -7,8 +7,7 @@ package testworld.social;
 
 import java.util.Map;
 import java.util.TreeMap;
-import testworld.social.Stimuli.Effect;
-import testworld.social.Stimuli.Need;
+import utils.math.RandomManager;
 
 /**
  * Static character attributes.
@@ -63,12 +62,15 @@ public class Personality implements AttributeMap
     }
 
     /**
-     * Gets an attribute value regardless of where in the Stimuli it is located.
+     * Gets an attribute value regardless of where in the Personality it is located.
      * @param name Name of the attribute
      * @return Value of the attribute, or null if it is not recognized
      */
     public Double getAttribute(String name)
     {
+        if (name.equals("sincerity")) {
+            return RandomManager.get().nextDouble() * 100;
+        }
         return traits.get(name);
     }
 }

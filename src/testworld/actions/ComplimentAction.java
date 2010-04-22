@@ -13,6 +13,7 @@ import proto.world.Entity;
 import testworld.behaviors.conversations.ApproachConversationBehavior;
 import testworld.behaviors.conversations.SimpleConversationContent;
 import testworld.objects.Person;
+import testworld.tasks.ResponseTask;
 
 /**
  *
@@ -56,7 +57,7 @@ public class ComplimentAction implements PlayerAction {
             public ICollaborativeBehaviorQueue getResponderQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
                 ICollaborativeBehaviorQueue bq = super.getResponderQueue(initiator, responder, behavior, handshake);
                 // here is where to put in the effects of the compliment on the emotional logic
-                //bq.queueTask(NEW TASK);
+                bq.queueTask(new ResponseTask("respond_to_compliment",initiator));
                 return bq;
             }
         }, other));

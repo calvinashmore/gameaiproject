@@ -25,7 +25,7 @@ import utils.math.Vector2d;
  *
  * @author Calvin Ashmore
  */
-public class Person extends Entity {
+public class Person extends Entity implements Comparable {
 
     private String name;
     private List<String> speech = new ArrayList<String>();
@@ -36,6 +36,10 @@ public class Person extends Entity {
     private List<ConversationContent> conversations = BasicConversations.conversations;
     private List<DependentAction> dependentActions = new ArrayList<DependentAction>();
     private Gender gender;
+
+    public int compareTo(Object o) {
+        return this.name.compareTo(((Person)o).name);
+    }
 
     public enum Gender {
 
