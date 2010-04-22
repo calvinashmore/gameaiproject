@@ -19,24 +19,24 @@ import testworld.tasks.SpeechTask;
  *
  * @author hartsoka
  */
-public class Bathroom extends ADefaultAnnotatedItem {
+public class ODevours extends ADefaultAnnotatedItem {
 
-    public Bathroom() {
-        this.setRepresentation(new BathroomRepresentation(this));
+    public ODevours() {
+        this.setRepresentation(new ODevoursRepresentation(this));
     }
 
     @Override
     public List<ITask> getUsageTasks(Person person, IBehaviorQueue behavior) {
         List<ITask> tasks = new LinkedList<ITask>();
-        tasks.add(new SpeechTask("*uses bathroom*"));
-        tasks.add(new EffectTask(Need.toilet, 0));
+        tasks.add(new SpeechTask("*munch munch*"));
+        tasks.add(new EffectTask(Need.food, 0));
 
         return tasks;
     }
 
-    protected class BathroomRepresentation extends Representation<Bathroom> {
+    protected class ODevoursRepresentation extends Representation<ODevours> {
 
-        public BathroomRepresentation(Bathroom target) {
+        public ODevoursRepresentation(ODevours target) {
             super(target);
         }
 
@@ -50,7 +50,7 @@ public class Bathroom extends ADefaultAnnotatedItem {
                     (float) getTarget().getLocation().getPosition().y);
 
             g.stroke(0);
-            g.fill(0xffff55ff);
+            g.fill(0xff55ff55);
 
             g.strokeWeight(5);
             g.ellipse(0, 0, size, size);
