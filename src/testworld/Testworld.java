@@ -12,6 +12,7 @@ import testworld.game.Plot;
 import testworld.objects.Pickup;
 import testworld.objects.annotated.Bathroom;
 import testworld.objects.annotated.DanceFloor;
+import testworld.objects.annotated.ODevours;
 import utils.math.Vector2d;
 
 /**
@@ -53,6 +54,16 @@ public class Testworld extends World {
         b.getLocation().getPosition().x = 200;
         b.getLocation().getPosition().y = -90;
         getAllObjects().add(b);
+
+        ODevours v = new ODevours();
+        v.getLocation().getPosition().x = 50;
+        v.getLocation().getPosition().y = 400;
+        getAllObjects().add(v);
+
+        v = new ODevours();
+        v.getLocation().getPosition().x = 350;
+        v.getLocation().getPosition().y = 390;
+        getAllObjects().add(v);
 
         setEnvironment(new RoomEnvironment());
     }
