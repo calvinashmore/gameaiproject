@@ -83,7 +83,7 @@ public class Stimuli implements AttributeMap
         // customized defaults
         info.defaults.put(Need.alcohol.toString() + "Rate", 0.0);
         info.defaults.put(Need.cocaine.toString() + "Rate", 0.0);
-        info.defaults.put(Need.toilet.toString() + "Rate", 0.0);
+        info.defaults.put(Need.toilet.toString() + "Rate", 5.0);
         info.defaults.put(Need.cigarette.toString() + "Rate", 0.0);
     }
 
