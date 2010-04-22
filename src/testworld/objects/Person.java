@@ -35,6 +35,12 @@ public class Person extends Entity {
     private Emotions emotions = new Emotions();
     private List<ConversationContent> conversations = BasicConversations.conversations;
     private List<DependentAction> dependentActions = new ArrayList<DependentAction>();
+    private Gender gender;
+
+    public enum Gender {
+
+        male, female
+    };
 
     public Person(String name) {
         this(name, new PersonDispatcher());
@@ -139,5 +145,13 @@ public class Person extends Entity {
 
     public List<DependentAction> getDependentActions() {
         return dependentActions;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

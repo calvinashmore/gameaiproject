@@ -29,6 +29,7 @@ public class Cast {
         Person person;
 
         person = new PlayerImplementation("Player");
+        person.setGender(Person.Gender.male);
         person.getLocation().getPosition().x = 220;
         person.getLocation().getPosition().y = 320;
         person.setExpression(PersonExpression.happySmallSmile);
@@ -41,6 +42,7 @@ public class Cast {
         player = person;
 
         person = new GuestPerson("Frank");
+        person.setGender(Person.Gender.male);
         person.getLocation().getPosition().x = 100;
         person.getLocation().getPosition().y = 300;
         person.setExpression(PersonExpression.annoyed);
@@ -54,6 +56,7 @@ public class Cast {
         frank = person;
 
         person = new GuestPerson("Hilda");
+        person.setGender(Person.Gender.female);
         person.getLocation().getPosition().x = 300;
         person.getLocation().getPosition().y = 400;
         person.setExpression(PersonExpression.happyExcited);
@@ -63,6 +66,7 @@ public class Cast {
         hilda = person;
 
         person = new GuestPerson("Gayle");
+        person.setGender(Person.Gender.female);
         person.getLocation().getPosition().x = 400;
         person.getLocation().getPosition().y = 200;
         person.setExpression(PersonExpression.malicious);
@@ -70,6 +74,7 @@ public class Cast {
         gayle = person;
 
         person = new ServerPerson("Fred");
+        person.setGender(Person.Gender.male);
         person.getLocation().getPosition().x = 10;
         person.getLocation().getPosition().y = 10;
         person.setExpression(PersonExpression.feignedInterest);

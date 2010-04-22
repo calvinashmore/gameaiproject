@@ -10,6 +10,7 @@ import proto.game.PlayerAction;
 import proto.game.PlayerHandler;
 import proto.world.Entity;
 import testworld.actions.AskAboutTheWeather;
+import testworld.actions.ComplimentAction;
 import testworld.actions.MockMercilesslyAction;
 import testworld.actions.MoveToAction;
 import testworld.actions.SaySomethingWittyAction;
@@ -58,7 +59,12 @@ public class PlayerImplementation extends GuestPerson implements PlayerHandler {
                     actions.add(dependentAction.createAction(person));
                 }
             }
-            actions.add(new MockMercilesslyAction(person));
+
+            if (person instanceof GuestPerson) {
+                // you can compliment and mock the guests, but not the server
+                actions.add(new MockMercilesslyAction(person));
+                actions.add(new ComplimentAction(person));
+            }
             return actions;
         }
 
