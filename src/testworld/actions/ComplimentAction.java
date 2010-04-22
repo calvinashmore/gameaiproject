@@ -5,6 +5,9 @@
 package testworld.actions;
 
 import java.util.Random;
+import proto.behavior.CollaborationHandshake;
+import proto.behavior.IBehaviorTemplate;
+import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.game.PlayerAction;
 import proto.world.Entity;
 import testworld.behaviors.conversations.ApproachConversationBehavior;
@@ -47,6 +50,15 @@ public class ComplimentAction implements PlayerAction {
         String[] conversation = possibleConversations[new Random().nextInt(possibleConversations.length)];
 
         ((Person) player).instantiateNewProactiveBehavior(
-                ApproachConversationBehavior.makeProactive(new SimpleConversationContent("mock", conversation), other));
+                ApproachConversationBehavior.makeProactive(new SimpleConversationContent("compliment", conversation) {
+
+            @Override
+            public ICollaborativeBehaviorQueue getResponderQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
+                ICollaborativeBehaviorQueue bq = super.getResponderQueue(initiator, responder, behavior, handshake);
+                // here is where to put in the effects of the compliment on the emotional logic
+                //bq.queueTask(NEW TASK);
+                return bq;
+            }
+        }, other));
     }
 }
