@@ -25,7 +25,7 @@ public class PauseTask extends PersonTask {
     public void resume() {
     }
 
-    public void run() {
+    public void runImpl() {
         if (System.currentTimeMillis() >= expiry) {
             finished();
         }

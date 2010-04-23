@@ -40,4 +40,8 @@ public class LocationInfo {
     public void setPosition(Vector2d position) {
         this.position = position;
     }
+
+    public double distance(LocationInfo other) {
+        return this.getPosition().distance(other.getPosition());
+    }
 }

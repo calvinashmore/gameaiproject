@@ -19,7 +19,7 @@ public class SyncTask extends ATask implements InstantaneousTask {
         
     }
 
-    public void run() {
+    public void runImpl() {
         this.getCollaborativeBehaviorQueue().setBarrier();
         this.getDispatcher().handleTaskDone(this.getOwningBehaviorQueue());
     }

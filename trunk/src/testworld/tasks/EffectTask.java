@@ -45,7 +45,7 @@ public class EffectTask extends PersonTask {
         return;
     }
 
-    public void run() {
+    public void runImpl() {
         Person p = this.getPerson();
         Stimuli s = p.getEmotions().getStimuli();
 

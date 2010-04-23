@@ -30,7 +30,7 @@ public class ResponseTask extends PersonTask
         return;
     }
 
-    public void run() {
+    public void runImpl() {
 
         Relationship r = this.getPerson().getEmotions().getRelationship(respondee);
 

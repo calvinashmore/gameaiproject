@@ -56,7 +56,7 @@ public class MoveTo extends AMoveTo {
     public void resume() {
     }
 
-    public void run() {
+    public void runImpl() {
 
         look();
 

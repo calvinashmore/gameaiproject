@@ -21,7 +21,9 @@ import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.objects.Pickup;
 import testworld.objects.ServerPerson;
+import testworld.social.Stimuli;
 import testworld.tasks.Chase;
+import testworld.tasks.EffectTask;
 import testworld.tasks.Fetch;
 import testworld.tasks.Flee;
 import testworld.tasks.SpeechTask;
@@ -113,6 +115,7 @@ public class RequestAndServeBehavior
             bq.queueTask(new SyncTask()); // 3
             bq.queueTask(new SyncAndSuspendTask()); // 4
 
+            bq.queueTask(new EffectTask(Stimuli.Effect.numDrinks, 4, EffectTask.Operation.Set));
             bq.queueTask(new SpeechTask("Thank you.", server));
             bq.queueTask(new SpeechTask("Now scram!", server));
             bq.queueTask(new SyncAndSuspendTask()); // 5
@@ -160,7 +163,14 @@ public class RequestAndServeBehavior
     }
 
     public int getImportance(IWorldState ws) {
-        return RandomManager.get().nextInt(RANDOM_IMPORTANCE_MAX);
+        Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
+        Stimuli s = p.getEmotions().getStimuli();
+        if (s.getAttribute(Stimuli.Effect.numDrinks.toString()) <= 0)
+        {
+            double beverageNeed = s.getAttribute(Stimuli.Need.beverage.toString());
+            return (int)(beverageNeed/10)+1;
+        }
+        return 0;
     }
 
 }

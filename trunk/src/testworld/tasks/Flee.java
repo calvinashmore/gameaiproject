@@ -42,7 +42,7 @@ public class Flee extends AMoveTo {
         return awayVector.getNormalizedVector().multiply(safetyDistance);
     }
 
-    public void run()
+    public void runImpl()
     {
         if (super.isWithinRange()) {
             finished();

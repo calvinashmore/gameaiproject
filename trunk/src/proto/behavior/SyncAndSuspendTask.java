@@ -15,9 +15,9 @@ package proto.behavior;
 public class SyncAndSuspendTask extends SyncTask {
 
     @Override
-    public void run() {
+    public void runImpl() {
         this.getOwningBehaviorQueue().suspend();
-        super.run();
+        super.runImpl();
     }
 
 }

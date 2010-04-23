@@ -25,6 +25,9 @@ public class Stimuli implements AttributeMap
 
         depressant,
         stimulant,
+
+        // TODO move these into a real inventory
+        numDrinks,
     }
 
     // Needs are increased naturally over time, and decreased by external stimuli
@@ -83,8 +86,13 @@ public class Stimuli implements AttributeMap
         // customized defaults
         info.defaults.put(Need.alcohol.toString() + "Rate", 0.0);
         info.defaults.put(Need.cocaine.toString() + "Rate", 0.0);
-        info.defaults.put(Need.toilet.toString() + "Rate", 1.0);
+        info.defaults.put(Need.toilet.toString() + "Rate", 0.0);
+        info.defaults.put(Need.beverage.toString() + "Rate", 0.75);
         info.defaults.put(Need.cigarette.toString() + "Rate", 0.0);
+
+        info.defaults.put(Effect.numDrinks.toString() + "Rate", 0.0);
+        info.defaults.put(Effect.numDrinks.toString(), 1.0);
+        info.maximums.put(Effect.numDrinks.toString(), 4.0);
     }
 
     public Stimuli()

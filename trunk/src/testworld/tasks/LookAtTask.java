@@ -21,7 +21,7 @@ public class LookAtTask extends PersonTask {
     public void resume() {
     }
 
-    public void run() {
+    public void runImpl() {
         getPerson().setLookAt(lookAt);
         finished();
     }

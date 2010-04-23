@@ -8,6 +8,7 @@ import testworld.behaviors.ApproachBehavior;
 import testworld.behaviors.GroupChat;
 import testworld.behaviors.LatentExclamativeBehavior;
 import testworld.behaviors.RequestAndServeBehavior;
+import testworld.behaviors.TakeSip;
 import testworld.behaviors.UseODevours;
 import testworld.behaviors.conversations.ConversationBehavior;
 
@@ -34,5 +35,6 @@ public class GuestPersonRole extends PersonRole {
         addBehaviorTemplate(RequestAndServeBehavior.makeRequestBehavior());
 
         addBehaviorTemplate(new UseODevours());
+        addBehaviorTemplate(new TakeSip());
     }
 }
