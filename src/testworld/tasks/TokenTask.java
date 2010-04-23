@@ -21,7 +21,7 @@ public class TokenTask extends PersonTask {
     public void resume() {
     }
 
-    public void run() {
+    public void runImpl() {
         // mark the token as found and then finish the task.
         token.setFound(true);
         finished();

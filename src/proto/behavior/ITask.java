@@ -19,7 +19,7 @@ public interface ITask {
     /**
      * Perform one update cycle's worth of work towards completing the task.
      */
-    public void run(); // TODO more params
+    public void run();
 
     /**
      * Sets the BehaviorQueue which contains this Task - in general, should only
@@ -33,6 +33,8 @@ public interface ITask {
      * @return Owning BehaviorQueue.
      */
     public IBehaviorQueue getOwningBehaviorQueue();
+
+
 
     // TODO maybe a method for when the task is removed from current queue
 }

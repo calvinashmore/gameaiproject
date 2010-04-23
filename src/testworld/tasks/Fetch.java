@@ -45,7 +45,7 @@ public class Fetch<T extends BasicObject> extends AMoveTo {
         return target.getLocation().getPosition();
     }
 
-    public void run() {
+    public void runImpl() {
 
         look();
 

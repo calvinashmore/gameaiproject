@@ -55,4 +55,8 @@ public class Vector2d {
     public double dot(Vector2d v) {
         return x * v.x + y * v.y;
     }
+
+    public double distance(Vector2d other) {
+        return this.subtract(other).magnitude();
+    }
 }

@@ -24,7 +24,7 @@ public class DummyWordTask extends ATask {
 
     }
 
-    public void run()
+    public void runImpl()
     {
         System.out.println(str);
         this.getDispatcher().handleTaskDone(this.bq);

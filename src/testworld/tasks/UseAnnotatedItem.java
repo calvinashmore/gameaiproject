@@ -27,7 +27,7 @@ public class UseAnnotatedItem extends PersonTask {
         //nch... yet
     }
 
-    public void run()
+    public void runImpl()
     {
         List<ITask> tasks = item.getMoveToTasks(this.getPerson(), bq);
         int count = 0;

@@ -28,7 +28,7 @@ public class SpeechTask extends PersonTask {
     public void resume() {
     }
 
-    public void run() {
+    public void runImpl() {
 
         if (!started) {
             getPerson().pushSpeech(line);

@@ -5,13 +5,56 @@
 
 package proto.behavior;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
- *
+ * An implementation of ITask with helpful functions for accessing dispatchers,
+ * queues, dispatchers, and the like.  Also contains a framework for setting
+ * and running Requirements for a task.
  * @author hartsoka
  */
 public abstract class ATask implements ITask {
 
     protected IBehaviorQueue bq;
+    protected List<ITaskRequirement> requirements = new LinkedList<ITaskRequirement>();
+
+    /**
+     * Run the task, but make sure all TaskRequirements are met first.
+     */
+    public void run()
+    {
+        for (ITaskRequirement req : requirements)
+        {
+            boolean cont = req.handle();
+            if (!cont) return;
+        }
+        this.runImpl();
+    }
+
+    /**
+     * Work which runs the task after all TaskRequirements have been handled.
+     */
+    protected abstract void runImpl();
+
+    /**
+     * Add a TaskRequirement to the end of the Requirements list; will be
+     * handled after all others have been handled.
+     * @param req TaskRequirement to add.
+     */
+    public void queueTaskRequirment(ITaskRequirement req)
+    {
+        requirements.add(req);
+    }
+
+    /**
+     * Get the TaskRequirements associated with this task.
+     * @return List of requirements which are checked before running this task.
+     */
+    public List<ITaskRequirement> getTaskRequirements()
+    {
+        return requirements;
+    }
 
     /**
      * Sets the BehaviorQueue which contains this Task - in general, should only

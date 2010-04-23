@@ -35,7 +35,7 @@ public class Chase extends AMoveTo {
         // nch
     }
 
-    public void run()
+    public void runImpl()
     {
         if (super.isWithinRange()) {
             finished();
