@@ -5,46 +5,19 @@
 
 package testworld.social;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 /**
- * Dynamic character attributes and how quickly they change.
+ * Dynamic character attributes and how quickly they chang
  * @author hartsoka
  */
-public class Stimuli implements AttributeMap
+public class Stimuli extends AAttributeMap
 {
     // Effects are increased by external stimuli, and decay naturally over time
     // The rate at which external stimuli alter them comes from the effect
     //  rates inside a personality
-    public enum Effect
-    {
-        euphoria,       // happiness
-        anxiety,        // fear, sadness
-        irritation,     // anger, annoyance
-
-        depressant,
-        stimulant,
-
-        // TODO move these into a real inventory
-        numDrinks,
-    }
 
     // Needs are increased naturally over time, and decreased by external stimuli
     // The rate at which needs increase naturally comes from the need rates
     //  inside a personality
-    public enum Need
-    {
-        sexdrive,
-        alcohol,
-        cigarette,
-        cocaine,
-        food,
-        beverage,
-        toilet,
-        sleep,
-        gossip
-    }
 
     protected static final double DEFAULT_MAX_VALUE = 100;
     protected static final double DEFAULT_MIN_VALUE = 0;
@@ -55,115 +28,79 @@ public class Stimuli implements AttributeMap
     protected static final double DEFAULT_EFFECTS_RATE = 0.5;
     protected static final double DEFAULT_NEEDS_RATE = 0.5;
 
-    protected Map<String, Double> effects = new TreeMap<String, Double>();
-    protected Map<String, Double> needs = new TreeMap<String, Double>();
-
-    protected Map<String, Double> effectsRates = new TreeMap<String, Double>();
-    protected Map<String, Double> needsRates = new TreeMap<String, Double>();
-
     protected long lastUpdate = 0;
+    
+    public static final String EUPHORIA =       "euphoria";
+    public static final String ANXIETY =        "anxiety";
+    public static final String IRRITATION =     "irritation";
+    public static final String STIMULANT =      "stimulant";
+    public static final String DEPRESSANT =     "depressant";
 
-    static
-    {
-        AttributeInfo info = AttributeInfo.getInstance();
-        for (Effect e : Effect.values())
-        {
-            info.minimums.put(e.toString(), DEFAULT_MIN_VALUE);
-            info.maximums.put(e.toString(), DEFAULT_MAX_VALUE);
-            info.defaults.put(e.toString(), DEFAULT_EFFECTS_AMT);
+    public static final String SEXDRIVE =       "sexdrive";
+    public static final String ALCOHOL =        "alcohol";
+    public static final String CIGARETTE =      "cigarette";
+    public static final String COCAINE =        "cocaine";
+    public static final String FOOD =           "food";
+    public static final String BEVERAGE =       "beverage";
+    public static final String TOILET =         "toilet";
+    public static final String SLEEP =          "sleep";
+    public static final String GOSSIP =         "gossip";
+    
+    public static final String RATE = "Rate";
 
-            info.defaults.put(e.toString() + "Rate", DEFAULT_EFFECTS_RATE);
-        }
-        for (Need n : Need.values())
-        {
-            info.minimums.put(n.toString(), DEFAULT_MIN_VALUE);
-            info.maximums.put(n.toString(), DEFAULT_MAX_VALUE);
-            info.defaults.put(n.toString(), DEFAULT_NEEDS_AMT);
+    public static final String EUPHORIA_RATE =       EUPHORIA + RATE;
+    public static final String ANXIETY_RATE =        ANXIETY + RATE;
+    public static final String IRRITATION_RATE =     IRRITATION + RATE;
+    public static final String STIMULANT_RATE =      STIMULANT + RATE;
+    public static final String DEPRESSANT_RATE =     DEPRESSANT + RATE;
 
-            info.defaults.put(n.toString() + "Rate", DEFAULT_NEEDS_RATE);
-        }
-        
-        // customized defaults
-        info.defaults.put(Need.alcohol.toString() + "Rate", 0.0);
-        info.defaults.put(Need.cocaine.toString() + "Rate", 0.0);
-        info.defaults.put(Need.toilet.toString() + "Rate", 0.0);
-        info.defaults.put(Need.beverage.toString() + "Rate", 0.75);
-        info.defaults.put(Need.cigarette.toString() + "Rate", 0.0);
+    public static final String SEXDRIVE_RATE =       SEXDRIVE + RATE;
+    public static final String ALCOHOL_RATE =        ALCOHOL + RATE;
+    public static final String CIGARETTE_RATE =      CIGARETTE + RATE;
+    public static final String COCAINE_RATE =        COCAINE + RATE;
+    public static final String FOOD_RATE =           FOOD + RATE;
+    public static final String BEVERAGE_RATE =       BEVERAGE + RATE;
+    public static final String TOILET_RATE =         TOILET + RATE;
+    public static final String SLEEP_RATE =          SLEEP + RATE;
+    public static final String GOSSIP_RATE =         GOSSIP + RATE;
 
-        info.defaults.put(Effect.numDrinks.toString() + "Rate", 0.0);
-        info.defaults.put(Effect.numDrinks.toString(), 1.0);
-        info.maximums.put(Effect.numDrinks.toString(), 4.0);
+    public Stimuli() {
+        this.initialize();
     }
 
-    public Stimuli()
+    protected void initialize()
     {
-        AttributeInfo info = AttributeInfo.getInstance();
-        for (Effect e : Effect.values())
-        {
-            effects.put(e.toString(), info.defaults.get(e.toString()));
-            effectsRates.put(e.toString(), info.defaults.get(e.toString() + "Rate"));
-        }
-        for (Need n : Need.values())
-        {
-            needs.put(n.toString(), info.defaults.get(n.toString()));
-            needsRates.put(n.toString(), info.defaults.get(n.toString() + "Rate"));
-        }
-    }
+        addNewAttribute(EUPHORIA,     DEFAULT_EFFECTS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(ANXIETY,      DEFAULT_EFFECTS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(IRRITATION,   DEFAULT_EFFECTS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(STIMULANT,    DEFAULT_EFFECTS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(DEPRESSANT,   DEFAULT_EFFECTS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
 
-    /**
-     * Gets an attribute value regardless of where in the Stimuli it is located.
-     * @param name Name of the attribute - if it is a rate, it should end in "Rate"
-     * @return Value of the attribute, or null if it is not recognized
-     */
-    public Double getAttribute(String name)
-    {
-        if(!name.endsWith("Rate"))
-        {
-            Double d = effects.get(name);
-            if (d == null)
-            {
-                d = needs.get(name);
-            }
-            return d;
-        }
-        else
-        {
-            name = name.replace("Rate", "");
-            Double d = effectsRates.get(name);
-            if (d == null)
-            {
-                d = needsRates.get(name);
-            }
-            return d;
-        }
-    }
+        addNewAttribute(EUPHORIA_RATE,     DEFAULT_EFFECTS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(ANXIETY_RATE,      DEFAULT_EFFECTS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(IRRITATION_RATE,   DEFAULT_EFFECTS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(STIMULANT_RATE,    DEFAULT_EFFECTS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(DEPRESSANT_RATE,   DEFAULT_EFFECTS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
 
-    public void setEffect(Effect effect, double value)
-    {
-        String key = effect.toString();
-        AttributeInfo info = AttributeInfo.getInstance();
-        if (info.maximums.get(key) < value) value = info.maximums.get(key);
-        if (info.minimums.get(key) > value) value = info.minimums.get(key);
-        effects.put(key, value);
-    }
+        addNewAttribute(SEXDRIVE,     DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(ALCOHOL,      DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(CIGARETTE,    DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(COCAINE,      DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(FOOD,         DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(BEVERAGE,     DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(TOILET,       DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(SLEEP,        DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(GOSSIP,       DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
 
-    public void setEffectRate(Effect effect, double value)
-    {
-        effectsRates.put(effect.toString(), value);
-    }
-
-    public void setNeed(Need need, double value)
-    {
-        String key = need.toString();
-        AttributeInfo info = AttributeInfo.getInstance();
-        if (info.maximums.get(key) < value) value = info.maximums.get(key);
-        if (info.minimums.get(key) > value) value = info.minimums.get(key);
-        needs.put(key, value);
-    }
-
-    public void setNeedRate(Need need, double value)
-    {
-        needsRates.put(need.toString(), value);
+        addNewAttribute(SEXDRIVE_RATE,     DEFAULT_NEEDS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(ALCOHOL_RATE,      0,                     DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(CIGARETTE_RATE,    0,                     DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(COCAINE_RATE,      0,                     DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(FOOD_RATE,         DEFAULT_NEEDS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(BEVERAGE_RATE,     0.75,                  DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(TOILET_RATE,       0,                     DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(SLEEP_RATE,        DEFAULT_NEEDS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(GOSSIP_RATE,       DEFAULT_NEEDS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
     }
 
     public void update()
@@ -178,17 +115,20 @@ public class Stimuli implements AttributeMap
 
     protected void updateImpl()
     {
-        for (Effect e : Effect.values())
-        {
-            String s = e.toString();
-            double newValue = effects.get(s) - effectsRates.get(s);
-            this.setEffect(e, newValue);
-        }
-        for (Need n : Need.values())
-        {
-            String s = n.toString();
-            double newValue = needs.get(s) + needsRates.get(s);
-            this.setNeed(n, newValue);
-        }
+        this.changeAttribute(FOOD, this.getAttribute(FOOD_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(BEVERAGE, this.getAttribute(BEVERAGE_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(TOILET, this.getAttribute(TOILET_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(ALCOHOL, this.getAttribute(ALCOHOL_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(SLEEP, this.getAttribute(SLEEP_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(GOSSIP, this.getAttribute(GOSSIP_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(COCAINE, this.getAttribute(COCAINE_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(SEXDRIVE, this.getAttribute(SEXDRIVE_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(CIGARETTE, this.getAttribute(CIGARETTE_RATE), AttributeMap.Operation.Add);
+
+        this.changeAttribute(EUPHORIA, this.getAttribute(EUPHORIA_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(IRRITATION, this.getAttribute(IRRITATION_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(ANXIETY, this.getAttribute(ANXIETY_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(DEPRESSANT, this.getAttribute(DEPRESSANT_RATE), AttributeMap.Operation.Add);
+        this.changeAttribute(STIMULANT, this.getAttribute(STIMULANT_RATE), AttributeMap.Operation.Add);
     }
 }

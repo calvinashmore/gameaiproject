@@ -38,10 +38,10 @@ public class UseBathroom
     {
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
 
-        Double need = p.getEmotions().getStimuli().getAttribute(Stimuli.Need.toilet.toString());
+        Double need = p.getEmotions().getStimuli().getAttribute(Stimuli.TOILET);
 
-        if (need < AttributeInfo.getInstance().maximums.get(Stimuli.Need.toilet.toString()) * 0.6
-                    + AttributeInfo.getInstance().minimums.get(Stimuli.Need.toilet.toString()))
+        if (need < AttributeInfo.getInstance().maximums.get(Stimuli.TOILET) * 0.6
+                    + AttributeInfo.getInstance().minimums.get(Stimuli.TOILET))
         {
             return 0;
         }

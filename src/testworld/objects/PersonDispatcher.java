@@ -4,10 +4,7 @@
  */
 package testworld.objects;
 
-import java.util.Map;
-import java.util.Map.Entry;
 import proto.behavior.Dispatcher;
-import testworld.social.Stimuli.Effect;
 
 /**
  *

@@ -12,6 +12,9 @@ import proto.behavior.ILatentBehavior;
 import proto.behavior.IWorldState;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
+import testworld.social.AttributeMap.Operation;
+import testworld.social.Emotions;
+import testworld.social.Inventory;
 import testworld.social.Stimuli;
 import testworld.tasks.EffectTask;
 import testworld.tasks.SpeechTask;
@@ -33,23 +36,23 @@ public class TakeSip extends ABehaviorTemplate implements ILatentBehavior {
 
     public IBehaviorQueue instantiate(IWorldState ws) {
         IBehaviorQueue bq = new BehaviorQueue(this);
-        bq.queueTask(new EffectTask(Stimuli.Need.beverage, 20, EffectTask.Operation.Subtract));
-        bq.queueTask(new EffectTask(Stimuli.Effect.numDrinks, 1, EffectTask.Operation.Subtract));
-        bq.queueTask(new EffectTask(Stimuli.Need.toilet, 15, EffectTask.Operation.Add));
+        bq.queueTask(new EffectTask(Stimuli.BEVERAGE, 20, Operation.Subtract));
+        bq.queueTask(new EffectTask(Inventory.DRINKS, 1, Operation.Subtract));
+        bq.queueTask(new EffectTask(Stimuli.TOILET, 15, Operation.Add));
         bq.queueTask(new SpeechTask("*sip*"));
         return bq;
     }
 
     public boolean activate(IWorldState iws) {
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
-        Stimuli s = p.getEmotions().getStimuli();
+        Emotions e = p.getEmotions();
         Double numDrinks =
-            s.getAttribute(Stimuli.Effect.numDrinks.toString());
+            e.getAttribute(Inventory.DRINKS);
         if (numDrinks == 0) {
             return false;
         }
         Double beverageNeed =
-            s.getAttribute(Stimuli.Need.beverage.toString());
+            e.getAttribute(Stimuli.BEVERAGE);
         if (beverageNeed > RandomManager.get().nextDouble() * 100 &&
             RandomManager.get().nextDouble() < 0.005)
         {

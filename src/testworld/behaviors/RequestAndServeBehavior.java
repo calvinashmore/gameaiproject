@@ -21,13 +21,15 @@ import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.objects.Pickup;
 import testworld.objects.ServerPerson;
+import testworld.social.AttributeMap.Operation;
+import testworld.social.Emotions;
+import testworld.social.Inventory;
 import testworld.social.Stimuli;
 import testworld.tasks.Chase;
 import testworld.tasks.EffectTask;
 import testworld.tasks.Fetch;
 import testworld.tasks.Flee;
 import testworld.tasks.SpeechTask;
-import utils.math.RandomManager;
 
 /**
  *
@@ -115,7 +117,7 @@ public class RequestAndServeBehavior
             bq.queueTask(new SyncTask()); // 3
             bq.queueTask(new SyncAndSuspendTask()); // 4
 
-            bq.queueTask(new EffectTask(Stimuli.Effect.numDrinks, 4, EffectTask.Operation.Set));
+            bq.queueTask(new EffectTask(Inventory.DRINKS, 4, Operation.Set));
             bq.queueTask(new SpeechTask("Thank you.", server));
             bq.queueTask(new SpeechTask("Now scram!", server));
             bq.queueTask(new SyncAndSuspendTask()); // 5
@@ -164,10 +166,10 @@ public class RequestAndServeBehavior
 
     public int getImportance(IWorldState ws) {
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
-        Stimuli s = p.getEmotions().getStimuli();
-        if (s.getAttribute(Stimuli.Effect.numDrinks.toString()) <= 0)
+        Emotions e = p.getEmotions();
+        if (e.getAttribute(Inventory.DRINKS) <= 0)
         {
-            double beverageNeed = s.getAttribute(Stimuli.Need.beverage.toString());
+            double beverageNeed = e.getAttribute(Stimuli.BEVERAGE);
             return (int)(beverageNeed/10)+1;
         }
         return 0;

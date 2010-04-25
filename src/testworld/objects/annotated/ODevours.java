@@ -11,9 +11,9 @@ import proto.behavior.IBehaviorQueue;
 import proto.behavior.ITask;
 import proto.representation.Representation;
 import testworld.objects.Person;
-import testworld.social.Stimuli.Need;
+import testworld.social.AttributeMap;
+import testworld.social.Stimuli;
 import testworld.tasks.EffectTask;
-import testworld.tasks.EffectTask.Operation;
 import testworld.tasks.SpeechTask;
 
 /**
@@ -30,8 +30,8 @@ public class ODevours extends ADefaultAnnotatedItem {
     public List<ITask> getUsageTasks(Person person, IBehaviorQueue behavior) {
         List<ITask> tasks = new LinkedList<ITask>();
         tasks.add(new SpeechTask("*munch munch*"));
-        tasks.add(new EffectTask(Need.food, 0, Operation.Set));
-        tasks.add(new EffectTask(Need.toilet, 10, Operation.Add));
+        tasks.add(new EffectTask(Stimuli.FOOD, 0, AttributeMap.Operation.Set));
+        tasks.add(new EffectTask(Stimuli.TOILET, 10, AttributeMap.Operation.Add));
 
         return tasks;
     }

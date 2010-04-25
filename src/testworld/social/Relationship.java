@@ -13,54 +13,26 @@ import testworld.objects.Person;
  *
  * @author hartsoka
  */
-public class Relationship implements AttributeMap {
+public class Relationship extends AAttributeMap {
 
     protected static final double DEFAULT_MAX = 100.0;
     protected static final double DEFAULT_MIN = -100.0;
     protected static final double DEFAULT_VALUE = 0.0;
 
+    public static final String AFFECTION =              "affection";
+    public static final String DOMINANCE =              "dominance";
+
     protected Person target;
     protected Map<String, Double> stats = new TreeMap<String, Double>();
 
-    public enum RelationshipStat
-    {
-        affection,
-        dominance
-    }
-
-    static
-    {
-        AttributeInfo info = AttributeInfo.getInstance();
-        for (RelationshipStat r : RelationshipStat.values())
-        {
-            info.maximums.put(r.toString(), DEFAULT_MAX);
-            info.minimums.put(r.toString(), DEFAULT_MIN);
-            info.defaults.put(r.toString(), DEFAULT_VALUE);
-        }
-    }
-
-    public Relationship(Person target)
-    {
-        AttributeInfo info = AttributeInfo.getInstance();
-
+    public Relationship(Person target) {
         this.target = target;
-        for (RelationshipStat s : RelationshipStat.values())
-        {
-            stats.put(s.toString(), info.defaults.get(s.toString()));
-        }
+        this.initialize();
     }
 
-    public void setAttribute(RelationshipStat stat, double value)
+    public void initialize()
     {
-        String key = stat.toString();
-        AttributeInfo info = AttributeInfo.getInstance();
-        if (info.maximums.get(key) < value) value = info.maximums.get(key);
-        if (info.minimums.get(key) > value) value = info.minimums.get(key);
-        stats.put(key, value);
-    }
-
-    public Double getAttribute(String name)
-    {
-        return stats.get(name);
+        addNewAttribute(AFFECTION, DEFAULT_VALUE, DEFAULT_MIN, DEFAULT_MAX);
+        addNewAttribute(DOMINANCE, DEFAULT_VALUE, DEFAULT_MIN, DEFAULT_MAX);
     }
 }

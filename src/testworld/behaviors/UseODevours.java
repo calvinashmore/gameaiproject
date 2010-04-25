@@ -34,6 +34,6 @@ public class UseODevours
         Person p = ((PersonDispatcher) this.getDispatcher()).getPerson();
 
         return RandomManager.get().nextInt(
-                (int) (p.getEmotions().getStimuli().getAttribute(Stimuli.Need.food.toString()) / 10) + 1);
+                (int) (p.getEmotions().getAttribute(Stimuli.FOOD) / 10) + 1);
     }
 }
