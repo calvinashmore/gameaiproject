@@ -9,7 +9,7 @@ import proto.behavior.IWorldState;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.objects.annotated.ODevours;
-import testworld.social.Stimuli;
+import testworld.social.Needs;
 import utils.math.RandomManager;
 
 /**
@@ -34,6 +34,6 @@ public class UseODevours
         Person p = ((PersonDispatcher) this.getDispatcher()).getPerson();
 
         return RandomManager.get().nextInt(
-                (int) (p.getEmotions().getAttribute(Stimuli.FOOD) / 10) + 1);
+                (int) (p.getSocialState().getAttribute(Needs.FOOD) / 10) + 1);
     }
 }

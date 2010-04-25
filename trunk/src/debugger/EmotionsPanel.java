@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -21,9 +20,7 @@ import javax.swing.JScrollPane;
 import testworld.objects.Person;
 import testworld.social.AttributeInfo;
 import testworld.social.AttributeMap;
-import testworld.social.Emotions;
-import testworld.social.Personality;
-import testworld.social.Stimuli;
+import testworld.social.SocialState;
 
 /**
  *
@@ -100,22 +97,17 @@ public class EmotionsPanel extends JPanel {
             this.person = person;
             this.progressBars = new TreeMap<String, JProgressBar>();
 
-            //this.setPreferredSize(new Dimension(200,200));
-
-            /*
-            int rows = Personality.Trait.values().length +
-                        Stimuli.Effect.values().length +
-                        Stimuli.Need.values().length;*/
             gbc = new GridBagConstraints();
-            gbc.fill = gbc.HORIZONTAL;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
             this.setLayout(new GridBagLayout());
             //this.setLayout(new GridLayout(rows, 2, 2, 2));
 
-            for (AttributeMap map : person.getEmotions().getPermanentMaps())
+            for (AttributeMap map : person.getSocialState().getPermanentMaps())
             {
                 this.addAttributeSection();
                 for (Entry<String,Double> entry : map.getValues())
                 {
+                    if (entry.getKey().endsWith("Rate")) continue;
                     this.addAttributeBar(entry.getKey());
                 }
             }
@@ -125,8 +117,7 @@ public class EmotionsPanel extends JPanel {
         {
             AttributeInfo info = AttributeInfo.getInstance();
 
-            Emotions e = person.getEmotions();
-            List<AttributeMap> maps = e.getDefaultAttributeMaps();
+            SocialState e = person.getSocialState();
 
             for (Map.Entry<String,JProgressBar> bar : progressBars.entrySet())
             {

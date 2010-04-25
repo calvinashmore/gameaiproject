@@ -37,7 +37,7 @@ public class PersonDispatcher extends Dispatcher {
 
     @Override
     public void handleTimer() {
-        this.getPerson().getEmotions().update();
+        this.getPerson().getSocialState().update();
         super.handleTimer();
     }
 }

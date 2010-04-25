@@ -5,7 +5,7 @@
 package testworld.tasks;
 
 import testworld.social.AttributeMap;
-import testworld.social.Emotions;
+import testworld.social.SocialState;
 
 /**
  *
@@ -31,7 +31,7 @@ public class EffectTask extends PersonTask {
 
     public void runImpl() {
 
-        Emotions e = this.getPerson().getEmotions();
+        SocialState e = this.getPerson().getSocialState();
 
         e.changeAttribute(name, value, operation);
 

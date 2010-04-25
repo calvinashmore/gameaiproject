@@ -17,15 +17,17 @@ import net.sourceforge.jFuzzyLogic.rule.Variable;
 import testworld.objects.Person;
 
 /**
- * Manifestation of a character's personality and stimuli.
+ * Container for all attributes of a character, including personality, needs,
+ * current feelings, inventory, etc.
  * @author hartsoka
  */
-public class Emotions
+public class SocialState
 {
     protected static FIS fis; // fuzzy inference system, contains all funcs
 
     protected Personality personality = new Personality();
-    protected Stimuli stimuli =  new Stimuli();
+    protected Feelings feelings =  new Feelings();
+    protected Needs needs =  new Needs();
     protected Inventory inventory = new Inventory();
     protected Map<Person, Relationship> relationships =
             new TreeMap<Person, Relationship>();
@@ -45,20 +47,13 @@ public class Emotions
         }
     }
 
-    public Emotions()
+    public SocialState()
     {
         permanentMaps.add(personality);
-        permanentMaps.add(stimuli);
+        permanentMaps.add(needs);
+        permanentMaps.add(feelings);
         permanentMaps.add(inventory);
         temporaryMaps.add(new AAttributeMap());
-    }
-
-    public Personality getPersonality() {
-        return this.personality;
-    }
-
-    public Stimuli getStimuli() {
-        return this.stimuli;
     }
 
     public Relationship getRelationship(Person target) {
@@ -70,31 +65,27 @@ public class Emotions
         return relationship;
     }
 
+    /*
     public List<AttributeMap> getDefaultAttributeMaps()
     {
         List<AttributeMap> maps = new LinkedList<AttributeMap>();
         maps.add(personality);
-        maps.add(stimuli);
+        maps.add(needs);
         return maps;
     }
+     *
+     */
 
-    public Map<String,Double> evaluateFuzzy_PersonalityAndStimuli(String fn)
+    public Map<String,Double> evaluateFuzzy(String fn)
     {
-        return evaluateFuzzy(fn, getDefaultAttributeMaps(), false);
+        return this.evaluateFuzzy(fn, false);
     }
 
-    public Map<String,Double> evaluateFuzzy_PersonalityStimuliAndRelationship(String fn, Person target)
-    {
-        List<AttributeMap> defs = getDefaultAttributeMaps();
-        defs.add(relationships.get(target));
-        return evaluateFuzzy(fn, defs, false);
-    }
-
-    public Map<String,Double> evaluateFuzzy(String fn, List<AttributeMap> maps, boolean debug)
+    public Map<String,Double> evaluateFuzzy(String fn, boolean debug)
     {
         FunctionBlock block = fis.getFunctionBlock(fn);
         if (block == null) {
-            throw new UnsupportedOperationException("Unknown fuzzy block in Emotions: " + fn);
+            throw new UnsupportedOperationException("Unknown fuzzy block in SocialState: " + fn);
         }
 
         HashMap<String,Variable> vars = block.getVariables();
@@ -228,9 +219,9 @@ public class Emotions
     
     public void update()
     {
-        getStimuli().update();
-        Map<String,Double> deltas =
-            evaluateFuzzy_PersonalityAndStimuli("update_internals_from_needs");
+        needs.update();
+        feelings.update();
+        Map<String,Double> deltas = evaluateFuzzy("update_internals_from_needs");
         this.applyDeltas(deltas);
     }
 
