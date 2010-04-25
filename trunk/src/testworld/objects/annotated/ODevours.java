@@ -31,6 +31,7 @@ public class ODevours extends ADefaultAnnotatedItem {
         List<ITask> tasks = new LinkedList<ITask>();
         tasks.add(new SpeechTask("*munch munch*"));
         tasks.add(new EffectTask(Need.food, 0, Operation.Set));
+        tasks.add(new EffectTask(Need.toilet, 10, Operation.Add));
 
         return tasks;
     }

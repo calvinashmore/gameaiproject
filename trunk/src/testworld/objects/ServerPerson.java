@@ -6,6 +6,7 @@
 package testworld.objects;
 
 import testworld.representations.PersonAppearance.Clothes;
+import testworld.social.Stimuli.Need;
 
 /**
  *
@@ -21,6 +22,8 @@ public class ServerPerson extends Person {
         this.getAppearance().clothesColor2 = 0x00000000;
         this.getAppearance().clothesColors.add(0x00000000); // tie
         this.getAppearance().clothesColors.add(0xffffffff); // shirt
+
+        this.getEmotions().getStimuli().setNeedRate(Need.beverage, 0.0);
     }
 
 }

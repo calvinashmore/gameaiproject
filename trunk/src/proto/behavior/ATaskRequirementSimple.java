@@ -18,12 +18,14 @@ public abstract class ATaskRequirementSimple implements ITaskRequirement
 {
     protected ITask owningTask;
 
-    public ATaskRequirementSimple(ITask owner)
-    {
+    public void setOwningTask(ITask owner) {
         this.owningTask = owner;
     }
 
     public ITask getOwningTask() {
+        if (this.owningTask == null) {
+            throw new UnsupportedOperationException("TaskRequirement's owning task was never set");
+        }
         return this.owningTask;
     }
 

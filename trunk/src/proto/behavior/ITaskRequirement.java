@@ -17,4 +17,8 @@ public interface ITaskRequirement {
      * false otherwise.
      */
     public boolean handle();
+
+    public void setOwningTask(ITask owner);
+    
+    public ITask getOwningTask();
 }

@@ -21,8 +21,7 @@ public class ProximityRequirement extends APersonTaskRequirement {
     protected BasicObject target;
     protected float distance;
 
-    public ProximityRequirement(PersonTask owner, BasicObject target, float distance) {
-        super(owner);
+    public ProximityRequirement(BasicObject target, float distance) {
         this.target = target;
         this.distance = distance;
     }
