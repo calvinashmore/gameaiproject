@@ -5,6 +5,7 @@
 
 package testworld.social;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +24,8 @@ import testworld.objects.Person;
  */
 public class SocialState
 {
-    protected static FIS fis; // fuzzy inference system, contains all funcs
+    // fuzzy inference systems, contains all funcs
+    protected static Map<String,FIS> fuzzySystems = new TreeMap<String, FIS>();
 
     protected Personality personality = new Personality();
     protected Feelings feelings =  new Feelings();
@@ -37,13 +39,18 @@ public class SocialState
 
     static
     {
-        // Load from 'FCL' file
-        String fileName = "src/fuzzy/logic.fcl";
-        fis = FIS.load(fileName,true);
-        // Error while loading?
-        if( fis == null )
+        String directoryPath = "src/fuzzy/";
+        File directory = new File(directoryPath);
+        for (File file : directory.listFiles())
         {
-            System.err.println("Can't load file: '" + fileName + "'");
+            if (!file.getName().endsWith(".fcl")) continue;
+            
+            FIS fis = FIS.load(file.getAbsolutePath());
+            String name = file.getName().substring(0, file.getName().indexOf(".fcl"));
+            if (fis.getFunctionBlock(name) == null) {
+                throw new UnsupportedOperationException("Fuzzy logic file" + name + " must match function inside");
+            }
+            fuzzySystems.put(name, fis);
         }
     }
 
@@ -83,7 +90,7 @@ public class SocialState
 
     public Map<String,Double> evaluateFuzzy(String fn, boolean debug)
     {
-        FunctionBlock block = fis.getFunctionBlock(fn);
+        FunctionBlock block = fuzzySystems.get(fn).getFunctionBlock(fn);
         if (block == null) {
             throw new UnsupportedOperationException("Unknown fuzzy block in SocialState: " + fn);
         }
@@ -120,22 +127,6 @@ public class SocialState
 
         return results;
     }
-
-    /*
-    private double getAttribute(List<AttributeMap> maps, String varName)
-    {
-        Double value = null;
-        for (AttributeMap map : maps) {
-            if (value == null) {
-                value = map.getAttribute(varName);
-            }
-        }
-        if (value == null) {
-            throw new UnsupportedOperationException("Fuzzy block uses unknown var: " + varName);
-        }
-        return value;
-    }
-     */
     
     public double getAttribute(String name)
     {

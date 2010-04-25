@@ -1,0 +1,90 @@
+// Test example - only outputs a willingness, does not output changes to the
+//  character's internal state as it should (for instance, if they are
+//  insulted, etc.)
+
+// sex_willingness
+
+FUNCTION_BLOCK test
+
+VAR_INPUT
+	sexdrive : REAL;
+	stimulant : REAL;
+        depressant : REAL;
+        //attractive : REAL;
+        //trust : REAL;
+        //approach : REAL;
+        //maritalstatus
+        confidence : REAL;
+        morality : REAL;
+        //payment : REAL;
+END_VAR
+
+VAR_OUTPUT
+	willingness : REAL;
+END_VAR
+
+FUZZIFY sexdrive
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY stimulant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY depressant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY confidence
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY morality
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+DEFUZZIFY willingness
+        TERM never := (0,1) (10,1) (30,0);
+        TERM barely := (10, 0) (30, 1) (40, 1) (50, 0);
+        TERM somewhat := (40, 0) (50, 1) (60, 1) (70, 0);
+        TERM quite := (60, 0) (70, 1) (80, 1) (90, 0);
+        TERM very := (80, 0) (90, 1) (100, 1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	//RULE 1 : IF service IS poor OR food is rancid THEN tip IS cheap;
+	//RULE 2 : IF service IS good THEN tip IS average;
+	//RULE 3 : IF service IS excellent AND food IS delicious THEN tip is generous;
+
+        RULE 1 : IF confidence IS low THEN willingness IS quite;
+        RULE 2 : IF confidence IS medium THEN willingness IS barely;
+        RULE 3 : IF confidence IS high THEN willingness IS never;
+        RULE 4 : IF sexdrive IS low THEN willingness IS barely;
+        RULE 5 : IF sexdrive IS medium THEN willingness IS somewhat;
+        RULE 6 : IF sexdrive IS high THEN willingness IS quite;
+        RULE 7 : IF depressant IS medium THEN willingness IS somewhat;
+        RULE 8 : IF depressant IS high THEN willingness IS quite;
+        RULE 9 : IF stimulant IS medium THEN willingness IS quite;
+        RULE 10 : IF stimulant IS high THEN willingness IS very;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+

@@ -1,0 +1,188 @@
+FUNCTION_BLOCK respond_to_compliment
+
+VAR_INPUT
+        euphoria : REAL;
+        irritation : REAL;
+        anxiety : REAL;
+        depressant : REAL;
+        stimulant : REAL;
+
+        affection : REAL;
+        dominance : REAL;
+
+        confidence : REAL;
+
+        sincerity : REAL; // maybe use fuzzy logic to make this adjust based
+                          //    on how socially skilled the character is, and
+                          //    how drunk they are, etc?
+END_VAR
+
+VAR_OUTPUT
+        appreciation : REAL; // controls verbal response
+	d_affection : REAL;
+        d_euphoria : REAL;
+        d_irritation : REAL;
+END_VAR
+
+FUZZIFY euphoria
+	TERM normal := (0, 1) (20, 1) (40, 0) ;
+	TERM happy := (20, 0) (40,1) (60,1) (80,0);
+	TERM ecstatic := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY irritation
+	TERM normal := (0, 1) (20, 1) (40, 0) ;
+	TERM annoyed := (20, 0) (40,1) (60,1) (80,0);
+	TERM angry := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY anxiety
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY stimulant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY depressant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY affection
+        TERM hate := (-100, 1) (-90, 1) (-50, 0);
+	TERM dislike := (-90, 0) (-50, 1) (-30, 1) (-10, 0) ;
+	TERM neutral := (-30,0) (-10,1) (10,1) (30,0);
+	TERM like := (10, 0) (30, 1) (50, 1) (90, 0);
+        TERM love :=  (50, 0) (90, 1) (100, 1);
+END_FUZZIFY
+
+FUZZIFY confidence
+	TERM low := (-100, 1) (-80,1) (0, 0) ;
+	TERM medium := (-80,0) (0,1) (80,0);
+	TERM high := (0,0) (80,1) (100,1);
+END_FUZZIFY
+
+FUZZIFY sincerity
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1) (100, 1);
+END_FUZZIFY
+
+DEFUZZIFY appreciation
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_euphoria
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_irritation
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_affection
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No2
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	//RULE 1 : IF service IS poor OR food is rancid THEN tip IS cheap;
+	//RULE 2 : IF service IS good THEN tip IS average;
+	//RULE 3 : IF service IS excellent AND food IS delicious THEN tip is generous;
+
+        // Combs method
+
+        // APPRECIATION
+
+        RULE 1 : IF euphoria IS ecstatic    THEN    appreciation IS positive;
+        RULE 2 : IF euphoria IS happy       THEN    appreciation IS positive;
+        RULE 3 : IF euphoria IS normal      THEN    appreciation IS positive;
+
+        RULE 4 : IF irritation IS angry     THEN    appreciation IS very_negative;
+        RULE 5 : IF irritation IS annoyed   THEN    appreciation IS very_negative;
+
+        RULE 7 : IF anxiety IS high     THEN    appreciation IS neutral;
+        RULE 8 : IF anxiety IS medium   THEN    appreciation IS positive;
+
+        // effect of stimulants and depressants
+
+        RULE 9 : IF affection IS hate        THEN    appreciation IS very_negative;
+        RULE 10 : IF affection IS dislike    THEN    appreciation IS negative;
+        RULE 11 : IF affection IS like       THEN    appreciation IS positive;
+        RULE 12 : IF affection IS love       THEN    appreciation IS very_positive;
+
+        // dominance
+
+        RULE 15 : IF confidence IS low  THEN    appreciation IS very_positive;
+        RULE 16 : IF confidence IS high THEN    appreciation IS neutral;
+
+        RULE 17 : IF sincerity IS low   THEN    appreciation IS very_negative;
+        RULE 18 : IF sincerity IS high  THEN    appreciation IS positive;
+
+
+        // CHANGES TO INTERNAL STATE
+
+        RULE 21 : IF euphoria IS ecstatic    THEN    d_euphoria IS neutral,      d_affection IS positive;
+        RULE 22 : IF euphoria IS happy       THEN    d_euphoria IS neutral,      d_affection IS positive;
+        RULE 23 : IF euphoria IS normal      THEN    d_euphoria IS positive,     d_affection IS very_positive;
+
+        RULE 24 : IF irritation IS angry     THEN    d_irritation IS positive, d_affection IS negative;
+        RULE 25 : IF irritation IS annoyed   THEN    d_irritation IS positive, d_affection IS neutral;
+
+        RULE 27 : IF anxiety IS high     THEN    d_irritation IS very_negative,  d_affection IS positive;
+        RULE 28 : IF anxiety IS medium   THEN    d_irritation IS negative,       d_affection IS positive;
+
+        // effect of stimulants and depressants
+
+        RULE 29 : IF affection IS hate       THEN    d_irritation IS very_positive,  d_affection IS neutral;
+        RULE 30 : IF affection IS dislike    THEN    d_irritation IS positive,       d_affection IS neutral;
+        RULE 30 : IF affection IS neutral    THEN    d_affection IS positive;
+        RULE 31 : IF affection IS like       THEN    d_irritation IS very_negative,  d_affection IS positive;
+        RULE 32 : IF affection IS love       THEN    d_irritation IS negative,       d_affection IS neutral;
+
+        // dominance
+
+        RULE 35 : IF confidence IS low  THEN    d_euphoria IS very_positive,    d_affection IS very_positive;
+        RULE 36 : IF confidence IS high THEN    d_irritation IS positive,       d_affection IS neutral;
+
+        RULE 37 : IF sincerity IS low   THEN    d_irritation IS very_positive,  d_affection IS very_negative;
+        RULE 38 : IF sincerity IS high  THEN    d_euphoria IS positive,         d_affection IS positive;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
