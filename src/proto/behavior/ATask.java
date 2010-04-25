@@ -41,20 +41,24 @@ public abstract class ATask implements ITask {
      * Add a TaskRequirement to the end of the Requirements list; will be
      * handled after all others have been handled.
      * @param req TaskRequirement to add.
+     * @return Itself, so that it can be used easily in behavior functions:
+     *          addTask( new TaskType(params).queueTaskRequirement(req) );
      */
-    public void queueTaskRequirment(ITaskRequirement req)
+    public ITask queueTaskRequirement(ITaskRequirement req)
     {
         requirements.add(req);
+        req.setOwningTask(this);
+        return this;
     }
 
     /**
      * Get the TaskRequirements associated with this task.
      * @return List of requirements which are checked before running this task.
      */
-    public List<ITaskRequirement> getTaskRequirements()
+    /*public List<ITaskRequirement> getTaskRequirements()
     {
         return requirements;
-    }
+    }*/
 
     /**
      * Sets the BehaviorQueue which contains this Task - in general, should only

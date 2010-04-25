@@ -13,6 +13,7 @@ import proto.behavior.ITask;
 import proto.representation.Representation;
 import testworld.objects.Person;
 import testworld.tasks.SpeechTask;
+import testworld.tasks.requirements.ProximityRequirement;
 
 /**
  *
@@ -34,10 +35,10 @@ public class DanceFloor extends ADefaultAnnotatedItem {
     {
         List<ITask> tasks = new LinkedList<ITask>();
 
-        tasks.add(new SpeechTask("*shakes groove thing*"));
-        tasks.add(new SpeechTask("*twists and shouts*"));
-        tasks.add(new SpeechTask("*boogeys*"));
-        tasks.add(new SpeechTask("*headbangs*"));
+        tasks.add(new SpeechTask("*shakes groove thing*").queueTaskRequirement(new ProximityRequirement(this, 50)));
+        tasks.add(new SpeechTask("*twists and shouts*").queueTaskRequirement(new ProximityRequirement(this, 50)));
+        tasks.add(new SpeechTask("*boogeys*").queueTaskRequirement(new ProximityRequirement(this, 50)));
+        tasks.add(new SpeechTask("*headbangs*").queueTaskRequirement(new ProximityRequirement(this, 50)));
 
         return tasks;
     }

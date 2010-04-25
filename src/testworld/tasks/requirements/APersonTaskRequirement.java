@@ -15,10 +15,6 @@ import testworld.tasks.PersonTask;
  */
 public abstract class APersonTaskRequirement extends ATaskRequirementSimple {
 
-    public APersonTaskRequirement(PersonTask owner) {
-        super(owner);
-    }
-
     protected Person getPerson()
     {
         return ((PersonTask)this.getOwningTask()).getPerson();
