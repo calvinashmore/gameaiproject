@@ -12,6 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -57,6 +58,25 @@ public class EmotionsPanel extends JPanel {
         private Map<String, JProgressBar> progressBars;
         private GridBagConstraints gbc;
 
+        private void addAttributeSection()
+        {
+            gbc.gridy++;
+
+            gbc.gridx = 0;
+            gbc.weightx = 0.3;
+            JLabel label = new JLabel("---------------");
+            label.setSize(50, 20);
+            label.setBackground(Color.yellow);
+            super.add(label, gbc);
+
+            gbc.gridx = 1;
+            gbc.weightx = 0.7;
+            label = new JLabel("---------------");
+            label.setSize(50, 20);
+            label.setBackground(Color.yellow);
+            super.add(label, gbc);
+        }
+
         private void addAttributeBar(String attribute)
         {
             gbc.gridy++;
@@ -82,22 +102,22 @@ public class EmotionsPanel extends JPanel {
 
             //this.setPreferredSize(new Dimension(200,200));
 
+            /*
             int rows = Personality.Trait.values().length +
                         Stimuli.Effect.values().length +
-                        Stimuli.Need.values().length;
+                        Stimuli.Need.values().length;*/
             gbc = new GridBagConstraints();
             gbc.fill = gbc.HORIZONTAL;
             this.setLayout(new GridBagLayout());
             //this.setLayout(new GridLayout(rows, 2, 2, 2));
 
-            for (Personality.Trait t : Personality.Trait.values()) {
-                this.addAttributeBar(t.toString());
-            }
-            for (Stimuli.Effect t : Stimuli.Effect.values()) {
-                this.addAttributeBar(t.toString());
-            }
-            for (Stimuli.Need t : Stimuli.Need.values()) {
-                this.addAttributeBar(t.toString());
+            for (AttributeMap map : person.getEmotions().getPermanentMaps())
+            {
+                this.addAttributeSection();
+                for (Entry<String,Double> entry : map.getValues())
+                {
+                    this.addAttributeBar(entry.getKey());
+                }
             }
         }
 
@@ -111,7 +131,7 @@ public class EmotionsPanel extends JPanel {
             for (Map.Entry<String,JProgressBar> bar : progressBars.entrySet())
             {
                 String key = bar.getKey();
-                int value = (int)(e.debugGetAttribute(maps, key) - info.minimums.get(key));
+                int value = (int)(e.getAttribute(key) - info.minimums.get(key));
                 bar.getValue().setMaximum((int)(info.maximums.get(key) - info.minimums.get(key)));
                 bar.getValue().setValue(value);
             }

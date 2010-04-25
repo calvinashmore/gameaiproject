@@ -13,64 +13,26 @@ import utils.math.RandomManager;
  * Static character attributes.
  * @author hartsoka
  */
-public class Personality implements AttributeMap
+public class Personality extends AAttributeMap
 {
     protected static final double DEFAULT_MIN = -100;
     protected static final double DEFAULT_MAX = 100;
     protected static final double DEFAULT_VALUE = 0;
 
-    protected Map<String, Double> traits;
+    public static final String MORALITY =           "morality";
+    public static final String CONFIDENCE =         "confidence";
+    public static final String OPEN_MINDED =        "open_minded";
+    public static final String MANNERS =            "manners";
 
-    public enum Trait
-    {
-        morality,
-        confidence,
-        //arrogance,
-        open_minded,
-        manners,
+    public Personality() {
+        this.initialize();
     }
 
-    static
+    public void initialize()
     {
-        AttributeInfo info = AttributeInfo.getInstance();
-        for (Trait t : Trait.values())
-        {
-            info.maximums.put(t.toString(), DEFAULT_MAX);
-            info.minimums.put(t.toString(), DEFAULT_MIN);
-            info.defaults.put(t.toString(), DEFAULT_VALUE);
-        }
-    }
-
-    public Personality()
-    {
-        AttributeInfo info = AttributeInfo.getInstance();
-
-        traits = new TreeMap<String, Double>();
-        for (Trait t : Trait.values())
-        {
-            traits.put(t.toString(), info.defaults.get(t.toString()));
-        }
-    }
-
-    public void setTrait(Trait trait, double value)
-    {
-        String key = trait.toString();
-        AttributeInfo info = AttributeInfo.getInstance();
-        if (info.maximums.get(key) < value) value = info.maximums.get(key);
-        if (info.minimums.get(key) > value) value = info.minimums.get(key);
-        traits.put(key, value);
-    }
-
-    /**
-     * Gets an attribute value regardless of where in the Personality it is located.
-     * @param name Name of the attribute
-     * @return Value of the attribute, or null if it is not recognized
-     */
-    public Double getAttribute(String name)
-    {
-        if (name.equals("sincerity")) {
-            return RandomManager.get().nextDouble() * 100;
-        }
-        return traits.get(name);
+        addNewAttribute(MORALITY, DEFAULT_VALUE, DEFAULT_MIN, DEFAULT_MAX);
+        addNewAttribute(CONFIDENCE, DEFAULT_VALUE, DEFAULT_MIN, DEFAULT_MAX);
+        addNewAttribute(OPEN_MINDED, DEFAULT_VALUE, DEFAULT_MIN, DEFAULT_MAX);
+        addNewAttribute(MANNERS, DEFAULT_VALUE, DEFAULT_MIN, DEFAULT_MAX);
     }
 }

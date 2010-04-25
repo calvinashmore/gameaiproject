@@ -7,8 +7,9 @@ package testworld.tasks;
 
 import java.util.Map;
 import testworld.objects.Person;
+import testworld.social.Emotions;
 import testworld.social.Relationship;
-import testworld.social.Stimuli;
+import utils.math.RandomManager;
 
 /**
  *
@@ -32,11 +33,18 @@ public class ResponseTask extends PersonTask
 
     public void runImpl() {
 
-        Relationship r = this.getPerson().getEmotions().getRelationship(respondee);
+        Emotions e = this.getPerson().getEmotions();
+        Relationship r = e.getRelationship(respondee);
+
+        e.addTemporaryAttribute("sincerity", RandomManager.get().nextDouble() * 100);
+        e.addTemporaryMap(r);
 
         Map<String, Double> results =
                 this.getPerson().getEmotions().evaluateFuzzy_PersonalityStimuliAndRelationship(fuzzyFn, respondee);
 
+        e.applyDeltas(results);
+
+        /*
         if (results.containsKey("d_affection")) {
             r.setAttribute(Relationship.RelationshipStat.affection, r.getAttribute(Relationship.RelationshipStat.affection.toString()) + results.get("d_affection"));
         }
@@ -55,6 +63,9 @@ public class ResponseTask extends PersonTask
             Stimuli s = this.getPerson().getEmotions().getStimuli();
             s.setEffect(Stimuli.Effect.anxiety, s.getAttribute(Stimuli.Effect.anxiety.toString()) + results.get("d_anxiety"));
         }
+         */
+
+        e.clearTemporaryMaps();
 
         finished();
     }
