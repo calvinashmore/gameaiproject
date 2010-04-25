@@ -12,7 +12,7 @@ import proto.behavior.ITask;
 import proto.representation.Representation;
 import testworld.objects.Person;
 import testworld.social.AttributeMap.Operation;
-import testworld.social.Stimuli;
+import testworld.social.Needs;
 import testworld.tasks.EffectTask;
 import testworld.tasks.SpeechTask;
 
@@ -30,7 +30,7 @@ public class Bathroom extends ADefaultAnnotatedItem {
     public List<ITask> getUsageTasks(Person person, IBehaviorQueue behavior) {
         List<ITask> tasks = new LinkedList<ITask>();
         tasks.add(new SpeechTask("*uses bathroom*"));
-        tasks.add(new EffectTask(Stimuli.TOILET, 0, Operation.Set));
+        tasks.add(new EffectTask(Needs.TOILET, 0, Operation.Set));
 
         return tasks;
     }

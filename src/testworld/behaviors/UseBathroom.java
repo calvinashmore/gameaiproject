@@ -11,7 +11,7 @@ import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.objects.annotated.Bathroom;
 import testworld.social.AttributeInfo;
-import testworld.social.Stimuli;
+import testworld.social.Needs;
 import utils.math.RandomManager;
 
 /**
@@ -38,10 +38,10 @@ public class UseBathroom
     {
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
 
-        Double need = p.getEmotions().getStimuli().getAttribute(Stimuli.TOILET);
+        Double need = p.getSocialState().getAttribute(Needs.TOILET);
 
-        if (need < AttributeInfo.getInstance().maximums.get(Stimuli.TOILET) * 0.6
-                    + AttributeInfo.getInstance().minimums.get(Stimuli.TOILET))
+        if (need < AttributeInfo.getInstance().maximums.get(Needs.TOILET) * 0.6
+                    + AttributeInfo.getInstance().minimums.get(Needs.TOILET))
         {
             return 0;
         }

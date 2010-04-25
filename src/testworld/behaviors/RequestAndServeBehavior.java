@@ -22,9 +22,9 @@ import testworld.objects.PersonDispatcher;
 import testworld.objects.Pickup;
 import testworld.objects.ServerPerson;
 import testworld.social.AttributeMap.Operation;
-import testworld.social.Emotions;
+import testworld.social.SocialState;
 import testworld.social.Inventory;
-import testworld.social.Stimuli;
+import testworld.social.Needs;
 import testworld.tasks.Chase;
 import testworld.tasks.EffectTask;
 import testworld.tasks.Fetch;
@@ -166,10 +166,10 @@ public class RequestAndServeBehavior
 
     public int getImportance(IWorldState ws) {
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
-        Emotions e = p.getEmotions();
+        SocialState e = p.getSocialState();
         if (e.getAttribute(Inventory.DRINKS) <= 0)
         {
-            double beverageNeed = e.getAttribute(Stimuli.BEVERAGE);
+            double beverageNeed = e.getAttribute(Needs.BEVERAGE);
             return (int)(beverageNeed/10)+1;
         }
         return 0;

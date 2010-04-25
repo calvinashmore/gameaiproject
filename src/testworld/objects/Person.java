@@ -4,7 +4,7 @@
  */
 package testworld.objects;
 
-import testworld.social.Emotions;
+import testworld.social.SocialState;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,7 +32,7 @@ public class Person extends Entity implements Comparable {
     private Vector2d lookAt = new Vector2d();
     private PersonAppearance appearance = new PersonAppearance();
     private PersonExpression expression = PersonExpression.happySmallSmile;
-    private Emotions emotions = new Emotions();
+    private SocialState socialState = new SocialState();
     private List<ConversationContent> conversations = BasicConversations.conversations;
     private List<DependentAction> dependentActions = new ArrayList<DependentAction>();
     private Gender gender;
@@ -71,8 +71,8 @@ public class Person extends Entity implements Comparable {
         return name;
     }
 
-    public Emotions getEmotions() {
-        return emotions;
+    public SocialState getSocialState() {
+        return socialState;
     }
 
     public void instantiateNewProactiveBehavior(IProactiveBehavior behavior) {
