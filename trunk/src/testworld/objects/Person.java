@@ -16,7 +16,6 @@ import proto.world.Entity;
 import proto.world.World;
 import testworld.game.BasicConversations;
 import testworld.behaviors.conversations.ConversationContent;
-import testworld.actions.ConversationDependentAction;
 import testworld.representations.PersonAppearance;
 import testworld.representations.PersonRepresentation;
 import utils.math.Vector2d;
