@@ -27,6 +27,11 @@ public class Bathroom extends ADefaultAnnotatedItem {
     }
 
     @Override
+    public String getName() {
+        return "Bathroom";
+    }
+
+    @Override
     public List<ITask> getUsageTasks(Person person, IBehaviorQueue behavior) {
         List<ITask> tasks = new LinkedList<ITask>();
         tasks.add(new SpeechTask("*uses bathroom*"));
@@ -39,6 +44,13 @@ public class Bathroom extends ADefaultAnnotatedItem {
 
         public BathroomRepresentation(Bathroom target) {
             super(target);
+        }
+
+        @Override
+        public boolean inRange(float x, float y) {
+            x -= getTarget().getLocation().getPosition().x;
+            y -= getTarget().getLocation().getPosition().y;
+            return Math.sqrt(x * x + y * y) < 50;
         }
 
         @Override

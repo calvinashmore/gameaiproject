@@ -5,6 +5,7 @@
 
 package testworld.behaviors;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import proto.behavior.CollaborationHandshake;
@@ -79,8 +80,8 @@ public class RequestAndServeBehavior
 
         List<BasicObject> servers =
                 World.getInstance().getAllObjectsOfType(ServerPerson.class);
-        List<Dispatcher> dispatchers =
-                new LinkedList<Dispatcher>();
+        List<PersonDispatcher> dispatchers =
+                new LinkedList<PersonDispatcher>();
         for (BasicObject bo : servers)
         {
             PersonDispatcher d = ((ServerPerson)bo).getDispatcher();
@@ -89,7 +90,7 @@ public class RequestAndServeBehavior
 
         super.sortPeopleByDistance(dispatchers);
 
-        return dispatchers;
+        return new ArrayList<Dispatcher>(dispatchers);
     }
 
     @Override

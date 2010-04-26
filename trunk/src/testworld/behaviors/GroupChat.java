@@ -5,10 +5,8 @@
 
 package testworld.behaviors;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-import proto.behavior.AJointBehavior;
 import proto.behavior.CollaborationHandshake;
 import proto.behavior.CollaborativeBehaviorQueue;
 import proto.behavior.Dispatcher;
@@ -17,7 +15,6 @@ import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
 import proto.behavior.SyncTask;
 import proto.world.World;
-import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.MoveTo;
 import testworld.tasks.SpeechTask;
@@ -67,11 +64,9 @@ public class GroupChat
 
     @Override
     public List<Dispatcher> getPotentialCollaborators() {
-        List<Dispatcher> dispatchers = World.getInstance().getDispatchers();
-
-        super.sortPeopleByDistance(dispatchers);
-
-        return dispatchers;
+        List<PersonDispatcher> personDispatchers = getPersonDispatchers();
+        sortPeopleByDistance(personDispatchers);
+        return new ArrayList<Dispatcher>(personDispatchers);
     }
 
     @Override

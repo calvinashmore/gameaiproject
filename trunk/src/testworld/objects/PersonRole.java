@@ -24,8 +24,4 @@ public class PersonRole extends ARole {
 
         addBehaviorTemplate(new UseBathroom());
     }
-//    public void forceMoveTo(Vector2d destination) {
-//        addBehaviorTemplate(new MoveToProactiveBehavior(destination));
-//
-//    }
 }

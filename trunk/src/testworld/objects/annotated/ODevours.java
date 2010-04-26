@@ -27,6 +27,11 @@ public class ODevours extends ADefaultAnnotatedItem {
     }
 
     @Override
+    public String getName() {
+        return "O'Devours";
+    }
+
+    @Override
     public List<ITask> getUsageTasks(Person person, IBehaviorQueue behavior) {
         List<ITask> tasks = new LinkedList<ITask>();
         tasks.add(new SpeechTask("*munch munch*"));
@@ -40,6 +45,13 @@ public class ODevours extends ADefaultAnnotatedItem {
 
         public ODevoursRepresentation(ODevours target) {
             super(target);
+        }
+
+        @Override
+        public boolean inRange(float x, float y) {
+            x -= getTarget().getLocation().getPosition().x;
+            y -= getTarget().getLocation().getPosition().y;
+            return Math.sqrt(x * x + y * y) < 50;
         }
 
         @Override
