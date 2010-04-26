@@ -31,9 +31,13 @@ public class Testworld extends World {
 
         getAllObjects().add(Cast.player);
         getAllObjects().add(Cast.frank);
+        getAllObjects().add(Cast.harriet);
         getAllObjects().add(Cast.fred);
         getAllObjects().add(Cast.gayle);
         getAllObjects().add(Cast.hilda);
+        getAllObjects().add(Cast.rose);
+        getAllObjects().add(Cast.victim);
+        getAllObjects().add(Cast.hughes);
 
         Pickup p = new Pickup();
         p.getLocation().getPosition().x = 20;
