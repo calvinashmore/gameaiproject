@@ -24,8 +24,11 @@ import utils.math.Vector2d;
  */
 public class PlayerImplementation extends GuestPerson implements PlayerHandler {
 
+    public static PlayerImplementation p1; // hack for easy access to player
+
     public PlayerImplementation(String name) {
         super(name);
+        p1 = this; // hack for easy access to player
     }
 
 //    private Person player;
