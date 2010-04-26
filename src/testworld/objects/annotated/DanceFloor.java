@@ -12,8 +12,11 @@ import proto.behavior.IBehaviorQueue;
 import proto.behavior.ITask;
 import proto.representation.Representation;
 import testworld.objects.Person;
+import testworld.tasks.MoveTo;
 import testworld.tasks.SpeechTask;
 import testworld.tasks.requirements.ProximityRequirement;
+import utils.math.RandomManager;
+import utils.math.Vector2d;
 
 /**
  *
@@ -40,10 +43,13 @@ public class DanceFloor extends ADefaultAnnotatedItem {
     {
         List<ITask> tasks = new LinkedList<ITask>();
 
-        tasks.add(new SpeechTask("*shakes groove thing*").queueTaskRequirement(new ProximityRequirement(this, 50)));
-        tasks.add(new SpeechTask("*twists and shouts*").queueTaskRequirement(new ProximityRequirement(this, 50)));
-        tasks.add(new SpeechTask("*boogeys*").queueTaskRequirement(new ProximityRequirement(this, 50)));
-        tasks.add(new SpeechTask("*headbangs*").queueTaskRequirement(new ProximityRequirement(this, 50)));
+        tasks.add(new SpeechTask("*shakes groove thing*").queueTaskRequirement(new ProximityRequirement(this, size/3)));
+        tasks.add(new MoveTo(this.getLocation().getPosition().add(new Vector2d(RandomManager.get().nextDouble()*size-size/2, RandomManager.get().nextDouble()*size-size/2))));
+        tasks.add(new SpeechTask("*twists and shouts*").queueTaskRequirement(new ProximityRequirement(this, size/2)));
+        tasks.add(new MoveTo(this.getLocation().getPosition().add(new Vector2d(RandomManager.get().nextDouble()*size-size/2, RandomManager.get().nextDouble()*size-size/2))));
+        tasks.add(new SpeechTask("*boogeys*").queueTaskRequirement(new ProximityRequirement(this, size/2)));
+        tasks.add(new MoveTo(this.getLocation().getPosition().add(new Vector2d(RandomManager.get().nextDouble()*size-size/2, RandomManager.get().nextDouble()*size-size/2))));
+        tasks.add(new SpeechTask("*headbangs*").queueTaskRequirement(new ProximityRequirement(this, size/2)));
 
         return tasks;
     }
@@ -71,7 +77,7 @@ public class DanceFloor extends ADefaultAnnotatedItem {
                         (float)getTarget().getLocation().getPosition().y);
 
             g.stroke(0);
-            g.fill(0xaabbccff);
+            g.fill(0x20bbccff);
             g.rect(-size/2, -size/2, size, size);
 
             g.popMatrix();

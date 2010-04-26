@@ -38,16 +38,16 @@ public class UseBathroom
     {
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
 
-        Double need = p.getSocialState().getAttribute(Needs.TOILET);
+        Double toiletNeed = p.getSocialState().getAttribute(Needs.TOILET);
 
-        if (need < AttributeInfo.getInstance().maximums.get(Needs.TOILET) * 0.6
+        if (toiletNeed < AttributeInfo.getInstance().maximums.get(Needs.TOILET) * 0.6
                     + AttributeInfo.getInstance().minimums.get(Needs.TOILET))
         {
             return 0;
         }
 
         return RandomManager.get().nextInt(
-                    (int)(need/10) + 1
+                    (int)(toiletNeed/1) + 1
                 );
     }
 

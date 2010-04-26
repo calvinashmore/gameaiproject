@@ -14,8 +14,10 @@ import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
 import proto.behavior.SyncTask;
-import proto.world.World;
 import testworld.objects.PersonDispatcher;
+import testworld.social.AttributeMap.Operation;
+import testworld.social.Needs;
+import testworld.tasks.EffectTask;
 import testworld.tasks.MoveTo;
 import testworld.tasks.SpeechTask;
 import utils.math.RandomManager;
@@ -86,6 +88,7 @@ public class GroupChat
 
             bq.queueTask(new MoveTo(calculateGroupCenter(handshake),50));
             bq.queueTask(new SpeechTask("I would like to propose a toast!"));
+            bq.queueTask(new EffectTask(Needs.GOSSIP, 50, Operation.Subtract));
             bq.queueTask(new SyncTask());
 
             int numReactors = handshake.getParticipants().size() - 1;
@@ -117,6 +120,7 @@ public class GroupChat
                         bq.queueTask(new SpeechTask("Death to the Yankees!"));
                     else if (i >= 2)
                         bq.queueTask(new SpeechTask("Whoa, that much Yankee hate?  Really?"));
+                    bq.queueTask(new EffectTask(Needs.GOSSIP, 50, Operation.Subtract));
                 }
                 bq.queueTask(new SyncTask());
             }
@@ -134,6 +138,7 @@ public class GroupChat
 
     public boolean tryCollaboration(CollaborationHandshake handshake) {
         int numReactors = handshake.getParticipants().size() - 1;
+        if (numReactors >= 4) return false;
         int myNum = numReactors;
         handshake.participate(this.getDispatcher(), this, "reactor" + new Integer(myNum).toString());
         return true;

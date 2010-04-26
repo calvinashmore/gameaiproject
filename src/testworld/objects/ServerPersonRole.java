@@ -16,6 +16,5 @@ class ServerPersonRole extends PersonRole {
     public ServerPersonRole() {
         super();
         addBehaviorTemplate(RequestAndServeBehavior.makeServeBehavior());
-        addBehaviorTemplate(new UseRandomAnnotatedItem());
     }
 }

@@ -20,7 +20,7 @@ import proto.world.BasicObject;
 import proto.world.World;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
-import testworld.objects.Pickup;
+import testworld.objects.plain.Pickup;
 import testworld.objects.ServerPerson;
 import testworld.social.AttributeMap.Operation;
 import testworld.social.SocialState;
@@ -31,6 +31,7 @@ import testworld.tasks.EffectTask;
 import testworld.tasks.Fetch;
 import testworld.tasks.Flee;
 import testworld.tasks.SpeechTask;
+import testworld.tasks.requirements.ProximityRequirement;
 
 /**
  *
@@ -118,7 +119,7 @@ public class RequestAndServeBehavior
             bq.queueTask(new SyncTask()); // 3
             bq.queueTask(new SyncAndSuspendTask()); // 4
 
-            bq.queueTask(new EffectTask(Inventory.DRINKS, 4, Operation.Set));
+            bq.queueTask(new EffectTask(Inventory.DRINKS, 6, Operation.Set));
             bq.queueTask(new SpeechTask("Thank you.", server));
             bq.queueTask(new SpeechTask("Now scram!", server));
             bq.queueTask(new SyncAndSuspendTask()); // 5
@@ -134,13 +135,13 @@ public class RequestAndServeBehavior
 
             bq.queueTask(new SyncTask()); // 1
             bq.queueTask(new Chase(patron, SERVER_PROXIMITY));
-            bq.queueTask(new SpeechTask("How may I help you?", patron));
+            bq.queueTask(new SpeechTask("How may I help you?", patron).queueTaskRequirement(new ProximityRequirement(patron, 50)));
             bq.queueTask(new SyncTask()); // 2
             bq.queueTask(new SyncTask()); // 3
-            bq.queueTask(new SpeechTask("Of course, right away.", patron));
+            bq.queueTask(new SpeechTask("Of course, right away.", patron).queueTaskRequirement(new ProximityRequirement(patron, 50)));
             bq.queueTask(new Fetch<Pickup>(Pickup.class));
             bq.queueTask(new Chase(patron, SERVER_PROXIMITY));
-            bq.queueTask(new SpeechTask("Here you are.", patron));
+            bq.queueTask(new SpeechTask("Here you are.", patron).queueTaskRequirement(new ProximityRequirement(patron, 50)));
             bq.queueTask(new SyncTask()); // 4
             bq.queueTask(new SyncTask()); // 5
             bq.queueTask(new Flee(patron));
@@ -171,7 +172,9 @@ public class RequestAndServeBehavior
         if (e.getAttribute(Inventory.DRINKS) <= 0)
         {
             double beverageNeed = e.getAttribute(Needs.BEVERAGE);
-            return (int)(beverageNeed/10)+1;
+            double alcoholNeed = e.getAttribute(Needs.ALCOHOL);
+            double drinkNeed = Math.max(beverageNeed, alcoholNeed);
+            return (int)(drinkNeed/1)+1;
         }
         return 0;
     }

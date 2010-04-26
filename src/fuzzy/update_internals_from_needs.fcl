@@ -1,9 +1,9 @@
 FUNCTION_BLOCK update_internals_from_needs
 
 VAR_INPUT
-        euphoria : REAL;
-        irritation : REAL;
-        anxiety : REAL;
+        //euphoria : REAL;
+        //irritation : REAL;
+        //anxiety : REAL;
 
         sexdrive : REAL;
         alcohol : REAL;

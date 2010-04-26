@@ -10,6 +10,9 @@ import proto.behavior.IBehaviorTemplate;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.SyncTask;
 import testworld.objects.Person;
+import testworld.social.AttributeMap.Operation;
+import testworld.social.Needs;
+import testworld.tasks.EffectTask;
 import testworld.tasks.SpeechTask;
 
 /**
@@ -35,6 +38,7 @@ public class SimpleConversationContent extends ConversationContent {
             }
             bq.queueTask(new SyncTask());
         }
+        bq.queueTask(new EffectTask(Needs.GOSSIP, 50, Operation.Subtract));
         return bq;
     }
 
@@ -48,6 +52,7 @@ public class SimpleConversationContent extends ConversationContent {
             }
             bq.queueTask(new SyncTask());
         }
+        bq.queueTask(new EffectTask(Needs.GOSSIP, 50, Operation.Subtract));
         return bq;
     }
 }

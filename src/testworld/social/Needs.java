@@ -58,7 +58,7 @@ public class Needs extends AAttributeMap
         addNewAttribute(BEVERAGE,     DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
         addNewAttribute(TOILET,       DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
         addNewAttribute(SLEEP,        DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
-        addNewAttribute(GOSSIP,       DEFAULT_NEEDS_AMT,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(GOSSIP,       40,                   DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
 
         addNewAttribute(SEXDRIVE_RATE,     DEFAULT_NEEDS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
         addNewAttribute(ALCOHOL_RATE,      0,                     DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
@@ -68,7 +68,7 @@ public class Needs extends AAttributeMap
         addNewAttribute(BEVERAGE_RATE,     0.75,                  DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
         addNewAttribute(TOILET_RATE,       0,                     DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
         addNewAttribute(SLEEP_RATE,        DEFAULT_NEEDS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
-        addNewAttribute(GOSSIP_RATE,       DEFAULT_NEEDS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(GOSSIP_RATE,       1.2,                   DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
     }
 
     public void update()
@@ -87,10 +87,10 @@ public class Needs extends AAttributeMap
         this.changeAttribute(BEVERAGE, this.getAttribute(BEVERAGE_RATE), AttributeMap.Operation.Add);
         this.changeAttribute(TOILET, this.getAttribute(TOILET_RATE), AttributeMap.Operation.Add);
         this.changeAttribute(ALCOHOL, this.getAttribute(ALCOHOL_RATE), AttributeMap.Operation.Add);
-        this.changeAttribute(SLEEP, this.getAttribute(SLEEP_RATE), AttributeMap.Operation.Add);
+        //this.changeAttribute(SLEEP, this.getAttribute(SLEEP_RATE), AttributeMap.Operation.Add);
         this.changeAttribute(GOSSIP, this.getAttribute(GOSSIP_RATE), AttributeMap.Operation.Add);
         this.changeAttribute(COCAINE, this.getAttribute(COCAINE_RATE), AttributeMap.Operation.Add);
-        this.changeAttribute(SEXDRIVE, this.getAttribute(SEXDRIVE_RATE), AttributeMap.Operation.Add);
+        //this.changeAttribute(SEXDRIVE, this.getAttribute(SEXDRIVE_RATE), AttributeMap.Operation.Add);
         this.changeAttribute(CIGARETTE, this.getAttribute(CIGARETTE_RATE), AttributeMap.Operation.Add);
     }
 }

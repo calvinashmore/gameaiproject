@@ -18,6 +18,8 @@ import proto.world.BasicObject;
 import proto.world.World;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
+import testworld.social.Needs;
+import utils.math.RandomManager;
 
 /**
  *
@@ -157,7 +159,13 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
         return true;
     }
 
-    public int getImportance(IWorldState ws) {
-        return 11;
+    public int getImportance(IWorldState ws)
+    {
+        Person p = ((PersonDispatcher) this.getDispatcher()).getPerson();
+        double gossipNeed = p.getSocialState().getAttribute(Needs.GOSSIP);
+        double gossipDesire = Math.max(50, gossipNeed);
+
+        return RandomManager.get().nextInt(
+                (int) (gossipDesire / 1) + 1);
     }
 }

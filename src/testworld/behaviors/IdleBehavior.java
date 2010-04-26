@@ -11,6 +11,7 @@ import proto.behavior.IBehaviorTemplate.CollaborationType;
 import proto.behavior.IBehaviorTemplate.InitiationType;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
+import utils.math.RandomManager;
 
 /**
  * The IdleBehavior is a baseline behavior that all characters will have. It basically amounts to doing nothing at all.
@@ -32,6 +33,6 @@ public class IdleBehavior extends ABehaviorTemplate implements IProactiveBehavio
     }
 
     public int getImportance(IWorldState ws) {
-        return 0;
+        return RandomManager.get().nextInt(100);
     }
 }
