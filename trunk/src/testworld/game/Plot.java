@@ -23,5 +23,6 @@ public class Plot {
         Cast.hilda.addDependentAction(new ConversationDependentAction(frankWantsRevenge, PlotConversations.warnHilda, "Warn Hilda"));
         Cast.frank.addDependentAction(new ConversationDependentAction(frankWantsRevenge, PlotConversations.annoyFrankFurther, "Blackmail Frank"));
         Cast.fred.addDependentAction(new ConversationDependentAction(frankWantsRevenge, PlotConversations.spikeFranksDrink, "Spike Frank's Drink"));
+        Cast.harriet.addDependentAction(new ConversationDependentAction(null, PlotConversations.askHarrietToPokeFrank, "Ask Harriet to poke Frank"));
     }
 }
