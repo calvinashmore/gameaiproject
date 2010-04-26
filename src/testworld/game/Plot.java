@@ -4,6 +4,8 @@
  */
 package testworld.game;
 
+import testworld.actions.ConversationDependentAction;
+
 /**
  *
  * @author Calvin Ashmore
@@ -12,12 +14,14 @@ public class Plot {
 
     public static final Token heardAboutRumor = new Token("heardAboutRumor", "You heard about a scandalous rumor");
     public static final Token frankWantsRevenge = new Token("frankWantsRevenge", "Frank wants revenge");
+    public static final Token spikingFranksDrink = new Token("spikingFranksDrink", "You are spiking Frank's drink");
 
     public static void initializePlot() {
-        Cast.hilda.addDependentAction(new DependentAction(Cast.hilda, null, PlotConversations.frankRumor, "Gossip", "Gossip"));
-        Cast.frank.addDependentAction(new DependentAction(Cast.frank, heardAboutRumor, PlotConversations.embarrassFrank, "Embarrass Frank", "Embarrass Frank"));
-        Cast.gayle.addDependentAction(new DependentAction(Cast.gayle, heardAboutRumor, PlotConversations.approachGayle, "Approach Gayle about affair", "Approach Gayle"));
-        Cast.hilda.addDependentAction(new DependentAction(Cast.hilda, frankWantsRevenge, PlotConversations.warnHilda, "Warn Hilda", "Warn Hilda"));
-        Cast.frank.addDependentAction(new DependentAction(Cast.frank, frankWantsRevenge, PlotConversations.annoyFrankFurther, "Blackmail Frank", "Blackmail Frank"));
+        Cast.hilda.addDependentAction(new ConversationDependentAction(null, PlotConversations.frankRumor, "Gossip"));
+        Cast.frank.addDependentAction(new ConversationDependentAction(heardAboutRumor, PlotConversations.embarrassFrank, "Embarrass Frank"));
+        Cast.gayle.addDependentAction(new ConversationDependentAction(heardAboutRumor, PlotConversations.approachGayle, "Approach Gayle"));
+        Cast.hilda.addDependentAction(new ConversationDependentAction(frankWantsRevenge, PlotConversations.warnHilda, "Warn Hilda"));
+        Cast.frank.addDependentAction(new ConversationDependentAction(frankWantsRevenge, PlotConversations.annoyFrankFurther, "Blackmail Frank"));
+        Cast.fred.addDependentAction(new ConversationDependentAction(frankWantsRevenge, PlotConversations.spikeFranksDrink, "Spike Frank's Drink"));
     }
 }

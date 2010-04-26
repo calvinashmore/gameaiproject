@@ -16,7 +16,7 @@ import proto.world.Entity;
 import proto.world.World;
 import testworld.game.BasicConversations;
 import testworld.behaviors.conversations.ConversationContent;
-import testworld.game.DependentAction;
+import testworld.actions.ConversationDependentAction;
 import testworld.representations.PersonAppearance;
 import testworld.representations.PersonRepresentation;
 import utils.math.Vector2d;
@@ -34,7 +34,6 @@ public class Person extends Entity implements Comparable {
     private PersonExpression expression = PersonExpression.happySmallSmile;
     private SocialState socialState = new SocialState();
     private List<ConversationContent> conversations = BasicConversations.conversations;
-    private List<DependentAction> dependentActions = new ArrayList<DependentAction>();
     private Gender gender;
 
     public int compareTo(Object o) {
@@ -141,14 +140,6 @@ public class Person extends Entity implements Comparable {
     public ConversationContent makeConversation(Person reactor) {
         int index = new Random().nextInt(conversations.size());
         return conversations.get(index);
-    }
-
-    public void addDependentAction(DependentAction action) {
-        dependentActions.add(action);
-    }
-
-    public List<DependentAction> getDependentActions() {
-        return dependentActions;
     }
 
     public Gender getGender() {

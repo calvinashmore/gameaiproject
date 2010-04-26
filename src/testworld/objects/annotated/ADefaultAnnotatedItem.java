@@ -5,7 +5,6 @@
 
 package testworld.objects.annotated;
 
-import testworld.objects.annotated.AAnnotatedItem;
 import java.util.LinkedList;
 import java.util.List;
 import proto.behavior.IBehaviorQueue;

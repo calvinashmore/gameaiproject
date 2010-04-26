@@ -19,6 +19,7 @@ public class PlotConversations {
     public static final ConversationContent approachGayle;
     public static final ConversationContent warnHilda;
     public static final ConversationContent annoyFrankFurther;
+    public static final ConversationContent spikeFranksDrink;
 
     static {
         frankRumor = new SimpleTokenConversationContent("frankRumor", Plot.heardAboutRumor, "Heard any good news lately?", "Yes, Frank is having an affair with Gayle.");
@@ -27,5 +28,6 @@ public class PlotConversations {
 
         warnHilda = new SimpleConversationContent("warnHilda", "Frank is pretty pissed right now.", "I'll bet he is.", "Are you worried?", "Hardly!");
         annoyFrankFurther = new SimpleConversationContent("annoyFrankFurther", "If you don't want your wife to know, you need to do something for me", "Ha, you can't prove anything!");
+        spikeFranksDrink = new SimpleTokenConversationContent("spikeFranksDrink", Plot.spikingFranksDrink, "Can you do me a favor and put this in Frank's drink for me?", "Sure, but it will cost you.", "I'll leave you a big tip.", "Okay then.");
     }
 }

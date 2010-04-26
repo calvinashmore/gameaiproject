@@ -5,11 +5,13 @@
 
 package testworld.behaviors;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import proto.behavior.AJointBehavior;
 import proto.behavior.Dispatcher;
+import proto.world.World;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 
@@ -23,15 +25,26 @@ public abstract class AJointPersonBehavior extends AJointBehavior {
         super(initType);
     }
 
-    protected void sortPeopleByDistance(List<Dispatcher> dispatchers)
+    public List<PersonDispatcher> getPersonDispatchers() {
+        List<Dispatcher> dispatchers = World.getInstance().getDispatchers();
+        List<PersonDispatcher> personDispatchers = new ArrayList<PersonDispatcher>();
+
+        for (Dispatcher dispatcher : dispatchers) {
+            if(dispatcher instanceof PersonDispatcher)
+                personDispatchers.add((PersonDispatcher) dispatcher);
+        }
+        return personDispatchers;
+    }
+    
+    protected void sortPeopleByDistance(List<PersonDispatcher> dispatchers)
     {
         final Person me = ((PersonDispatcher)this.getDispatcher()).getPerson();
 
-        Collections.sort(dispatchers, new Comparator<Dispatcher>(){
+        Collections.sort(dispatchers, new Comparator<PersonDispatcher>(){
 
-            public int compare(Dispatcher o1, Dispatcher o2) {
-                Person p1 = ((PersonDispatcher)o1).getPerson();
-                Person p2 = ((PersonDispatcher)o2).getPerson();
+            public int compare(PersonDispatcher o1, PersonDispatcher o2) {
+                Person p1 = o1.getPerson();
+                Person p2 = o2.getPerson();
 
                 double dist1 = me.getLocation().getPosition().subtract(p1.getLocation().getPosition()).magnitude();
                 double dist2 = me.getLocation().getPosition().subtract(p2.getLocation().getPosition()).magnitude();

@@ -4,6 +4,8 @@
  */
 package proto.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import proto.behavior.Dispatcher;
 import proto.behavior.ILatentBehavior;
 import proto.behavior.MultiQueue.QueueSet;
@@ -15,6 +17,7 @@ import proto.behavior.MultiQueue.QueueSet;
 abstract public class Entity extends BasicObject {
 
     private Dispatcher dispatcher;
+    private List<DependentAction> dependentActions = new ArrayList<DependentAction>();
 
     public Entity(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
@@ -36,6 +39,13 @@ abstract public class Entity extends BasicObject {
                 dispatcher.handleNewBehavior(iLatentBehavior.instantiate(World.getInstance()), QueueSet.LATENT_OR_LATENT_RESPONSE);
             }
         }
+    }
 
+    public void addDependentAction(DependentAction action) {
+        dependentActions.add(action);
+    }
+
+    public List<DependentAction> getDependentActions() {
+        return dependentActions;
     }
 }

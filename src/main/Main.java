@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import proto.ui.UIRoot;
+import proto.world.BasicObject;
 import testworld.Testworld;
 import testworld.actions.MoveToAction;
 import utils.math.Vector2d;

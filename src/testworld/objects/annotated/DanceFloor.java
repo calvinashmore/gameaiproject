@@ -23,6 +23,11 @@ public class DanceFloor extends ADefaultAnnotatedItem {
 
     protected float size;
 
+    @Override
+    public String getName() {
+        return "Dance Floor";
+    }
+
     public DanceFloor(float size)
     {
         super(size/2);
