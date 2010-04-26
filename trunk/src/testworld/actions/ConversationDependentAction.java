@@ -7,7 +7,6 @@ package testworld.actions;
 import proto.world.*;
 import testworld.game.*;
 import proto.game.PlayerAction;
-import testworld.actions.BasicConversationAction;
 import testworld.behaviors.conversations.ConversationContent;
 import testworld.objects.Person;
 

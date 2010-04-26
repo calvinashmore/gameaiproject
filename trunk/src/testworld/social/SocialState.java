@@ -24,8 +24,16 @@ import testworld.objects.Person;
  */
 public class SocialState
 {
+    private static final int UPDATE_RATE = 1; // # of social states to be updated per frame
+    private static int UPDATE_GROUP = 0; // current group being updated
+
+    private static int nextId = 0; // # of social states in system and nextId to assign
+    private int myId; // id assigned to this social state
+
     // fuzzy inference systems, contains all funcs
     protected static Map<String,FIS> fuzzySystems = new TreeMap<String, FIS>();
+
+    protected Desire desire = null;
 
     protected Personality personality = new Personality();
     protected Feelings feelings =  new Feelings();
@@ -61,6 +69,9 @@ public class SocialState
         permanentMaps.add(feelings);
         permanentMaps.add(inventory);
         temporaryMaps.add(new AAttributeMap());
+
+        this.myId = nextId;
+        nextId++;
     }
 
     public Relationship getRelationship(Person target) {
@@ -71,17 +82,6 @@ public class SocialState
         }
         return relationship;
     }
-
-    /*
-    public List<AttributeMap> getDefaultAttributeMaps()
-    {
-        List<AttributeMap> maps = new LinkedList<AttributeMap>();
-        maps.add(personality);
-        maps.add(needs);
-        return maps;
-    }
-     *
-     */
 
     public Map<String,Double> evaluateFuzzy(String fn)
     {
@@ -179,14 +179,6 @@ public class SocialState
         }
     }
 
-    /*
-    public double debugGetAttribute(List<AttributeMap> maps, String varName)
-    {
-        return getAttribute(maps, varName);
-    }
-     * 
-     */
-
     public List<AttributeMap> getPermanentMaps()
     {
         return this.permanentMaps;
@@ -212,8 +204,16 @@ public class SocialState
     {
         needs.update();
         feelings.update();
-        Map<String,Double> deltas = evaluateFuzzy("update_internals_from_needs");
-        this.applyDeltas(deltas);
+
+        if (UPDATE_GROUP ==  myId / UPDATE_RATE)
+        {
+            Map<String,Double> deltas = evaluateFuzzy("update_internals_from_needs");
+            this.applyDeltas(deltas);
+        }
+        if (myId == nextId-1)
+        {
+            UPDATE_GROUP = (UPDATE_GROUP + 1) % (nextId / UPDATE_RATE);
+        }
     }
 
     public void applyDeltas(Map<String,Double> deltas)
@@ -228,6 +228,14 @@ public class SocialState
                 this.changeAttribute(attribute, delta.getValue(), AttributeMap.Operation.Add);
             }
         }
+    }
+
+    public void setDesire(Desire desire) {
+        this.desire = desire;
+    }
+
+    public Desire getDesire() {
+        return this.desire;
     }
 
 
