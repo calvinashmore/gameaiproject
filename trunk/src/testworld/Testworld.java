@@ -9,10 +9,11 @@ import processing.core.PGraphics;
 import proto.world.World;
 import testworld.game.Cast;
 import testworld.game.Plot;
-import testworld.objects.Pickup;
+import testworld.objects.plain.Pickup;
 import testworld.objects.annotated.Bathroom;
 import testworld.objects.annotated.DanceFloor;
 import testworld.objects.annotated.ODevours;
+import testworld.objects.plain.Balcony;
 import utils.math.Vector2d;
 
 /**
@@ -40,18 +41,18 @@ public class Testworld extends World {
         getAllObjects().add(Cast.hughes);
 
         Pickup p = new Pickup();
-        p.getLocation().getPosition().x = 20;
-        p.getLocation().getPosition().y = 200;
+        p.getLocation().getPosition().x = -300;
+        p.getLocation().getPosition().y = -300;
         getAllObjects().add(p);
 
-        p = new Pickup();
+        /*p = new Pickup();
         p.getLocation().getPosition().x = 300;
         p.getLocation().getPosition().y = 50;
-        getAllObjects().add(p);
+        getAllObjects().add(p);*/
 
-        DanceFloor d = new DanceFloor(100);
-        d.getLocation().getPosition().x = -120;
-        d.getLocation().getPosition().y = 200;
+        DanceFloor d = new DanceFloor(500);
+        d.getLocation().getPosition().x = -250;
+        d.getLocation().getPosition().y = 250;
         getAllObjects().add(d);
 
         Bathroom b = new Bathroom();
@@ -65,9 +66,19 @@ public class Testworld extends World {
         getAllObjects().add(v);
 
         v = new ODevours();
-        v.getLocation().getPosition().x = 350;
-        v.getLocation().getPosition().y = 390;
+        v.getLocation().getPosition().x = 420;
+        v.getLocation().getPosition().y = 100;
         getAllObjects().add(v);
+
+        v = new ODevours();
+        v.getLocation().getPosition().x = 370;
+        v.getLocation().getPosition().y = 370;
+        getAllObjects().add(v);
+
+        Balcony bal = new Balcony();
+        bal.getLocation().getPosition().x = 650;
+        bal.getLocation().getPosition().y = 250;
+        getAllObjects().add(bal);
 
         setEnvironment(new RoomEnvironment());
     }

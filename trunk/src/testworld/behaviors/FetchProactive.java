@@ -10,7 +10,7 @@ import proto.behavior.BehaviorQueue;
 import proto.behavior.IBehaviorQueue;
 import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
-import testworld.objects.Pickup;
+import testworld.objects.plain.Pickup;
 import testworld.tasks.Fetch;
 import utils.math.RandomManager;
 

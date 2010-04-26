@@ -21,6 +21,6 @@ public class Inventory extends AAttributeMap
     public void initialize()
     {
         addNewAttribute(MONEY, 100, 0, 1000);
-        addNewAttribute(DRINKS, 1, 0, 4);
+        addNewAttribute(DRINKS, 1, 0, 6);
     }
 }

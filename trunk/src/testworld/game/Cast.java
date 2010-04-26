@@ -12,6 +12,8 @@ import testworld.objects.ServerPerson;
 import testworld.representations.PersonAppearance.Clothes;
 import testworld.representations.PersonAppearance.FaceAccessory;
 import testworld.representations.PersonAppearance.Hair;
+import testworld.social.AttributeMap.Operation;
+import testworld.social.Needs;
 
 /**
  *
@@ -87,6 +89,8 @@ public class Cast {
         person.getAppearance().faceAccessory = FaceAccessory.glasses;
         person.getAppearance().clothesColor1 = 0xffaa4400;
         person.getAppearance().clothesColor2 = 0xffff0000;
+        person.getSocialState().changeAttribute(Needs.ALCOHOL_RATE, 1.0, Operation.Set);
+        person.getSocialState().changeAttribute(Needs.CIGARETTE_RATE, 1.5, Operation.Set);
         hilda = person;
 
         person = new GuestPerson("Gayle");
@@ -99,6 +103,7 @@ public class Cast {
         person.getAppearance().hairColor2 = 0xff664422;
         person.getAppearance().clothesColor1 = 0xff000088;
         person.getAppearance().clothesColor2 = 0xff000000;
+        person.getSocialState().changeAttribute(Needs.CIGARETTE_RATE, 2.0, Operation.Set);
         gayle = person;
 
         person = new GuestPerson("Victim");
@@ -129,6 +134,7 @@ public class Cast {
         person.getAppearance().clothesColor2 = 0x00000000;
         person.getAppearance().clothesColors.add(0xff888800);
         person.getAppearance().clothesColors.add(0xffffffff);
+        person.getSocialState().changeAttribute(Needs.ALCOHOL_RATE, 2.0, Operation.Set);
         hughes = person;
 
         person = new ServerPerson("Fred");
@@ -137,6 +143,7 @@ public class Cast {
         person.getLocation().getPosition().y = 10;
         person.setExpression(PersonExpression.feignedInterest);
         person.getAppearance().hair = Hair.simpleFullFlat;
+        person.getSocialState().changeAttribute(Needs.CIGARETTE_RATE, 3.0, Operation.Set);
         fred = person;
 
         person = new ServerPerson("Rose");

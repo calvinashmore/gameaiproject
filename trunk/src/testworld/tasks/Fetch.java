@@ -22,7 +22,11 @@ public class Fetch<T extends BasicObject> extends AMoveTo {
      * @param type
      */
     public Fetch(Class type) {
-        super(DEFAULT_DESTINATION_RANGE, DEFAULT_SPEED);
+        this(type, DEFAULT_DESTINATION_RANGE);
+    }
+
+    public Fetch(Class type, float range) {
+        super(range, DEFAULT_SPEED);
         this.type = type; // TODO get rid of this by extracting T's type
     }
 

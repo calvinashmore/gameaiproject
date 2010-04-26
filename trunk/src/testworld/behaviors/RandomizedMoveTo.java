@@ -14,6 +14,7 @@ import proto.behavior.IWorldState;
 import proto.world.World;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.MoveTo;
+import utils.math.RandomManager;
 import utils.math.Vector2d;
 
 /**
@@ -32,15 +33,13 @@ public class RandomizedMoveTo extends ABehaviorTemplate implements IProactiveBeh
         int neighbors = World.getInstance().getNearbyObjects(dispatcher.getPerson(), 100).size();
         if (neighbors >= 3) {
             // if we have several neighbors, movement is more likely
-            if (Math.random() < .5) {
-                return 2;
-            }
+            if (RandomManager.get().nextDouble() < 0.8)
+                return RandomManager.get().nextInt(50);
         }
 
         // decide to move randomly
-        if (Math.random() < .1) {
-            return 2;
-        }
+        if (RandomManager.get().nextDouble() < 0.2)
+            return RandomManager.get().nextInt(25);
         return -1;
     }
 

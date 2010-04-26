@@ -5,9 +5,13 @@
 package testworld.objects;
 
 import proto.behavior.ARole;
+import testworld.behaviors.Hiccup;
+import testworld.behaviors.LatentExclamativeBehavior;
 import testworld.behaviors.PauseBehavior;
 import testworld.behaviors.RandomizedMoveTo;
+import testworld.behaviors.Smoke;
 import testworld.behaviors.UseBathroom;
+import testworld.behaviors.UseODevours;
 import testworld.behaviors.conversations.ApproachConversationBehavior;
 
 /**
@@ -22,6 +26,10 @@ public class PersonRole extends ARole {
         addBehaviorTemplate(new RandomizedMoveTo());
         addBehaviorTemplate(ApproachConversationBehavior.makeReactive());
 
+        addBehaviorTemplate(new LatentExclamativeBehavior());
+        addBehaviorTemplate(new Hiccup());
+
         addBehaviorTemplate(new UseBathroom());
+        addBehaviorTemplate(new Smoke());
     }
 }

@@ -28,10 +28,17 @@ public class UseRandomAnnotatedItem
         extends ABehaviorTemplate
         implements IProactiveBehavior
 {
-    public static final int MAX_RANDOM_IMPORTANCE = 5;
+    public static final int MAX_RANDOM_IMPORTANCE = 10;
+
+    protected Class type = null;
 
     public UseRandomAnnotatedItem() {
+        this(AAnnotatedItem.class);
+    }
+
+    public UseRandomAnnotatedItem(Class type) {
         super(InitiationType.proactive, CollaborationType.independent);
+        this.type = type;
     }
 
     public String getId() {
@@ -40,7 +47,11 @@ public class UseRandomAnnotatedItem
 
     public IBehaviorQueue instantiate(IWorldState ws)
     {
-        return this.instantiateImpl(ws, AAnnotatedItem.class);
+        if (type == null)
+        {
+            return this.instantiateImpl(ws, AAnnotatedItem.class);
+        }
+        return this.instantiateImpl(ws, type);
     }
 
     protected IBehaviorQueue instantiateImpl(IWorldState ws, Class cl)
@@ -67,6 +78,8 @@ public class UseRandomAnnotatedItem
     }
 
     public int getImportance(IWorldState ws) {
-        return RandomManager.get().nextInt(MAX_RANDOM_IMPORTANCE);
+        if (RandomManager.get().nextDouble() < .2)
+            return RandomManager.get().nextInt(MAX_RANDOM_IMPORTANCE);
+        return 0;
     }
 }

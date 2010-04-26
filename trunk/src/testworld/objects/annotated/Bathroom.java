@@ -12,9 +12,11 @@ import proto.behavior.ITask;
 import proto.representation.Representation;
 import testworld.objects.Person;
 import testworld.social.AttributeMap.Operation;
+import testworld.social.Feelings;
 import testworld.social.Needs;
 import testworld.tasks.EffectTask;
 import testworld.tasks.SpeechTask;
+import testworld.tasks.requirements.ProximityRequirement;
 
 /**
  *
@@ -34,8 +36,10 @@ public class Bathroom extends ADefaultAnnotatedItem {
     @Override
     public List<ITask> getUsageTasks(Person person, IBehaviorQueue behavior) {
         List<ITask> tasks = new LinkedList<ITask>();
-        tasks.add(new SpeechTask("*uses bathroom*"));
         tasks.add(new EffectTask(Needs.TOILET, 0, Operation.Set));
+        tasks.add(new EffectTask(Feelings.DEPRESSANT, 10, Operation.Subtract));
+        tasks.add(new EffectTask(Feelings.STIMULANT, 5, Operation.Subtract));
+        tasks.add(new SpeechTask("*uses bathroom*").queueTaskRequirement(new ProximityRequirement(this, usageRange)));
 
         return tasks;
     }
@@ -50,14 +54,14 @@ public class Bathroom extends ADefaultAnnotatedItem {
         public boolean inRange(float x, float y) {
             x -= getTarget().getLocation().getPosition().x;
             y -= getTarget().getLocation().getPosition().y;
-            return Math.sqrt(x * x + y * y) < 50;
+            return Math.sqrt(x * x + y * y) < usageRange;
         }
 
         @Override
         public void render(PGraphics g) {
             g.pushMatrix();
 
-            float size = 50;
+            float size = usageRange;
 
             g.translate((float) getTarget().getLocation().getPosition().x,
                     (float) getTarget().getLocation().getPosition().y);

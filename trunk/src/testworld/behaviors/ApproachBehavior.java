@@ -17,9 +17,12 @@ import proto.behavior.IProactiveBehavior;
 import proto.behavior.IWorldState;
 import proto.behavior.SyncTask;
 import proto.world.World;
+import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
+import testworld.social.Needs;
 import testworld.tasks.LookAtTask;
 import testworld.tasks.MoveTo;
+import utils.math.RandomManager;
 import utils.math.Vector2d;
 
 /**
@@ -107,9 +110,11 @@ public class ApproachBehavior extends AJointBehavior implements IProactiveBehavi
     }
 
     public int getImportance(IWorldState ws) {
-        if (Math.random() < .2) {
-            return 8;
-        }
-        return -1;
+        Person p = ((PersonDispatcher) this.getDispatcher()).getPerson();
+        double gossipNeed = p.getSocialState().getAttribute(Needs.GOSSIP);
+        //double gossipDesire = Math.max(50, gossipNeed);
+
+        return RandomManager.get().nextInt(
+                (int) (gossipNeed / 1) + 1);
     }
 }

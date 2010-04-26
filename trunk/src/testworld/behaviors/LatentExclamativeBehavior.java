@@ -49,6 +49,6 @@ public class LatentExclamativeBehavior extends ABehaviorTemplate implements ILat
     }
 
     public boolean activate(IWorldState iws) {
-        return Math.random() < .002;
+        return Math.random() < .001;
     }
 }

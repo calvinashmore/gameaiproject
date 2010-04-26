@@ -32,8 +32,9 @@ public class UseODevours
     @Override
     public int getImportance(IWorldState ws) {
         Person p = ((PersonDispatcher) this.getDispatcher()).getPerson();
+        double foodNeed = p.getSocialState().getAttribute(Needs.FOOD);
 
         return RandomManager.get().nextInt(
-                (int) (p.getSocialState().getAttribute(Needs.FOOD) / 10) + 1);
+                (int) (foodNeed / 1) + 1);
     }
 }

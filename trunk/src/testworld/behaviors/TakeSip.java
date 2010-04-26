@@ -13,6 +13,7 @@ import proto.behavior.IWorldState;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.social.AttributeMap.Operation;
+import testworld.social.Feelings;
 import testworld.social.SocialState;
 import testworld.social.Inventory;
 import testworld.social.Needs;
@@ -39,6 +40,8 @@ public class TakeSip extends ABehaviorTemplate implements ILatentBehavior {
         bq.queueTask(new EffectTask(Needs.BEVERAGE, 20, Operation.Subtract));
         bq.queueTask(new EffectTask(Inventory.DRINKS, 1, Operation.Subtract));
         bq.queueTask(new EffectTask(Needs.TOILET, 15, Operation.Add));
+        bq.queueTask(new EffectTask(Needs.ALCOHOL, 20, Operation.Subtract));
+        bq.queueTask(new EffectTask(Feelings.DEPRESSANT, 20, Operation.Add));
         bq.queueTask(new SpeechTask("*sip*"));
         return bq;
     }
@@ -53,7 +56,10 @@ public class TakeSip extends ABehaviorTemplate implements ILatentBehavior {
         }
         Double beverageNeed =
             e.getAttribute(Needs.BEVERAGE);
-        if (beverageNeed > RandomManager.get().nextDouble() * 100 &&
+        Double alcoholNeed =
+            e.getAttribute(Needs.ALCOHOL);
+        Double sipNeed = Math.max(beverageNeed, alcoholNeed);
+        if (sipNeed > RandomManager.get().nextDouble() * 100 &&
             RandomManager.get().nextDouble() < 0.005)
         {
             return true;
