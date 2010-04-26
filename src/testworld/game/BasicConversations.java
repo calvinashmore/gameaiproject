@@ -42,6 +42,20 @@ public class BasicConversations {
         allConversations.add(new SimpleConversationContent("idle6",
                 "Hey! How are you?", "Great! How are you?", "Not too bad..."));
 
+        allConversations.add(new SimpleConversationContent("idle7",
+                "So, how about these o'devours?", "They're good, I guess"));
+
+        allConversations.add(new SimpleConversationContent("idle8",
+                "You know what I love?", "What's that?",
+                "Money!", "Aaah, me too.",
+                "I love the sight, the smell, and the sound of money.", "Amen."));
+
+        allConversations.add(new SimpleResponseConversationContent(
+                "testCompliment", "respond_to_compliment", "appreciation", 40,
+                new String[]{"Hey, you're looking good tonight."},
+                new String[]{"Whatever, creep."},
+                new String[]{"Why thank you!"}));
+
         conversations = Collections.unmodifiableList(allConversations);
     }
 }
