@@ -19,6 +19,7 @@ import proto.world.World;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.social.Needs;
+import testworld.tasks.RemoveBehaviorTemplateTask;
 import utils.math.RandomManager;
 
 /**
@@ -32,6 +33,15 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
     public static final String PROACTIVE_ID = "ConversationProactive";
     public static final String REACTIVE_ID = "ConversationReactive";
     private static final int CONVERSATION_RANGE = 60;
+    private boolean destroyAfterUse;
+    private int importance = -1;
+
+    /**
+     * This sets a flag to make this conversation behavior be removed from the behavior templates of the initiator after it has been completed.
+     */
+    public void destroyAfterUse() {
+        this.destroyAfterUse = true;
+    }
 
     public static ConversationBehavior makeProactive() {
         return new ConversationBehavior(InitiationType.proactive, PROACTIVE_ID, null);
@@ -60,6 +70,10 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
 
     protected float getConversationRange() {
         return CONVERSATION_RANGE;
+    }
+
+    public void setImportance(int importance) {
+        this.importance = importance;
     }
 
     private static class ConversationHandshake extends CollaborationHandshake {
@@ -129,7 +143,13 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
         Person responder = ((PersonDispatcher) handshake.getParticipant("reactor")).getPerson();
 
         if (title.equals("initiator")) {
-            return ((ConversationHandshake) handshake).getContent().getInitiatorQueue(initiator, responder, this, handshake);
+
+            ICollaborativeBehaviorQueue bq = ((ConversationHandshake) handshake).getContent().getInitiatorQueue(initiator, responder, this, handshake);
+            if (destroyAfterUse) {
+                bq.queueTask(new RemoveBehaviorTemplateTask(this));
+            }
+            return bq;
+
         } else if (title.equals("reactor")) {
             return ((ConversationHandshake) handshake).getContent().getResponderQueue(initiator, responder, this, handshake);
         } else {
@@ -159,8 +179,11 @@ public class ConversationBehavior extends AJointBehavior implements IProactiveBe
         return true;
     }
 
-    public int getImportance(IWorldState ws)
-    {
+    public int getImportance(IWorldState ws) {
+        if (importance > 0) {
+            return importance;
+        }
+
         Person p = ((PersonDispatcher) this.getDispatcher()).getPerson();
         double gossipNeed = p.getSocialState().getAttribute(Needs.GOSSIP);
         double gossipDesire = Math.max(50, gossipNeed);
