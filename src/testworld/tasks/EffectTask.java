@@ -4,6 +4,7 @@
  */
 package testworld.tasks;
 
+import proto.behavior.InstantaneousTask;
 import testworld.social.AttributeMap;
 import testworld.social.SocialState;
 
@@ -11,7 +12,7 @@ import testworld.social.SocialState;
  *
  * @author hartsoka
  */
-public class EffectTask extends PersonTask {
+public class EffectTask extends PersonTask implements InstantaneousTask {
 
     private String name;
     private double value;

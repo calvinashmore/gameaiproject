@@ -6,6 +6,7 @@
 package testworld.tasks;
 
 import java.util.Map;
+import proto.behavior.InstantaneousTask;
 import testworld.objects.Person;
 import testworld.social.SocialState;
 import testworld.social.Relationship;
@@ -15,7 +16,7 @@ import utils.math.RandomManager;
  *
  * @author hartsoka
  */
-public class ResponseTask extends PersonTask
+public class ResponseTask extends PersonTask implements InstantaneousTask
 {
     protected String fuzzyFn;
     protected Person respondee;
