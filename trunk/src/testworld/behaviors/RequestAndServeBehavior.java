@@ -47,6 +47,8 @@ public class RequestAndServeBehavior
     protected static final int SERVER_PROXIMITY = 60;
 
     protected String id;
+    protected boolean requested = false; // prevents requesting another server while waiting
+    protected int failsafe = 0;
 
     protected static final String PROACTIVE_ID = "Request";
     protected static final String REACTIVE_ID = "Serve";
@@ -106,6 +108,9 @@ public class RequestAndServeBehavior
     public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake) {
         if (title.startsWith("initiator"))
         {
+            this.requested = true;
+            failsafe = 0;
+
             ICollaborativeBehaviorQueue bq =
                     new CollaborativeBehaviorQueue(this, REQUEST_PRIORITY, handshake);
 
@@ -135,13 +140,13 @@ public class RequestAndServeBehavior
 
             bq.queueTask(new SyncTask()); // 1
             bq.queueTask(new Chase(patron, SERVER_PROXIMITY));
-            bq.queueTask(new SpeechTask("How may I help you?", patron).queueTaskRequirement(new ProximityRequirement(patron, 50)));
+            bq.queueTask(new SpeechTask("How may I help you?", patron).queueTaskRequirement(new ProximityRequirement(patron, 100)));
             bq.queueTask(new SyncTask()); // 2
             bq.queueTask(new SyncTask()); // 3
-            bq.queueTask(new SpeechTask("Of course, right away.", patron).queueTaskRequirement(new ProximityRequirement(patron, 50)));
+            bq.queueTask(new SpeechTask("Of course, right away.", patron).queueTaskRequirement(new ProximityRequirement(patron, 100)));
             bq.queueTask(new Fetch<Pickup>(Pickup.class));
             bq.queueTask(new Chase(patron, SERVER_PROXIMITY));
-            bq.queueTask(new SpeechTask("Here you are.", patron).queueTaskRequirement(new ProximityRequirement(patron, 50)));
+            bq.queueTask(new SpeechTask("Here you are.", patron).queueTaskRequirement(new ProximityRequirement(patron, 100)));
             bq.queueTask(new SyncTask()); // 4
             bq.queueTask(new SyncTask()); // 5
             bq.queueTask(new Flee(patron));
@@ -167,8 +172,20 @@ public class RequestAndServeBehavior
     }
 
     public int getImportance(IWorldState ws) {
+
         Person p = ((PersonDispatcher)this.getDispatcher()).getPerson();
         SocialState e = p.getSocialState();
+
+        if (requested) {
+            failsafe++;
+            if (e.getAttribute(Inventory.DRINKS) == 0 && failsafe < 300) {
+                return 0;
+            }
+            else {
+                requested = false;
+            }
+        }
+
         if (e.getAttribute(Inventory.DRINKS) <= 0)
         {
             double beverageNeed = e.getAttribute(Needs.BEVERAGE);

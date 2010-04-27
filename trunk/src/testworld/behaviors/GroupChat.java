@@ -138,7 +138,7 @@ public class GroupChat
 
     public boolean tryCollaboration(CollaborationHandshake handshake) {
         int numReactors = handshake.getParticipants().size() - 1;
-        if (numReactors >= 4) return false;
+        if (numReactors >= 3) return false;
         int myNum = numReactors;
         handshake.participate(this.getDispatcher(), this, "reactor" + new Integer(myNum).toString());
         return true;
