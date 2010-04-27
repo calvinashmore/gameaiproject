@@ -39,8 +39,8 @@ public class Smoke extends ABehaviorTemplate implements IProactiveBehavior {
 
     public IBehaviorQueue instantiate(IWorldState ws) {
         IBehaviorQueue bq = new BehaviorQueue(this);
-        bq.queueTask(new Fetch<Balcony>(Balcony.class, 200));
-        bq.queueTask(new EffectTask(Needs.CIGARETTE, 50, Operation.Subtract));
+        bq.queueTask(new Fetch<Balcony>(Balcony.class, 150));
+        bq.queueTask(new EffectTask(Needs.CIGARETTE, 0, Operation.Set));
         bq.queueTask(new EffectTask(Feelings.ANXIETY, 20, Operation.Subtract));
         bq.queueTask(new EffectTask(Feelings.IRRITATION, 20, Operation.Subtract));
         bq.queueTask(new SpeechTask("*smokes*"));

@@ -17,14 +17,14 @@ public class Dispatcher implements Comparable {
     private static int nextId = 0;
     private int id;
 
-    private IWorldState currentWorld;
+    protected IWorldState currentWorld;
 
-    private IRole role;
-    private MultiQueue mq;
-    private int timeoutClock;
+    protected IRole role;
+    protected MultiQueue mq;
+    protected int timeoutClock;
 
-    private static final int MEDIUM_WAIT = 500; // TODO choose these
-    private static final int LONG_WAIT = 1000;
+    protected static final int MEDIUM_WAIT = 500; // TODO choose these
+    protected static final int LONG_WAIT = 1000;
 
     public Dispatcher(IRole role)
     {

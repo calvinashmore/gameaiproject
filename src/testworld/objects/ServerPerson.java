@@ -24,6 +24,8 @@ public class ServerPerson extends Person {
         this.getAppearance().clothesColors.add(0xffffffff); // shirt
 
         this.getSocialState().setAttribute(Needs.BEVERAGE_RATE, 0.0);
+        this.getSocialState().setAttribute(Needs.FOOD_RATE, 0.0);
+        this.getSocialState().setAttribute(Needs.GOSSIP_RATE, 0.0);
     }
 
 }

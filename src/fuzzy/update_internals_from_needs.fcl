@@ -79,21 +79,21 @@ DEFUZZIFY d_euphoria
 END_DEFUZZIFY
 
 DEFUZZIFY d_irritation
-        TERM very_negative := (-10,1) (-5,0);
-        TERM negative := (-10,0) (-5,1) (0,0);
-        TERM neutral := (-5,0) (0,1) (5,0);
-        TERM positive := (0,0) (5, 1) (10,0);
-        TERM very_positive := (5,0) (10,1);
+        TERM very_negative := (-5,1) (-2.5,0);
+        TERM negative := (-5,0) (-2.5,1) (0,0);
+        TERM neutral := (-2.5,0) (0,1) (2.5,0);
+        TERM positive := (0,0) (2.5, 1) (5,0);
+        TERM very_positive := (2.5,0) (5,1);
 	METHOD : COG;
 	DEFAULT := 0;
 END_DEFUZZIFY
 
 DEFUZZIFY d_anxiety
-        TERM very_negative := (-10,1) (-5,0);
-        TERM negative := (-10,0) (-5,1) (0,0);
-        TERM neutral := (-5,0) (0,1) (5,0);
-        TERM positive := (0,0) (5, 1) (10,0);
-        TERM very_positive := (5,0) (10,1);
+        TERM very_negative := (-5,1) (-2.5,0);
+        TERM negative := (-5,0) (-2.5,1) (0,0);
+        TERM neutral := (-2.5,0) (0,1) (2.5,0);
+        TERM positive := (0,0) (2.5, 1) (5,0);
+        TERM very_positive := (2.5,0) (5,1);
 	METHOD : COG;
 	DEFAULT := 0;
 END_DEFUZZIFY
