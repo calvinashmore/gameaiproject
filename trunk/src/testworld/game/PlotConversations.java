@@ -8,11 +8,12 @@ import proto.behavior.CollaborationHandshake;
 import proto.behavior.IBehaviorTemplate;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import testworld.behaviors.conversations.ApproachConversationBehavior;
+import testworld.behaviors.conversations.ConversationBehavior;
 import testworld.behaviors.conversations.ConversationContent;
 import testworld.behaviors.conversations.SimpleConversationContent;
 import testworld.behaviors.conversations.SimpleTokenConversationContent;
 import testworld.objects.Person;
-import testworld.tasks.QueueBehaviorTask;
+import testworld.tasks.AddBehaviorTemplateTask;
 
 /**
  *
@@ -39,8 +40,12 @@ public class PlotConversations {
                 ICollaborativeBehaviorQueue pq = super.getResponderQueue(initiator, responder, behavior, handshake);
 
                 ConversationContent poke = new SimpleConversationContent("poke", "*poke*", "OW!");
+                ConversationBehavior doPoke = ApproachConversationBehavior.makeProactive(poke, Cast.frank);
 
-                pq.queueTask(new QueueBehaviorTask(ApproachConversationBehavior.makeProactive(poke, Cast.frank)));
+                doPoke.setImportance(100);
+                doPoke.destroyAfterUse();
+
+                pq.queueTask(new AddBehaviorTemplateTask(doPoke));
                 return pq;
             }
         };

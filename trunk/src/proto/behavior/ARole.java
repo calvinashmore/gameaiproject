@@ -55,6 +55,23 @@ public abstract class ARole implements IRole {
         }
     }
 
+    public void removeBehaviorTemplate(IBehaviorTemplate bt) {
+        switch(bt.getInitiationType())
+        {
+            case proactive:
+                proactives.remove((IProactiveBehavior)bt);
+                break;
+            case reactive:
+                reactives.remove((IReactiveBehavior)bt);
+                break;
+            case latent:
+                latents.remove((ILatentBehavior)bt);
+                break;
+            default:
+                throw new UnsupportedOperationException("ARole:removeBehaviorTemplate(bt) - Unknown Initiation Type.");
+        }
+    }
+
     /**
      * Finds the most important proactive behavior which can be instantiated
      * and does so.

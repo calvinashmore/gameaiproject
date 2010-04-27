@@ -10,11 +10,11 @@ import proto.behavior.IBehaviorTemplate;
  * This task will cause the person to perform some behavior when the current behavior is finished.
  * @author Calvin Ashmore
  */
-public class QueueBehaviorTask extends PersonTask {
+public class AddBehaviorTemplateTask extends PersonTask {
 
     private IBehaviorTemplate behavior;
 
-    public QueueBehaviorTask(IBehaviorTemplate behavior) {
+    public AddBehaviorTemplateTask(IBehaviorTemplate behavior) {
         this.behavior = behavior;
     }
 
