@@ -5,6 +5,7 @@
 
 package proto.behavior;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -212,12 +213,20 @@ public class CollaborationHandshake {
         }
 
         // otherwise done, so notify everyone that we're ready to move on
-        for (Entry<Dispatcher,Boolean> e : barrier.entrySet())
+        // reason for two loops:
+        //  first resets the barrier so that when handleCollaboratorDone() is
+        //    called, it can trigger instantaneous tasks - which might be
+        //    more sync tasks - w/o those tasks thinking we are still at a
+        //    barrier
+        Collection<Entry<Dispatcher,Boolean>> entries = barrier.entrySet();
+        for (Entry<Dispatcher,Boolean> e : entries)
+        {
+            e.setValue(Boolean.FALSE); // reset barrier
+        }
+        for (Entry<Dispatcher,Boolean> e : entries)
         {
             Dispatcher d = e.getKey();
             d.handleCollaboratorDone(queues.get(d));
-
-            e.setValue(Boolean.FALSE); // reset barrier
         }
 
         return true;

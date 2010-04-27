@@ -47,6 +47,11 @@ public class Cast {
         person.getAppearance().clothesColor2 = 0x00000000;
         person.getAppearance().clothesColors.add(0x00000000);
         person.getAppearance().clothesColors.add(0xffffffff);
+
+        person.getSocialState().setAttribute(Needs.TOILET_RATE, -100);
+        person.getSocialState().setAttribute(Needs.BEVERAGE_RATE, -100);
+        person.getSocialState().setAttribute(Needs.FOOD_RATE, -100);
+        person.getSocialState().setAttribute(Needs.SEXDRIVE_RATE, -100);
         player = person;
 
         person = new GuestPerson("Frank");

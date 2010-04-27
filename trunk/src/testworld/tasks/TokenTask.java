@@ -4,13 +4,14 @@
  */
 package testworld.tasks;
 
+import proto.behavior.InstantaneousTask;
 import testworld.game.Token;
 
 /**
  * this task marks the given token as found.
  * @author Calvin Ashmore
  */
-public class TokenTask extends PersonTask {
+public class TokenTask extends PersonTask implements InstantaneousTask {
 
     private Token token;
 
