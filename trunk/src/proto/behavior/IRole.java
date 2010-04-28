@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface IRole {
 
+    public void addBehaviorTemplate(IBehaviorTemplate bt);
+
     public IBehaviorQueue instantiateProactiveBehavior(IWorldState ws);
 
     public List<IProactiveBehavior> getProactiveBehaviors();

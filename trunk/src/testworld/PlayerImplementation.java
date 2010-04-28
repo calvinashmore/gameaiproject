@@ -14,6 +14,7 @@ import testworld.actions.ComplimentAction;
 import testworld.actions.MockMercilesslyAction;
 import testworld.actions.MoveToAction;
 import testworld.actions.SaySomethingWittyAction;
+import testworld.behaviors.cutscene.FrankKillsVictim;
 import testworld.objects.GuestPerson;
 import testworld.objects.Person;
 import utils.math.Vector2d;
@@ -29,6 +30,9 @@ public class PlayerImplementation extends GuestPerson implements PlayerHandler {
     public PlayerImplementation(String name) {
         super(name);
         p1 = this; // hack for easy access to player
+
+        // TODO find a better place to put these
+        this.getDispatcher().getRole().addBehaviorTemplate(FrankKillsVictim.makeLatent());
     }
 
 //    private Person player;

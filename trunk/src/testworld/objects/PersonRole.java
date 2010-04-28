@@ -11,8 +11,8 @@ import testworld.behaviors.PauseBehavior;
 import testworld.behaviors.RandomizedMoveTo;
 import testworld.behaviors.Smoke;
 import testworld.behaviors.UseBathroom;
-import testworld.behaviors.UseODevours;
 import testworld.behaviors.conversations.ApproachConversationBehavior;
+import testworld.behaviors.cutscene.FrankKillsVictim;
 
 /**
  *
@@ -31,5 +31,8 @@ public class PersonRole extends ARole {
 
         addBehaviorTemplate(new UseBathroom());
         addBehaviorTemplate(new Smoke());
+
+        // cutscenes
+        addBehaviorTemplate(FrankKillsVictim.makeReactive());
     }
 }

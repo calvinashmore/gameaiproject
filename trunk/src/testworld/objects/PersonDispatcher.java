@@ -48,14 +48,18 @@ public class PersonDispatcher extends Dispatcher {
     @Override
     public void offerCollaboration(CollaborationHandshake handshake)
     {
-        AttributeInfo info = AttributeInfo.getInstance();
-        SocialState s = this.getPerson().getSocialState();
-        if (s.getAttribute(Needs.TOILET) > 80) return;
-        if (s.getAttribute(Needs.ALCOHOL) > 80) return;
-        if (s.getAttribute(Needs.COCAINE) > 80) return;
-        if (s.getAttribute(Needs.BEVERAGE) > 80) return;
-        if (s.getAttribute(Needs.FOOD) > 80) return;
-        if (s.getAttribute(Needs.SLEEP) > 80) return;
+        // not a cutscene, so don't interrupt this character if they have a very
+        //  high need of some kind which they need to attend to
+        if (handshake.getBlackboard().get("CUTSCENE") == null)
+        {
+            SocialState s = this.getPerson().getSocialState();
+            if (s.getAttribute(Needs.TOILET) > 80) return;
+            if (s.getAttribute(Needs.ALCOHOL) > 80) return;
+            if (s.getAttribute(Needs.COCAINE) > 80) return;
+            if (s.getAttribute(Needs.BEVERAGE) > 80) return;
+            if (s.getAttribute(Needs.FOOD) > 80) return;
+            if (s.getAttribute(Needs.SLEEP) > 80) return;
+        }
         super.offerCollaboration(handshake);
     }
 }
