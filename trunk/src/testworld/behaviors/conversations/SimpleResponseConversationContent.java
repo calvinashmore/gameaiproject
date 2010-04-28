@@ -10,8 +10,10 @@ import proto.behavior.CollaborativeBehaviorQueue;
 import proto.behavior.IBehaviorTemplate;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.SyncTask;
+import testworld.game.Token;
 import testworld.objects.Person;
 import testworld.tasks.SpeechTask;
+import testworld.tasks.TokenTask;
 
 /**
  *
@@ -24,6 +26,8 @@ public class SimpleResponseConversationContent extends ResponseConversationConte
     private String[] initiatorLines;
     private String[] responderLines1;
     private String[] responderLines2;
+    private Token responderToken1;
+    private Token responderToken2;
 
     /**
      * Important: initiatorLines, responderLines1, and responderLines2 must be the same length.
@@ -37,12 +41,30 @@ public class SimpleResponseConversationContent extends ResponseConversationConte
      * @param responderLines2
      */
     public SimpleResponseConversationContent(String name, String fuzzyFn, String attribute, double testValue, String[] initiatorLines, String[] responderLines1, String[] responderLines2) {
+        this(name, fuzzyFn, attribute, testValue, initiatorLines, responderLines1, responderLines2, null, null);
+    }
+
+    /**
+     * Important: initiatorLines, responderLines1, and responderLines2 must be the same length.
+     * The set responderLines1 is the response if the given attribute is less than testValue.
+     * The Token successToken is granted if the test passes, that is if responderLines2 is called.
+     * @param name
+     * @param fuzzyFn
+     * @param valueName
+     * @param valueTest
+     * @param initiatorLines
+     * @param responderLines1
+     * @param responderLines2
+     */
+    public SimpleResponseConversationContent(String name, String fuzzyFn, String attribute, double testValue, String[] initiatorLines, String[] responderLines1, String[] responderLines2, Token responderToken1, Token responderToken2) {
         super(name, fuzzyFn);
         this.attribute = attribute;
         this.testValue = testValue;
         this.initiatorLines = initiatorLines;
         this.responderLines1 = responderLines1;
         this.responderLines2 = responderLines2;
+        this.responderToken1 = responderToken1;
+        this.responderToken2 = responderToken2;
     }
 
     @Override
@@ -66,6 +88,9 @@ public class SimpleResponseConversationContent extends ResponseConversationConte
             bq.queueTask(new SpeechTask(line));
             bq.queueTask(new SyncTask());
         }
+        if (responderToken1 != null) {
+            bq.queueTask(new TokenTask(responderToken1));
+        }
         return bq;
     }
 
@@ -75,6 +100,9 @@ public class SimpleResponseConversationContent extends ResponseConversationConte
             bq.queueTask(new SyncTask());
             bq.queueTask(new SpeechTask(line));
             bq.queueTask(new SyncTask());
+        }
+        if (responderToken2 != null) {
+            bq.queueTask(new TokenTask(responderToken2));
         }
         return bq;
     }
