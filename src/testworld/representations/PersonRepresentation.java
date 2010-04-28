@@ -9,6 +9,8 @@ import processing.core.PGraphics;
 import proto.representation.Representation;
 import testworld.objects.Person;
 import testworld.objects.PersonExpression;
+import testworld.social.Feelings;
+import utils.math.RandomManager;
 import utils.math.Vector2d;
 
 /**
@@ -74,7 +76,17 @@ public class PersonRepresentation extends Representation<Person>
         }
 
         if (myWordBubble == null && getTarget().peekSpeech() != null) {
-            myWordBubble = new WordBubble(getTarget().peekSpeech());
+            StringBuilder speech = new StringBuilder(getTarget().peekSpeech());
+            double alcoholLevel = getTarget().getSocialState().getAttribute(Feelings.DEPRESSANT);
+            if (alcoholLevel >= 60 && !speech.toString().startsWith("*")) {
+                double flipChance = (40 - (100 - alcoholLevel)) * 0.01 * 0.5;
+                for (int i = 0; i < speech.length(); ++i) {
+                    if (RandomManager.get().nextDouble() < flipChance) {
+                        speech.setCharAt(i, 'm');
+                    }
+                }
+            }
+            myWordBubble = new WordBubble(speech.toString());
         }
 
         if (myWordBubble != null) {

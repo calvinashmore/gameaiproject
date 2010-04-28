@@ -52,7 +52,7 @@ public class Feelings extends AAttributeMap {
         addNewAttribute(ANXIETY_RATE,      -0.75,                   DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
         addNewAttribute(IRRITATION_RATE,   -0.75,                   DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
         addNewAttribute(STIMULANT_RATE,    DEFAULT_EFFECTS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
-        addNewAttribute(DEPRESSANT_RATE,   DEFAULT_EFFECTS_RATE,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
+        addNewAttribute(DEPRESSANT_RATE,   -0.75,    DEFAULT_MIN_VALUE,  DEFAULT_MAX_VALUE);
     }
 
     public void update()
