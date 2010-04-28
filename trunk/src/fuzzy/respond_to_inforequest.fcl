@@ -1,0 +1,174 @@
+FUNCTION_BLOCK respond_to_inforequest
+
+VAR_INPUT
+        euphoria : REAL;
+        irritation : REAL;
+        anxiety : REAL;
+        depressant : REAL;
+        stimulant : REAL;
+
+        affection : REAL;
+        dominance : REAL;
+
+        difficulty : REAL;
+END_VAR
+
+VAR_OUTPUT
+        response : REAL;
+	d_affection : REAL;
+        d_euphoria : REAL;
+        d_irritation : REAL;
+END_VAR
+
+FUZZIFY euphoria
+	TERM normal := (0, 1) (20, 1) (40, 0) ;
+	TERM happy := (20, 0) (40,1) (60,1) (80,0);
+	TERM ecstatic := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY irritation
+	TERM normal := (0, 1) (20, 1) (40, 0) ;
+	TERM annoyed := (20, 0) (40,1) (60,1) (80,0);
+	TERM angry := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY anxiety
+	TERM low := (0, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY stimulant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY depressant
+        TERM none := (0, 1) (9, 1) (10, 0);
+	TERM low := (9, 0) (10, 1) (20, 1) (40, 0) ;
+	TERM medium := (20, 0) (40,1) (60,1) (80,0);
+	TERM high := (60, 0) (80, 1);
+END_FUZZIFY
+
+FUZZIFY affection
+        TERM hate := (-100, 1) (-90, 1) (-50, 0);
+	TERM dislike := (-90, 0) (-50, 1) (-30, 1) (-10, 0) ;
+	TERM neutral := (-30,0) (-10,1) (10,1) (30,0);
+	TERM like := (10, 0) (30, 1) (50, 1) (90, 0);
+        TERM love :=  (50, 0) (90, 1) (100, 1);
+END_FUZZIFY
+
+FUZZIFY dominance
+        TERM very_negative := (-100, 1) (-90, 1) (-40, 0);
+	TERM negative := (-90, 0) (-40, 1) (-10, 0) ;
+	TERM neutral := (-40,0) (0,1) (40,0);
+	TERM positive := (10, 0) (40, 1) (90, 0);
+        TERM very_positive :=  (40, 0) (90, 1) (100, 1);
+END_FUZZIFY
+
+FUZZIFY difficulty
+	TERM low := (0, 1) (20, 1) (50, 0) ;
+	TERM medium := (20, 0) (50,1) (80,0);
+	TERM high := (50, 0) (80, 1) (100, 1);
+END_FUZZIFY
+
+DEFUZZIFY response
+        TERM tilt_negative := (-10,1) (-9,1) (-8,0);
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+        TERM tilt_positive := (8, 0) (9,1) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_euphoria
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_irritation
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY d_affection
+        TERM very_negative := (-10,1) (-5,0);
+        TERM negative := (-10,0) (-5,1) (0,0);
+        TERM neutral := (-5,0) (0,1) (5,0);
+        TERM positive := (0,0) (5, 1) (10,0);
+        TERM very_positive := (5,0) (10,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No2
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	//RULE 1 : IF service IS poor OR food is rancid THEN tip IS cheap;
+	//RULE 2 : IF service IS good THEN tip IS average;
+	//RULE 3 : IF service IS excellent AND food IS delicious THEN tip is generous;
+
+        // Combs method
+
+        // RESPONSE
+
+        RULE 1 : IF euphoria IS ecstatic    THEN    response IS positive;
+        RULE 2 : IF euphoria IS happy       THEN    response IS positive;
+
+        RULE 4 : IF irritation IS angry     THEN    response IS very_negative;
+        RULE 5 : IF irritation IS annoyed   THEN    response IS very_negative;
+
+        RULE 6 : IF depressant IS high      THEN    response IS positive;
+        RULE 7 : IF stimulant  IS high      THEN    response IS positive;
+
+        // effect of stimulants and depressants
+
+        RULE 9 : IF affection IS hate        THEN    response IS very_negative;
+        RULE 10 : IF affection IS dislike    THEN    response IS negative;
+        RULE 11 : IF affection IS like       THEN    response IS positive;
+        RULE 12 : IF affection IS love       THEN    response IS very_positive;
+
+        // dominance
+
+        RULE 15 : IF dominance IS very_negative  THEN    response IS very_negative;
+        RULE 15 : IF dominance IS negative  THEN    response IS negative;
+        RULE 15 : IF dominance IS positive  THEN    response IS positive;
+        RULE 15 : IF dominance IS very_positive  THEN    response IS very_positive;
+
+        RULE 16 : IF difficulty IS low THEN response IS tilt_positive;
+        RULE 17 : IF difficulty IS high THEN response IS tilt_negative;
+
+
+        // CHANGES TO INTERNAL STATE
+
+        RULE 24 : IF irritation IS angry     THEN    d_irritation IS positive, d_affection IS negative;
+        RULE 25 : IF irritation IS annoyed   THEN    d_irritation IS positive, d_affection IS neutral;
+
+        RULE 27 : IF anxiety IS high     THEN    d_irritation IS very_negative,  d_affection IS positive;
+        RULE 28 : IF anxiety IS medium   THEN    d_irritation IS negative,       d_affection IS positive;
+
+        RULE 29 : IF affection IS hate       THEN    d_irritation IS very_positive,  d_affection IS very_negative;
+        RULE 30 : IF affection IS dislike    THEN    d_irritation IS positive,       d_affection IS negative;
+
+        RULE 35 : IF dominance IS negative OR dominance IS very_negative THEN    d_irritation IS positive,    d_affection IS negative;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

@@ -5,12 +5,13 @@
 package testworld.tasks;
 
 import proto.behavior.IBehaviorTemplate;
+import proto.behavior.InstantaneousTask;
 
 /**
  *
  * @author Calvin Ashmore
  */
-public class RemoveBehaviorTemplateTask extends PersonTask {
+public class RemoveBehaviorTemplateTask extends PersonTask implements InstantaneousTask {
 
     IBehaviorTemplate template;
 
