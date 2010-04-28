@@ -52,6 +52,11 @@ public class Dispatcher implements Comparable {
 
     public void handleNewBehavior(IBehaviorQueue newBehavior, QueueSet qs)
     {
+        if (newBehavior == null) {
+            int a = 8;
+            int b = a+1;
+        }
+
         IBehaviorQueue currentBehavior = mq.getCurrentBehavior();
         if (currentBehavior != null &&
             currentBehavior.getPriority() > newBehavior.getPriority())

@@ -25,6 +25,10 @@ public abstract class AJointPersonBehavior extends AJointBehavior {
         super(initType);
     }
 
+    public Person getPerson() {
+        return ((PersonDispatcher)this.getDispatcher()).getPerson();
+    }
+
     public List<PersonDispatcher> getPersonDispatchers() {
         List<Dispatcher> dispatchers = World.getInstance().getDispatchers();
         List<PersonDispatcher> personDispatchers = new ArrayList<PersonDispatcher>();
