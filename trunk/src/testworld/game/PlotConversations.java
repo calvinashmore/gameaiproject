@@ -11,8 +11,10 @@ import testworld.behaviors.conversations.ApproachConversationBehavior;
 import testworld.behaviors.conversations.ConversationBehavior;
 import testworld.behaviors.conversations.ConversationContent;
 import testworld.behaviors.conversations.SimpleConversationContent;
+import testworld.behaviors.conversations.SimpleResponseConversationContent;
 import testworld.behaviors.conversations.SimpleTokenConversationContent;
 import testworld.objects.Person;
+import testworld.social.Feelings;
 import testworld.tasks.AddBehaviorTemplateTask;
 
 /**
@@ -28,6 +30,7 @@ public class PlotConversations {
     public static final ConversationContent annoyFrankFurther;
     public static final ConversationContent spikeFranksDrink;
     public static final ConversationContent askHarrietToPokeFrank;
+    public static final ConversationContent drunkenTease;
 
     static {
         frankRumor = new SimpleTokenConversationContent("frankRumor", Plot.heardAboutRumor, "Heard any good news lately?", "Yes, Frank is having an affair with Gayle.");
@@ -53,5 +56,10 @@ public class PlotConversations {
         warnHilda = new SimpleConversationContent("warnHilda", "Frank is pretty pissed right now.", "I'll bet he is.", "Are you worried?", "Hardly!");
         annoyFrankFurther = new SimpleConversationContent("annoyFrankFurther", "If you don't want your wife to know, you need to do something for me", "Ha, you can't prove anything!");
         spikeFranksDrink = new SimpleTokenConversationContent("spikeFranksDrink", Plot.spikingFranksDrink, "Can you do me a favor and put this in Frank's drink for me?", "Sure, but it will cost you.", "I'll leave you a big tip.", "Okay then.");
+
+        drunkenTease = new SimpleResponseConversationContent("drunkenTease", null, Feelings.DEPRESSANT, 30,
+                new String[]{"You really are sloshed right now."},
+                new String[]{"Psssh. You haven't seen anything yet."},
+                new String[]{"*sob* You're right!"}, null, Plot.frankSloshed);
     }
 }
