@@ -19,7 +19,7 @@ import utils.math.RandomManager;
  */
 abstract public class ResponseConversationContent extends ConversationContent {
 
-    private String fuzzyFn;
+    protected String fuzzyFn;
 
     public ResponseConversationContent(String name, String fuzzyFn) {
         super(name);

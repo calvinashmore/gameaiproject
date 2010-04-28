@@ -68,17 +68,31 @@ public class SimpleResponseConversationContent extends ResponseConversationConte
     }
 
     @Override
+    protected Map<String, Double> evaluate(Person initiator, Person responder) {
+        if (fuzzyFn != null) {
+            return super.evaluate(initiator, responder);
+        }
+        return null;
+    }
+
+    @Override
     public ICollaborativeBehaviorQueue getResponderQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake, Map<String, Double> evaluation) {
-        if (test(evaluation)) {
+        if (test(evaluation, responder)) {
             return getResponderQueue1(initiator, responder, behavior, handshake);
         } else {
             return getResponderQueue2(initiator, responder, behavior, handshake);
         }
     }
 
-    protected boolean test(Map<String, Double> evaluation) {
-        Double value = evaluation.get(attribute);
-        return value < testValue;
+    protected boolean test(Map<String, Double> evaluation, Person responder) {
+
+        if (fuzzyFn != null) {
+            Double value = evaluation.get(attribute);
+            return value < testValue;
+        } else {
+            double value = responder.getSocialState().getAttribute(attribute);
+            return value < testValue;
+        }
     }
 
     protected ICollaborativeBehaviorQueue getResponderQueue1(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
