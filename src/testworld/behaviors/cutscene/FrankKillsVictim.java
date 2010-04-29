@@ -73,29 +73,29 @@ public class FrankKillsVictim extends Cutscene
 
         if (title.equals("Player")) {
             cbq.queueTask(new RemoveBehaviorTemplateTask(this));
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 1
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 2
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 3
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 4
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 5
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 6
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 7
-            cbq.queueTask(new Chase(victim, 250));
-            cbq.queueTask(new Chase(frank, 250));
+            cbq.queueTask(new Chase(victim, 200));
+            cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 8
         }
         else if (title.equals("Frank")) {

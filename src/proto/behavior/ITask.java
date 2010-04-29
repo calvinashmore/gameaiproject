@@ -34,7 +34,7 @@ public interface ITask {
      */
     public IBehaviorQueue getOwningBehaviorQueue();
 
-
+    public ITask queueTaskRequirement(ITaskRequirement req);
 
     // TODO maybe a method for when the task is removed from current queue
 }

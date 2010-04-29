@@ -44,7 +44,7 @@ public abstract class ATask implements ITask {
      * @return Itself, so that it can be used easily in behavior functions:
      *          addTask( new TaskType(params).queueTaskRequirement(req) );
      */
-    public ITask queueTaskRequirement(ITaskRequirement req)
+    public ATask queueTaskRequirement(ITaskRequirement req)
     {
         requirements.add(req);
         req.setOwningTask(this);

@@ -10,7 +10,6 @@ import java.util.List;
 import proto.behavior.ITask;
 import proto.world.BasicObject;
 import testworld.tasks.Chase;
-import testworld.tasks.PersonTask;
 
 /**
  *
