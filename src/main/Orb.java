@@ -50,7 +50,7 @@ public class Orb
 
  public void update()
  {
-  this.w += maxW/200;
+  this.w += maxW/300;
  }
 
  public boolean isDead()
