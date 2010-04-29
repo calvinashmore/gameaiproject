@@ -7,6 +7,7 @@ package proto.world;
 import java.util.ArrayList;
 import java.util.List;
 import proto.behavior.Dispatcher;
+import proto.behavior.IBehaviorQueue;
 import proto.behavior.ILatentBehavior;
 import proto.behavior.MultiQueue.QueueSet;
 
@@ -36,7 +37,10 @@ abstract public class Entity extends BasicObject {
 
         for (ILatentBehavior iLatentBehavior : dispatcher.getRole().getLatentBehaviors()) {
             if (iLatentBehavior.activate(World.getInstance())) {
-                dispatcher.handleNewBehavior(iLatentBehavior.instantiate(World.getInstance()), QueueSet.LATENT_OR_LATENT_RESPONSE);
+                IBehaviorQueue bq = iLatentBehavior.instantiate(World.getInstance());
+                if (bq != null) {
+                    dispatcher.handleNewBehavior(bq, QueueSet.LATENT_OR_LATENT_RESPONSE);
+                }
             }
         }
     }
