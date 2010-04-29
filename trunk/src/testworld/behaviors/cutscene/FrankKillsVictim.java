@@ -7,6 +7,8 @@ package testworld.behaviors.cutscene;
 
 import java.util.LinkedList;
 import java.util.List;
+import main.Main;
+import proto.behavior.ATask;
 import proto.behavior.CollaborationHandshake;
 import proto.behavior.CollaborativeBehaviorQueue;
 import proto.behavior.ICollaborativeBehaviorQueue;
@@ -99,6 +101,20 @@ public class FrankKillsVictim extends Cutscene
             cbq.queueTask(new Chase(victim, 200));
             cbq.queueTask(new Chase(frank, 200));
             cbq.queueTask(new SyncTask()); // 8
+            cbq.queueTask(new SyncTask()); // 9
+
+            cbq.queueTask(new ATask() {
+
+                @Override
+                protected void runImpl() {
+                    Main.getInstance().game_state = Main.WIN;
+                }
+
+                public void resume() {
+                    
+                }
+
+            });
         }
         else if (title.equals("Frank")) {
             cbq.queueTask(new Chase(victim, 150));
@@ -114,9 +130,10 @@ public class FrankKillsVictim extends Cutscene
             cbq.queueTask(new SyncTask()); // 6
             cbq.queueTask(new SyncTask()); // 7
             cbq.queueTask(new SpeechTask("Oh no!  What have I done?",player));
+            cbq.queueTask(new SyncTask()); // 8
             cbq.queueTask(new SpeechTask("*stabs self*",frank));
             cbq.queueTask(new SpeechTask("*collapses*",frank));
-            cbq.queueTask(new SyncTask()); // 8
+            cbq.queueTask(new SyncTask()); // 9
         }
         else if (title.equals("Victim")) {
             cbq.queueTask(new SyncTask()); // 1
@@ -131,6 +148,7 @@ public class FrankKillsVictim extends Cutscene
             cbq.queueTask(new SpeechTask("*coughs blood, dies*",victim));
             cbq.queueTask(new SyncTask()); // 7
             cbq.queueTask(new SyncTask()); // 8
+            cbq.queueTask(new SyncTask()); // 9
         }
         else // EVERYONE ELSE
         {
@@ -143,15 +161,32 @@ public class FrankKillsVictim extends Cutscene
             cbq.queueTask(new SyncTask()); // 3
             cbq.queueTask(new LookAtTask(frank));
             cbq.queueTask(new SyncTask()); // 4
+            int rand = RandomManager.get().nextInt(4);
+            switch (rand) {
+                case 0:
+                case 3:
+                    cbq.queueTask(new SpeechTask("*gasp*",victim)); break;
+                case 1:
+                    cbq.queueTask(new SpeechTask("Oh my god!",victim)); break;
+                case 2:
+                    cbq.queueTask(new SpeechTask("Watch out!",victim)); break;
+            }
             cbq.queueTask(new LookAtTask(victim));
             cbq.queueTask(new SyncTask()); // 5
             cbq.queueTask(new Chase(victim, 400));
             cbq.queueTask(new Chase(frank, 400));
             cbq.queueTask(new SyncTask()); // 6
+            if (this.getPerson().getName().equals("Harriet"))
+                cbq.queueTask(new SpeechTask("No! Frank!"));
             cbq.queueTask(new LookAtTask(victim));
             cbq.queueTask(new SyncTask()); // 7
             cbq.queueTask(new LookAtTask(frank));
             cbq.queueTask(new SyncTask()); // 8
+            if (this.getPerson().getName().equals("Gayle")) {
+                cbq.queueTask(new SpeechTask("FRANK!"));
+                cbq.queueTask(new Chase(frank, 50));
+            }
+            cbq.queueTask(new SyncTask()); // 9
         }
         return cbq;
     }

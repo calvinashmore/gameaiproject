@@ -56,7 +56,7 @@ public class RadialMenu {
         for (int index = 0; index < actions.size(); index++) {
             //for (PlayerAction playerAction : actions) {
 
-            float theta = (float) index / actions.size();
+            float theta = (float) index / actions.size() - (float)Math.PI/8;
             float dx = (float) (radius * Math.sin(theta * 2 * Math.PI));
             float dy = (float) -(radius * Math.cos(theta * 2 * Math.PI));
 

@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import proto.ui.UIRoot;
-import proto.world.BasicObject;
 import testworld.Testworld;
 import testworld.actions.MoveToAction;
 import utils.math.Vector2d;
@@ -40,7 +39,11 @@ public class Main extends PApplet {
     private DebuggerFrame debugger;
     private EmotionsFrame emotions;
 
-    private int game_state = 0;
+    public int game_state = 0;
+    public static final int TITLE = 0;
+    public static final int PLAY = 1;
+    public static final int WIN = 2;
+    public static final int INFO = 3;
 
     public Main() {
         instance = this;
@@ -67,13 +70,19 @@ public class Main extends PApplet {
     @Override
     public void draw() {
 
-        if (game_state == 0)
+        if (game_state == TITLE)
         {
             pushMatrix();
             drawTitle();
             popMatrix();
         }
-        else if (game_state == 1)
+        else if (game_state == INFO)
+        {
+            pushMatrix();
+            drawInfo();
+            popMatrix();
+        }
+        else if (game_state == PLAY)
         {
             world.update();
             world.render(g);
@@ -86,9 +95,11 @@ public class Main extends PApplet {
                 emotions.update();
             }
         }
-        else
+        else if (game_state == WIN)
         {
-
+            pushMatrix();
+            drawWinScreen();
+            popMatrix();
         }
     }
 
@@ -96,12 +107,16 @@ public class Main extends PApplet {
     public void mouseClicked() {
         //world.getPlayer().forceMoveTo(new Vector2d(mouseX, mouseY));
 
-        if (game_state == 0)
+        if (game_state == TITLE)
         {
-            game_state = 1;
+            game_state = INFO;
+        }
+        else if (game_state == INFO)
+        {
+            game_state = PLAY;
             colorMode(RGB, 255);
         }
-        else if (game_state == 1)
+        else if (game_state == PLAY)
         {
             if (mouseButton == PConstants.RIGHT) {
                 Vector2d pos = world.transformPoint(mouseX, mouseY);
@@ -114,15 +129,69 @@ public class Main extends PApplet {
 
     @Override
     public void keyTyped() {
+        
+    }
+
+    @Override
+    public void keyPressed() {
+        if (key == 'w') {
+            game_state = 2;
+        }
     }
 
     protected List<Orb> orbs = new ArrayList<Orb>();
     protected int orbCounter = 0;
+    protected int orbRate = 30;
 
     public void drawTitle()
     {
+        drawOrbs();
+
+        this.fill(0);
+        this.textAlign(CENTER);
+        this.textSize(72);
+        this.text("SPY GAMES", width / 2, height / 2 - 50);
+
+        this.textSize(24);
+        this.text("Click to Continue", width / 2, height / 2 + 50);
+    }
+
+    public void drawInfo()
+    {
+        orbRate = 100;
+        drawOrbs();
+
+        this.fill(0);
+        this.textAlign(CENTER);
+        this.textSize(24);
+
+        StringBuilder txt = new StringBuilder();
+        txt.append("Welcome to Spy Games.\n\n");
+        txt.append("Your goal is to kill Mr. Victim.\n");
+        txt.append("But you can't do it yourself!\n");
+        txt.append("That would be too suspicious.\n");
+        txt.append("So, you must get someone to do it for you...\n\n");
+        txt.append("Left-click on a character to interact with them.\n");
+        txt.append("Right-click to walk to a location.\n\n");
+        txt.append("Please click to continue.");
+        this.text(txt.toString(), width / 2, 40);
+    }
+
+    public void drawWinScreen()
+    {
+        drawOrbs();
+
+        this.fill(0);
+        this.textAlign(CENTER);
+        this.textSize(72);
+        this.text("CONGRATS", width / 2, height / 2);
+    }
+
+    public void drawOrbs()
+    {
+        // add new orbs if necessary
         orbCounter++;
-        if (orbCounter > 50) {
+        if (orbCounter > orbRate) {
             orbs.add(
                     new Orb(
                         (float)Math.random() * width,
@@ -153,11 +222,5 @@ public class Main extends PApplet {
             o.update();
             o.draw(this);
         }
-
-        // draw text
-        this.fill(0);
-        this.textAlign(CENTER);
-        this.textSize(72);
-        this.text("SPY GAMES", width / 2, height / 2);
     }
 }
