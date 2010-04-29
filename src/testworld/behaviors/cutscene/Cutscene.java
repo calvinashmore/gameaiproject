@@ -79,7 +79,7 @@ public abstract class Cutscene extends AJointPersonBehavior implements ILatentBe
 
     public boolean tryCollaboration(CollaborationHandshake handshake) {
         String name = this.getPerson().getName();
-        if (getInvolvedCast().contains(name)) {
+        if (getInvolvedCast().contains(name) || getInvolvedCast().contains("EVERYONE")) {
             handshake.participate(this.getDispatcher(), this, name);
             return true;
         }
@@ -89,6 +89,8 @@ public abstract class Cutscene extends AJointPersonBehavior implements ILatentBe
     @Override
     public boolean confirmHandshake(CollaborationHandshake handshake) {
         for (String name : this.getInvolvedCast()) {
+            if (name.equals("EVERYONE"))
+                continue;
             if (!handshake.getParticipants().containsKey(name))
                 return false;
         }

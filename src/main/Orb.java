@@ -44,7 +44,7 @@ public class Orb
    g.colorMode(g.HSB, 1.0f);
    g.noStroke();
    //fill(c, (1 - w/maxW)*255);
-   g.fill(h, 0.5f, .5f, (1 - w/maxW));
+   g.fill(h, 0.3f, .5f, (1 - w/maxW));
    g.ellipse(x,y,w,w);
  }
 

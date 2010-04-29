@@ -4,6 +4,7 @@
  */
 package testworld.tasks;
 
+import proto.world.BasicObject;
 import utils.math.Vector2d;
 
 /**
@@ -13,16 +14,24 @@ import utils.math.Vector2d;
 public class LookAtTask extends PersonTask {
 
     private Vector2d lookAt;
+    private BasicObject target = null;
 
     public LookAtTask(Vector2d lookAt) {
         this.lookAt = lookAt;
+    }
+
+    public LookAtTask(BasicObject target) {
+        this.target = target;
     }
 
     public void resume() {
     }
 
     public void runImpl() {
-        getPerson().setLookAt(lookAt);
+        if (target == null)
+            getPerson().setLookAt(lookAt);
+        else
+            getPerson().setLookAt(target.getLocation().getPosition());
         finished();
     }
 }

@@ -15,6 +15,7 @@ import proto.behavior.SyncTask;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.Chase;
+import testworld.tasks.LookAtTask;
 import testworld.tasks.MoveTo;
 import testworld.tasks.RemoveBehaviorTemplateTask;
 import testworld.tasks.SpeechTask;
@@ -51,6 +52,7 @@ public class FrankKillsVictim extends Cutscene
     @Override
     public List<String> getInvolvedCast() {
         List<String> names = new LinkedList<String>();
+        names.add("EVERYONE");
         names.add("Player");
         names.add("Victim");
         names.add("Frank");
@@ -130,11 +132,32 @@ public class FrankKillsVictim extends Cutscene
             cbq.queueTask(new SyncTask()); // 7
             cbq.queueTask(new SyncTask()); // 8
         }
+        else // EVERYONE ELSE
+        {
+            cbq.queueTask(new SyncTask()); // 1
+            cbq.queueTask(new LookAtTask(frank));
+            cbq.queueTask(new Chase(victim, 300));
+            cbq.queueTask(new Chase(frank, 300));
+            cbq.queueTask(new SyncTask()); // 2
+            cbq.queueTask(new LookAtTask(victim));
+            cbq.queueTask(new SyncTask()); // 3
+            cbq.queueTask(new LookAtTask(frank));
+            cbq.queueTask(new SyncTask()); // 4
+            cbq.queueTask(new LookAtTask(victim));
+            cbq.queueTask(new SyncTask()); // 5
+            cbq.queueTask(new Chase(victim, 400));
+            cbq.queueTask(new Chase(frank, 400));
+            cbq.queueTask(new SyncTask()); // 6
+            cbq.queueTask(new LookAtTask(victim));
+            cbq.queueTask(new SyncTask()); // 7
+            cbq.queueTask(new LookAtTask(frank));
+            cbq.queueTask(new SyncTask()); // 8
+        }
         return cbq;
     }
 
     public boolean activate(IWorldState iws) {
-        return RandomManager.get().nextDouble() < 0.001;
+        return RandomManager.get().nextDouble() < 0.1;
     }
 
 }
