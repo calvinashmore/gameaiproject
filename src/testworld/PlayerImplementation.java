@@ -37,7 +37,7 @@ public class PlayerImplementation extends GuestPerson implements PlayerHandler {
         p1 = this; // hack for easy access to player
 
         // TODO find a better place to put these
-        //this.getDispatcher().getRole().addBehaviorTemplate(FrankKillsVictim.makeLatent());
+        this.getDispatcher().getRole().addBehaviorTemplate(FrankKillsVictim.makeLatent());
 
         // prevent player from making toasts or random approaches
         removeBehavior(GroupChat.class);

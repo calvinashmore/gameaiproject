@@ -41,6 +41,7 @@ public class Plot {
         Cast.harriet.addDependentAction(new ConversationDependentAction(PlotConversations.tellHarrietAboutAffair, "So, your husband...", CharDev.metHarriet, knowAboutAffair));
         //Cast.harriet.addDependentAction(new ConversationDependentAction(PlotConversations.tellHarrietAboutAffair, "So, your husband..."));
         Cast.frank.addDependentAction(new ConversationDependentAction(PlotConversations.convinceFrankToKillVictim, "My regards...", frankSlapped));
+        //Cast.frank.addDependentAction(new ConversationDependentAction(PlotConversations.convinceFrankToKillVictim, "My regards..."));
 
         //Cast.frank.getRole().addBehaviorTemplate(FrankGayleFlirt.makeProactive());
         Cast.gayle.getRole().addBehaviorTemplate(FrankGayleFlirt.makeReactive());
