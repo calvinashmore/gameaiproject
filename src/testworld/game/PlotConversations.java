@@ -126,15 +126,6 @@ public class PlotConversations {
         convinceFrankToKillVictim = new SimpleResponseConversationContent("convinceFrankToKillVictim", null, Feelings.DEPRESSANT, 1,
                 new String[]{"You know, Mr. Victim is the source of all your troubles."},
                 new String[]{"Leave me to drink in peace."},
-                new String[]{"*sob* You're right!"}) {
-
-            @Override
-            public ICollaborativeBehaviorQueue getInitiatorQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
-                ICollaborativeBehaviorQueue bq = super.getInitiatorQueue(initiator, responder, behavior, handshake);
-                bq.queueTask(new AddBehaviorTemplateTask(FrankKillsVictim.makeLatent()));
-                return bq;
-            }
-
-        };
+                new String[]{"*sob* You're right!"},null,Plot.frankDrivenToMurder);
     }
 }
