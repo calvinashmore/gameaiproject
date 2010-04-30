@@ -21,6 +21,7 @@ public class Plot {
     public static final Token victimMoreThreatening = new Token("victimMoreThreatening", "Frank does seem to be awfully bothered by Victim.");
     public static final Token seenFrankAndGayleFlirt = new Token("seenFrankAndGayleFlirt", "Frank and Gayle seem to be awfuly... close.");
     public static final Token knowAboutAffair = new Token("knowAboutAffair", "Frank and Gayle are definitely having an affair.");
+    public static final Token frankSlapped = new Token("frankSlapped", "That must have hurt...");
 
     public static void initializePlot() {
 //        Cast.hilda.addDependentAction(new ConversationDependentAction(null, PlotConversations.frankRumor, "Gossip"));
@@ -36,6 +37,9 @@ public class Plot {
         Cast.victim.addDependentAction(new ConversationDependentAction(PlotConversations.victimHasInfo, "Ask about Frank", CharDev.metVictim));
         Cast.frank.addDependentAction(new ConversationDependentAction(PlotConversations.talkToFrankAboutVictim, "Victim knows something...", CharDev.metFrank, victimCanBlackmail));
         Cast.hilda.addDependentAction(new ConversationDependentAction(PlotConversations.talkToHildaAboutFrank, "Frank+Gayle?", CharDev.metHilda, seenFrankAndGayleFlirt));
+        Cast.harriet.addDependentAction(new ConversationDependentAction(PlotConversations.tellHarrietAboutAffair, "So, your husband...", CharDev.metHarriet, knowAboutAffair));
+        //Cast.harriet.addDependentAction(new ConversationDependentAction(PlotConversations.tellHarrietAboutAffair, "So, your husband..."));
+        Cast.frank.addDependentAction(new ConversationDependentAction(PlotConversations.convinceFrankToKillVictim, "My regards...", frankSlapped));
 
         //Cast.frank.getRole().addBehaviorTemplate(FrankGayleFlirt.makeProactive());
         Cast.gayle.getRole().addBehaviorTemplate(FrankGayleFlirt.makeReactive());
