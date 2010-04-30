@@ -14,6 +14,7 @@ import testworld.behaviors.conversations.ConversationContent;
 import testworld.behaviors.conversations.SimpleConversationContent;
 import testworld.behaviors.conversations.SimpleResponseConversationContent;
 import testworld.behaviors.conversations.SimpleTokenConversationContent;
+import testworld.behaviors.cutscene.FrankKillsVictim;
 import testworld.objects.Person;
 import testworld.social.AttributeMap.Operation;
 import testworld.social.Feelings;
@@ -125,6 +126,15 @@ public class PlotConversations {
         convinceFrankToKillVictim = new SimpleResponseConversationContent("convinceFrankToKillVictim", null, Feelings.DEPRESSANT, 1,
                 new String[]{"You know, Mr. Victim is the source of all your troubles."},
                 new String[]{"Leave me to drink in peace."},
-                new String[]{"*sob* You're right!"});
+                new String[]{"*sob* You're right!"}) {
+
+            @Override
+            public ICollaborativeBehaviorQueue getInitiatorQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
+                ICollaborativeBehaviorQueue bq = super.getInitiatorQueue(initiator, responder, behavior, handshake);
+                bq.queueTask(new AddBehaviorTemplateTask(FrankKillsVictim.makeLatent()));
+                return bq;
+            }
+
+        };
     }
 }
