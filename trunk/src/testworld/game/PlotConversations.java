@@ -7,6 +7,7 @@ package testworld.game;
 import proto.behavior.CollaborationHandshake;
 import proto.behavior.IBehaviorTemplate;
 import proto.behavior.ICollaborativeBehaviorQueue;
+import testworld.behaviors.FrankGayleFlirt;
 import testworld.behaviors.conversations.ApproachConversationBehavior;
 import testworld.behaviors.conversations.ConversationBehavior;
 import testworld.behaviors.conversations.ConversationContent;
@@ -33,6 +34,7 @@ public class PlotConversations {
 //    public static final ConversationContent askHarrietToPokeFrank;
 //    public static final ConversationContent drunkenTease;
     public static final ConversationContent victimHasInfo;
+    public static final ConversationContent talkToFrankAboutVictim;
 
     static {
 //        frankRumor = new SimpleTokenConversationContent("frankRumor", Plot.heardAboutRumor, "Heard any good news lately?", "Yes, Frank is having an affair with Gayle.");
@@ -69,5 +71,17 @@ public class PlotConversations {
                 new String[]{"I don't think we should talk about him at his party."},
                 new String[]{"He's done some things which he doesn't want people knowing about."},
                 null, Plot.victimCanBlackmail);
+
+        talkToFrankAboutVictim = new SimpleTokenConversationContent("talkToFrankAboutVictim", Plot.victimMoreThreatening,
+                "So, I hear that Victim has some dirt on you.", "What?!", "Yep.", "Preposterous. He can't touch me.") {
+
+            // frank gets flirty when threatened.
+            @Override
+            public ICollaborativeBehaviorQueue getResponderQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
+                ICollaborativeBehaviorQueue bq = super.getResponderQueue(initiator, responder, behavior, handshake);
+                bq.queueTask(new AddBehaviorTemplateTask(FrankGayleFlirt.makeProactive()));
+                return bq;
+            }
+        };
     }
 }

@@ -28,7 +28,7 @@ public class GuestPersonRole extends PersonRole {
 
         addBehaviorTemplate(ApproachBehavior.makeProactive());
         addBehaviorTemplate(ApproachBehavior.makeReactive());
-        
+
         addBehaviorTemplate(GroupChat.makeProactive());
         addBehaviorTemplate(GroupChat.makeReactive());
 

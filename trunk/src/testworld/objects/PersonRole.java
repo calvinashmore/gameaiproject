@@ -5,6 +5,7 @@
 package testworld.objects;
 
 import proto.behavior.ARole;
+import proto.behavior.Dispatcher;
 import testworld.behaviors.Hiccup;
 import testworld.behaviors.LatentExclamativeBehavior;
 import testworld.behaviors.PauseBehavior;
@@ -35,4 +36,11 @@ public class PersonRole extends ARole {
         // cutscenes
         addBehaviorTemplate(FrankKillsVictim.makeReactive());
     }
+
+    @Override
+    public PersonDispatcher getOwningDispatcher() {
+        return (PersonDispatcher) super.getOwningDispatcher();
+    }
+
+
 }
