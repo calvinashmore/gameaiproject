@@ -7,7 +7,9 @@ package testworld.game;
 
 import testworld.behaviors.conversations.ConversationContent;
 import testworld.behaviors.conversations.SimpleConversationContent;
+import testworld.behaviors.conversations.SimpleResponseConversationContent;
 import testworld.behaviors.conversations.SimpleTokenConversationContent;
+import testworld.social.Needs;
 
 /**
  *
@@ -22,6 +24,9 @@ public class CharDevConversations {
     public static final ConversationContent meetHughes;
     public static final ConversationContent meetVictim;
 
+    public static final ConversationContent meetFred;
+    public static final ConversationContent meetRose;
+
     public static final ConversationContent frankOnHarriet;
     public static final ConversationContent frankOnVictim;
     public static final ConversationContent harrietOnFrank;
@@ -35,7 +40,9 @@ public class CharDevConversations {
     public static final ConversationContent victimOnGayle;
     public static final ConversationContent victimOnHilda;
 
-        static {
+    public static final ConversationContent fredWantsSmoke;
+
+    static {
 
         meetFrank = new SimpleTokenConversationContent("meetFrank", CharDev.metFrank,
                 "Hi there, pleased to meet you.", "I own half of the Eastern seaboard. If I wanted, I could own you.", "...");
@@ -47,13 +54,19 @@ public class CharDevConversations {
                 "Hi there, pleased to meet you.", "Charmed!");
 
         meetHilda = new SimpleTokenConversationContent("meetHilda", CharDev.metHilda,
-                "Hi there, pleased to meet you.", "Hello, I'm covering this event for the Times.");
+                "Hi there, pleased to meet you.", "Hello, I'm Hilda - I'm covering this event for the Times.");
 
         meetHughes = new SimpleTokenConversationContent("meetHughes", CharDev.metHughes,
                 "Hi there, pleased to meet you.", "Good evening, sir.");
 
         meetVictim = new SimpleTokenConversationContent("meetVictim", CharDev.metVictim,
                 "Hi there, pleased to meet you.", "Hi! I'm running for re-election soon. I hope to count on your vote!", "Oh, definitely...", "I'm looking to improve this country, however I can.");
+
+        meetFred = new SimpleTokenConversationContent("meetFred", CharDev.metFred,
+                "Hi there, pleased to meet you.", "You should be.", "Excuse me?", "You should be pleased to meet me.", "Why's that?", "Someday, I'm going to be a star!");
+
+        meetRose = new SimpleTokenConversationContent("meetRose", CharDev.metRose,
+                "Hi there, pleased to meet you.", "I'm sorry, sir. I'm not allowed to chat with guests.");
 
         frankOnHarriet = new SimpleConversationContent("frankOnHarriet",
                 "So, tell me about your wife.", "Harriet?  Not much to say.");
@@ -74,11 +87,17 @@ public class CharDevConversations {
         gayleOnHughes = new SimpleConversationContent("gayleOnHughes",
                 "Are you friends with the Colonel?","Of course, darling!","Do tell.","I like men with power.","And?","There needs to be something else?");
         gayleOnVictim = new SimpleConversationContent("gayleOnVictim",
-                "Planning on voting for Mr. Victim?","Oh, I should say so.  He's absolutely delightful.");
+                "Planning on voting for Mr. Victim?","Oh, I should say so. He's absolutely delightful.");
         victimOnGayle = new SimpleConversationContent("victimOnGayle",
                 "What do you know about Gayle?","She does a lot of charity work. I usually respect that.","Usually?","Some folks just do it for show.");
         victimOnHilda = new SimpleConversationContent("victimOnHilda",
                 "What's it like, having reporters follow you everywhere?","It can be bothersome at times.","You don't love the attention?","Sometimes, sure. But sometimes I just want to do my job.");
-        }
+
+        fredWantsSmoke = new SimpleResponseConversationContent("fredWantsSmoke", null, Needs.CIGARETTE, 80,
+                new String[]{"You look like you could use a cigarette.", "Yeah. Here, take one."},
+                new String[]{"That obvious, eh?", "I can't. Way too busy."},
+                new String[]{"That obvious, eh?", "Hey, thanks."}, null, null
+        );
+    }
 
 }
