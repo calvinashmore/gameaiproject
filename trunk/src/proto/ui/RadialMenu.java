@@ -52,13 +52,15 @@ public class RadialMenu {
 
         selectedIndex = -1;
 
-        int radius = 50;
+        int xRadius = 100;
+        int yRadius = 50;
         for (int index = 0; index < actions.size(); index++) {
             //for (PlayerAction playerAction : actions) {
 
             float theta = (float) index / actions.size()/* - (float)Math.PI/8*/;
-            float dx = (float) (radius * Math.sin(theta * 2 * Math.PI));
-            float dy = (float) -(radius * Math.cos(theta * 2 * Math.PI));
+            theta -= (float) Math.PI / 8;
+            float dx = (float) (xRadius * Math.sin(theta * 2 * Math.PI));
+            float dy = (float) -(yRadius * Math.cos(theta * 2 * Math.PI));
 
             g.pushMatrix();
             g.translate(xPos + dx, yPos + dy);
