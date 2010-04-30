@@ -22,6 +22,7 @@ public class Plot {
     public static final Token seenFrankAndGayleFlirt = new Token("seenFrankAndGayleFlirt", "Frank and Gayle seem to be awfuly... close.");
     public static final Token knowAboutAffair = new Token("knowAboutAffair", "Frank and Gayle are definitely having an affair.");
     public static final Token frankSlapped = new Token("frankSlapped", "That must have hurt...");
+    public static final Token frankDrivenToMurder = new Token("frankDrivenToMurder", "Frank sure is angry!");
 
     public static void initializePlot() {
 //        Cast.hilda.addDependentAction(new ConversationDependentAction(null, PlotConversations.frankRumor, "Gossip"));
