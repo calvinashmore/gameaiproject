@@ -20,6 +20,7 @@ public class Token {
     }
 
     public void setFound(boolean found) {
+        System.out.println("Found token: (" + id + ") " + description);
         this.found = found;
     }
 
