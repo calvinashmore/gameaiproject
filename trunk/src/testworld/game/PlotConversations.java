@@ -32,12 +32,6 @@ public class PlotConversations {
 //    public static final ConversationContent spikeFranksDrink;
 //    public static final ConversationContent askHarrietToPokeFrank;
 //    public static final ConversationContent drunkenTease;
-    public static final ConversationContent meetFrank;
-    public static final ConversationContent meetHarriet;
-    public static final ConversationContent meetHilda;
-    public static final ConversationContent meetGayle;
-    public static final ConversationContent meetHughes;
-    public static final ConversationContent meetVictim;
     public static final ConversationContent victimHasInfo;
 
     static {
@@ -69,24 +63,6 @@ public class PlotConversations {
 //                new String[]{"You really are sloshed right now."},
 //                new String[]{"Psssh. You haven't seen anything yet."},
 //                new String[]{"*sob* You're right!"}, null, Plot.frankSloshed);
-
-        meetFrank = new SimpleTokenConversationContent("meetFrank", Plot.metFrank,
-                "Hi there, pleased to meet you.", "I own half of the Eastern seaboard. If I wanted, I could own you.", "...");
-
-        meetHarriet = new SimpleTokenConversationContent("meetHarriet", Plot.metHarriet,
-                "Hi there, pleased to meet you.", "I didn't think we allowed filth like you into our party.", "...");
-
-        meetGayle = new SimpleTokenConversationContent("meetGayle", Plot.metGayle,
-                "Hi there, pleased to meet you.", "Charmed!");
-
-        meetHilda = new SimpleTokenConversationContent("meetHilda", Plot.metHilda,
-                "Hi there, pleased to meet you.", "Hello, I'm covering this event for the Times.");
-
-        meetHughes = new SimpleTokenConversationContent("meetHughes", Plot.metHughes,
-                "Hi there, pleased to meet you.", "Good evening, sir.");
-
-        meetVictim = new SimpleTokenConversationContent("meetVictim", Plot.metVictim,
-                "Hi there, pleased to meet you.", "Hi! I'm running for re-election soon. I hope to count on your vote!", "Oh, definitely...", "I'm looking to improve this country, however I can.");
 
         victimHasInfo = new SimpleResponseConversationContent("victimHasInfo", "respond_to_inforequest", "difficulty", 5,
                 new String[]{"So what's the word on Frank?"},
