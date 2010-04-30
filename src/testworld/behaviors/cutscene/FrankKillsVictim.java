@@ -67,7 +67,7 @@ public class FrankKillsVictim extends Cutscene
 
     public ICollaborativeBehaviorQueue completeHandshake(String title, CollaborationHandshake handshake)
     {
-        ICollaborativeBehaviorQueue cbq = new CollaborativeBehaviorQueue(this, handshake);
+        ICollaborativeBehaviorQueue cbq = new CollaborativeBehaviorQueue(this, PRIORITY, handshake);
         Person frank = ((PersonDispatcher)handshake.getParticipant("Frank")).getPerson();
         Person victim = ((PersonDispatcher)handshake.getParticipant("Victim")).getPerson();
         Person player = ((PersonDispatcher)handshake.getParticipant("Player")).getPerson();
@@ -192,7 +192,7 @@ public class FrankKillsVictim extends Cutscene
     }
 
     public boolean activate(IWorldState iws) {
-        return RandomManager.get().nextDouble() < 0.1;
+        return RandomManager.get().nextDouble() < 0.0001;
     }
 
 }

@@ -15,6 +15,8 @@ import testworld.representations.PersonAppearance.Hair;
 import testworld.social.AttributeMap.Operation;
 import testworld.social.Feelings;
 import testworld.social.Needs;
+import testworld.social.Personality;
+import testworld.social.Relationship;
 
 /**
  *
@@ -67,6 +69,8 @@ public class Cast {
         person.getAppearance().clothesColors.add(0xffff0000);
         person.getAppearance().clothesColors.add(0xffffffff);
         person.getAppearance().faceAccessory = FaceAccessory.monocle;
+
+        person.getSocialState().setAttribute(Personality.OUTLOOK, -60);
         frank = person;
 
         person = new GuestPerson("Harriet");
@@ -81,6 +85,9 @@ public class Cast {
         person.getAppearance().clothesColors.add(0xffff0000);
         person.getAppearance().clothesColors.add(0xffffffff);
         person.getAppearance().faceAccessory = FaceAccessory.earrings;
+
+        person.getSocialState().setAttribute(Personality.OUTLOOK, -30);
+        person.getSocialState().getRelationship(frank).changeAttribute(Relationship.AFFECTION, -80, Operation.Set);
         harriet = person;
 
         person = new GuestPerson("Hilda");
@@ -95,9 +102,12 @@ public class Cast {
         person.getAppearance().faceAccessory = FaceAccessory.glasses;
         person.getAppearance().clothesColor1 = 0xffaa4400;
         person.getAppearance().clothesColor2 = 0xffff0000;
+
         person.getSocialState().changeAttribute(Needs.ALCOHOL_RATE, 1.0, Operation.Set);
         person.getSocialState().changeAttribute(Feelings.DEPRESSANT_RATE, -0.5, Operation.Set);
         person.getSocialState().changeAttribute(Needs.CIGARETTE_RATE, 1.5, Operation.Set);
+
+        person.getSocialState().setAttribute(Personality.OUTLOOK, 30);
         hilda = person;
 
         person = new GuestPerson("Gayle");
@@ -112,6 +122,8 @@ public class Cast {
         person.getAppearance().clothesColor2 = 0xff000000;
         person.getSocialState().changeAttribute(Needs.CIGARETTE_RATE, 2.0, Operation.Set);
         person.getSocialState().changeAttribute(Feelings.DEPRESSANT_RATE, -0.5, Operation.Set);
+
+        person.getSocialState().setAttribute(Personality.OUTLOOK, 50);
         gayle = person;
 
         person = new GuestPerson("Victim");
@@ -127,6 +139,8 @@ public class Cast {
         person.getAppearance().clothesColor2 = 0x00000000;
         person.getAppearance().clothesColors.add(0xffff0000);
         person.getAppearance().clothesColors.add(0xffffffff);
+
+        person.getSocialState().setAttribute(Personality.OUTLOOK, 40);
         victim = person;
 
         person = new GuestPerson("Colonel Hughes");
@@ -144,6 +158,8 @@ public class Cast {
         person.getAppearance().clothesColors.add(0xffffffff);
         person.getSocialState().changeAttribute(Needs.ALCOHOL_RATE, 1.5, Operation.Set);
         person.getSocialState().changeAttribute(Feelings.DEPRESSANT_RATE, -0.5, Operation.Set);
+
+        person.getSocialState().setAttribute(Personality.OUTLOOK, 0);
         hughes = person;
 
         person = new ServerPerson("Fred");

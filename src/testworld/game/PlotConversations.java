@@ -15,13 +15,15 @@ import testworld.behaviors.conversations.SimpleResponseConversationContent;
 import testworld.behaviors.conversations.SimpleTokenConversationContent;
 import testworld.objects.Person;
 import testworld.social.Feelings;
+import testworld.social.Relationship;
 import testworld.tasks.AddBehaviorTemplateTask;
 
 /**
  *
  * @author Calvin Ashmore
  */
-public class PlotConversations {
+public class PlotConversations
+{
 
     public static final ConversationContent frankRumor;
     public static final ConversationContent embarrassFrank;
@@ -31,6 +33,8 @@ public class PlotConversations {
     public static final ConversationContent spikeFranksDrink;
     public static final ConversationContent askHarrietToPokeFrank;
     public static final ConversationContent drunkenTease;
+
+    public static final ConversationContent victimHasInfo;
 
     static {
         frankRumor = new SimpleTokenConversationContent("frankRumor", Plot.heardAboutRumor, "Heard any good news lately?", "Yes, Frank is having an affair with Gayle.");
@@ -61,5 +65,11 @@ public class PlotConversations {
                 new String[]{"You really are sloshed right now."},
                 new String[]{"Psssh. You haven't seen anything yet."},
                 new String[]{"*sob* You're right!"}, null, Plot.frankSloshed);
+
+        victimHasInfo = new SimpleResponseConversationContent("victimHasInfo", "respond_to_inforequest", "difficulty", 5,
+                new String[]{"So what's the word on Frank?"},
+                new String[]{"I don't think we should talk about him at his party."},
+                new String[]{"He's done some things which he doesn't want people knowing about."},
+                null, Plot.victimCanBlackmail);
     }
 }

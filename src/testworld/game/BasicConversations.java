@@ -51,7 +51,7 @@ public class BasicConversations {
                 "I love the sight, the smell, and the sound of money.", "Amen."));
 
         allConversations.add(new SimpleResponseConversationContent(
-                "testCompliment", "respond_to_compliment", "appreciation", 40,
+                "testCompliment", "respond_to_compliment", "response", 40,
                 new String[]{"Hey, you're looking good tonight."},
                 new String[]{"Whatever, creep."},
                 new String[]{"Why thank you!"}));

@@ -9,6 +9,7 @@ import proto.behavior.CollaborationHandshake;
 import proto.behavior.IBehaviorTemplate;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import testworld.objects.Person;
+import testworld.social.AttributeMap;
 import testworld.social.Relationship;
 import testworld.social.SocialState;
 import utils.math.RandomManager;
@@ -35,12 +36,18 @@ abstract public class ResponseConversationContent extends ConversationContent {
     abstract public ICollaborativeBehaviorQueue getResponderQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake, Map<String, Double> evaluation);
 
     protected Map<String, Double> evaluate(Person initiator, Person responder) {
+        return this.evaluate(initiator, responder, null);
+    }
+
+    protected Map<String, Double> evaluate(Person initiator, Person responder, AttributeMap a)
+    {
         SocialState e = responder.getSocialState();
         Relationship r = e.getRelationship(initiator);
 
         // ???
         e.addTemporaryAttribute("sincerity", RandomManager.get().nextDouble() * 100);
         e.addTemporaryMap(r);
+        if (a != null) e.addTemporaryMap(a);
 
         Map<String, Double> results =
                 responder.getSocialState().evaluateFuzzy(fuzzyFn);

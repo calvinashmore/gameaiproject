@@ -17,6 +17,8 @@ public class Plot {
     public static final Token spikingFranksDrink = new Token("spikingFranksDrink", "You are spiking Frank's drink");
     public static final Token frankSloshed = new Token("franSloshed", "Frank is drunk. Really, really drunk.");
 
+    public static final Token victimCanBlackmail = new Token("victimCanBlackmail", "Mr. Victim has information which could hurt Frank.");
+
     public static void initializePlot() {
         Cast.hilda.addDependentAction(new ConversationDependentAction(null, PlotConversations.frankRumor, "Gossip"));
         Cast.frank.addDependentAction(new ConversationDependentAction(heardAboutRumor, PlotConversations.embarrassFrank, "Embarrass Frank"));
@@ -27,5 +29,7 @@ public class Plot {
         Cast.harriet.addDependentAction(new ConversationDependentAction(null, PlotConversations.askHarrietToPokeFrank, "Ask Harriet to poke Frank"));
 
         Cast.frank.addDependentAction(new ConversationDependentAction(null, PlotConversations.drunkenTease, "Tease Frank for being drunk."));
+
+        Cast.victim.addDependentAction(new ConversationDependentAction(null, PlotConversations.victimHasInfo, "Ask about Frank"));
     }
 }
