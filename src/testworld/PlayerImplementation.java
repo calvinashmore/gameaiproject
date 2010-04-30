@@ -6,6 +6,7 @@ package testworld;
 
 import java.util.ArrayList;
 import java.util.List;
+import proto.behavior.IProactiveBehavior;
 import proto.game.PlayerAction;
 import proto.game.PlayerHandler;
 import proto.world.DependentAction;
@@ -14,6 +15,10 @@ import testworld.actions.ComplimentAction;
 import testworld.actions.MockMercilesslyAction;
 import testworld.actions.MoveToAction;
 import testworld.actions.SaySomethingWittyAction;
+import testworld.behaviors.ApproachBehavior;
+import testworld.behaviors.GroupChat;
+import testworld.behaviors.RandomizedMoveTo;
+import testworld.behaviors.UseRandomAnnotatedItem;
 import testworld.behaviors.cutscene.FrankKillsVictim;
 import testworld.objects.GuestPerson;
 import testworld.objects.Person;
@@ -33,7 +38,25 @@ public class PlayerImplementation extends GuestPerson implements PlayerHandler {
 
         // TODO find a better place to put these
         //this.getDispatcher().getRole().addBehaviorTemplate(FrankKillsVictim.makeLatent());
+
+        // prevent player from making toasts or random approaches
+        removeBehavior(GroupChat.class);
+        removeBehavior(ApproachBehavior.class);
+        removeBehavior(RandomizedMoveTo.class);
+        removeBehavior(UseRandomAnnotatedItem.class);
     }
+
+    void removeBehavior(Class behaviorClass) {
+
+        IProactiveBehavior behavior = null;
+        for (IProactiveBehavior iProactiveBehavior : getDispatcher().getRole().getProactiveBehaviors()) {
+            if(behaviorClass == iProactiveBehavior.getClass())
+                behavior = iProactiveBehavior;
+        }
+        // prevent player from making toasts.
+        getDispatcher().getRole().getProactiveBehaviors().remove(behavior);
+    }
+
 
 //    private Person player;
 //

@@ -5,6 +5,7 @@
 package testworld.game;
 
 import testworld.actions.ConversationDependentAction;
+import testworld.behaviors.FrankGayleFlirt;
 
 /**
  *
@@ -16,8 +17,9 @@ public class Plot {
 //    public static final Token frankWantsRevenge = new Token("frankWantsRevenge", "Frank wants revenge");
 //    public static final Token spikingFranksDrink = new Token("spikingFranksDrink", "You are spiking Frank's drink");
 //    public static final Token frankSloshed = new Token("frankSloshed", "Frank is drunk. Really, really drunk.");
-
     public static final Token victimCanBlackmail = new Token("victimCanBlackmail", "Mr. Victim has information which could hurt Frank.");
+    public static final Token victimMoreThreatening = new Token("victimMoreThreatening", "Frank does seem to be awfully bothered by Victim.");
+    public static final Token seenFrankAndGayleFlirt = new Token("seenFrankAndGayleFlirt", "Frank and Gayle seem to be awfuly... close.");
 
     public static void initializePlot() {
 //        Cast.hilda.addDependentAction(new ConversationDependentAction(null, PlotConversations.frankRumor, "Gossip"));
@@ -29,7 +31,13 @@ public class Plot {
 //        Cast.harriet.addDependentAction(new ConversationDependentAction(null, PlotConversations.askHarrietToPokeFrank, "Ask Harriet to poke Frank"));
 //
 //        Cast.frank.addDependentAction(new ConversationDependentAction(null, PlotConversations.drunkenTease, "Tease Frank for being drunk."));
-        
-        Cast.victim.addDependentAction(new ConversationDependentAction(null, PlotConversations.victimHasInfo, "Ask about Frank"));
+
+        Cast.victim.addDependentAction(new ConversationDependentAction(CharDev.metVictim, PlotConversations.victimHasInfo, "Ask about Frank"));
+
+
+
+        Cast.frank.getRole().addBehaviorTemplate(FrankGayleFlirt.makeProactive());
+        Cast.gayle.getRole().addBehaviorTemplate(FrankGayleFlirt.makeReactive());
+        Cast.player.getRole().addBehaviorTemplate(FrankGayleFlirt.makeReactive());
     }
 }
