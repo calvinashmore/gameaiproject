@@ -18,7 +18,7 @@ VAR_INPUT
 END_VAR
 
 VAR_OUTPUT
-        appreciation : REAL; // controls verbal response
+        response : REAL; // controls verbal response
 	d_affection : REAL;
         d_euphoria : REAL;
         d_irritation : REAL;
@@ -76,7 +76,7 @@ FUZZIFY sincerity
 	TERM high := (60, 0) (80, 1) (100, 1);
 END_FUZZIFY
 
-DEFUZZIFY appreciation
+DEFUZZIFY response
         TERM very_negative := (-10,1) (-5,0);
         TERM negative := (-10,0) (-5,1) (0,0);
         TERM neutral := (-5,0) (0,1) (5,0);
@@ -127,32 +127,32 @@ RULEBLOCK No2
 
         // Combs method
 
-        // APPRECIATION
+        // response
 
-        RULE 1 : IF euphoria IS ecstatic    THEN    appreciation IS positive;
-        RULE 2 : IF euphoria IS happy       THEN    appreciation IS positive;
-        RULE 3 : IF euphoria IS normal      THEN    appreciation IS positive;
+        RULE 1 : IF euphoria IS ecstatic    THEN    response IS positive;
+        RULE 2 : IF euphoria IS happy       THEN    response IS positive;
+        RULE 3 : IF euphoria IS normal      THEN    response IS positive;
 
-        RULE 4 : IF irritation IS angry     THEN    appreciation IS very_negative;
-        RULE 5 : IF irritation IS annoyed   THEN    appreciation IS very_negative;
+        RULE 4 : IF irritation IS angry     THEN    response IS very_negative;
+        RULE 5 : IF irritation IS annoyed   THEN    response IS very_negative;
 
-        RULE 7 : IF anxiety IS high     THEN    appreciation IS neutral;
-        RULE 8 : IF anxiety IS medium   THEN    appreciation IS positive;
+        RULE 7 : IF anxiety IS high     THEN    response IS neutral;
+        RULE 8 : IF anxiety IS medium   THEN    response IS positive;
 
         // effect of stimulants and depressants
 
-        RULE 9 : IF affection IS hate        THEN    appreciation IS very_negative;
-        RULE 10 : IF affection IS dislike    THEN    appreciation IS negative;
-        RULE 11 : IF affection IS like       THEN    appreciation IS positive;
-        RULE 12 : IF affection IS love       THEN    appreciation IS very_positive;
+        RULE 9 : IF affection IS hate        THEN    response IS very_negative;
+        RULE 10 : IF affection IS dislike    THEN    response IS negative;
+        RULE 11 : IF affection IS like       THEN    response IS positive;
+        RULE 12 : IF affection IS love       THEN    response IS very_positive;
 
         // dominance
 
-        RULE 15 : IF confidence IS low  THEN    appreciation IS very_positive;
-        RULE 16 : IF confidence IS high THEN    appreciation IS neutral;
+        RULE 15 : IF confidence IS low  THEN    response IS very_positive;
+        RULE 16 : IF confidence IS high THEN    response IS neutral;
 
-        RULE 17 : IF sincerity IS low   THEN    appreciation IS very_negative;
-        RULE 18 : IF sincerity IS high  THEN    appreciation IS positive;
+        RULE 17 : IF sincerity IS low   THEN    response IS very_negative;
+        RULE 18 : IF sincerity IS high  THEN    response IS positive;
 
 
         // CHANGES TO INTERNAL STATE

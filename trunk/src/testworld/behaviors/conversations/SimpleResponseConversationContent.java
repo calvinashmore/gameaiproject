@@ -12,6 +12,7 @@ import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.SyncTask;
 import testworld.game.Token;
 import testworld.objects.Person;
+import testworld.social.AAttributeMap;
 import testworld.tasks.SpeechTask;
 import testworld.tasks.TokenTask;
 
@@ -70,7 +71,12 @@ public class SimpleResponseConversationContent extends ResponseConversationConte
     @Override
     protected Map<String, Double> evaluate(Person initiator, Person responder) {
         if (fuzzyFn != null) {
-            return super.evaluate(initiator, responder);
+            AAttributeMap temp = null;
+            if (attribute != null) {
+                temp = new AAttributeMap();
+                temp.forceSetAttribute(attribute, testValue);
+            }
+            return super.evaluate(initiator, responder, temp);
         }
         return null;
     }
@@ -87,8 +93,8 @@ public class SimpleResponseConversationContent extends ResponseConversationConte
     protected boolean test(Map<String, Double> evaluation, Person responder) {
 
         if (fuzzyFn != null) {
-            Double value = evaluation.get(attribute);
-            return value < testValue;
+            Double value = evaluation.get("response");
+            return testValue > 0;
         } else {
             double value = responder.getSocialState().getAttribute(attribute);
             return value < testValue;
