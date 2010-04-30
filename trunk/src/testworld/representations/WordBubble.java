@@ -14,7 +14,7 @@ import proto.world.World;
  */
 public class WordBubble {
 
-    private static final int MS_PER_CHARACTER = 75;
+    private static final int MS_PER_CHARACTER = 25;
     private static final int BASE_OFFSET = 500;
     private static final int Y_TRANSLATION = 65;
 

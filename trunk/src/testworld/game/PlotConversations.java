@@ -8,15 +8,10 @@ import proto.behavior.CollaborationHandshake;
 import proto.behavior.IBehaviorTemplate;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import testworld.behaviors.FrankGayleFlirt;
-import testworld.behaviors.conversations.ApproachConversationBehavior;
-import testworld.behaviors.conversations.ConversationBehavior;
 import testworld.behaviors.conversations.ConversationContent;
-import testworld.behaviors.conversations.SimpleConversationContent;
 import testworld.behaviors.conversations.SimpleResponseConversationContent;
 import testworld.behaviors.conversations.SimpleTokenConversationContent;
 import testworld.objects.Person;
-import testworld.social.Feelings;
-import testworld.social.Relationship;
 import testworld.tasks.AddBehaviorTemplateTask;
 
 /**
@@ -35,6 +30,7 @@ public class PlotConversations {
 //    public static final ConversationContent drunkenTease;
     public static final ConversationContent victimHasInfo;
     public static final ConversationContent talkToFrankAboutVictim;
+    public static final ConversationContent talkToHildaAboutFrank;
 
     static {
 //        frankRumor = new SimpleTokenConversationContent("frankRumor", Plot.heardAboutRumor, "Heard any good news lately?", "Yes, Frank is having an affair with Gayle.");
@@ -66,14 +62,14 @@ public class PlotConversations {
 //                new String[]{"Psssh. You haven't seen anything yet."},
 //                new String[]{"*sob* You're right!"}, null, Plot.frankSloshed);
 
-        victimHasInfo = new SimpleResponseConversationContent("victimHasInfo", "respond_to_inforequest", "difficulty", 5,
+        victimHasInfo = new SimpleResponseConversationContent("victimHasInfo", "respond_to_inforequest", "difficulty", 0,
                 new String[]{"So what's the word on Frank?"},
                 new String[]{"I don't think we should talk about him at his party."},
                 new String[]{"He's done some things which he doesn't want people knowing about."},
                 null, Plot.victimCanBlackmail);
 
         talkToFrankAboutVictim = new SimpleTokenConversationContent("talkToFrankAboutVictim", Plot.victimMoreThreatening,
-                "So, I hear that Victim has some dirt on you.", "What?!", "Yep.", "Preposterous. He can't touch me.") {
+                "So, I hear that Victim has some dirt on you.", "What?!", "Yep.", "Preposterous. Excuse me.") {
 
             // frank gets flirty when threatened.
             @Override
@@ -83,5 +79,11 @@ public class PlotConversations {
                 return bq;
             }
         };
+
+//        talkToHugesAboutFrank = new SimpleTokenConversationContent("talkToHugesAboutFrank", Plot.victimMoreThreatening,
+//                "")
+
+        talkToHildaAboutFrank = new SimpleTokenConversationContent("talkToHildaAboutFrank", Plot.knowAboutAffair,
+                "So, what's with Frank and Gayle", "Oh, they're having an affair. Didn't you know?");
     }
 }
