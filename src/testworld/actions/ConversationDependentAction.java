@@ -15,19 +15,25 @@ import testworld.objects.Person;
  * player clicks on the correct person, and has the appropriate token.
  * @author Calvin Ashmore
  */
-public class ConversationDependentAction extends DependentAction{
+public class ConversationDependentAction extends DependentAction {
 
     private Token myToken;
+    private Token expireToken;
     private ConversationContent conversation;
 
     public ConversationDependentAction(Token myToken, ConversationContent conversation, String name) {
+        this(myToken, null, conversation, name);
+    }
+
+    public ConversationDependentAction(Token myToken, Token expireToken, ConversationContent conversation, String name) {
         super(name);
         this.myToken = myToken;
+        this.expireToken = expireToken;
         this.conversation = conversation;
     }
 
     public boolean canActivate() {
-        return myToken == null || myToken.isFound();
+        return (myToken == null || myToken.isFound()) && (expireToken == null || !expireToken.isFound());
     }
 
     public PlayerAction createAction(Entity other) {
