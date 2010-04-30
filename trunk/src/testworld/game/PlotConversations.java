@@ -8,11 +8,18 @@ import proto.behavior.CollaborationHandshake;
 import proto.behavior.IBehaviorTemplate;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import testworld.behaviors.FrankGayleFlirt;
+import testworld.behaviors.conversations.ApproachConversationBehavior;
+import testworld.behaviors.conversations.ConversationBehavior;
 import testworld.behaviors.conversations.ConversationContent;
+import testworld.behaviors.conversations.SimpleConversationContent;
 import testworld.behaviors.conversations.SimpleResponseConversationContent;
 import testworld.behaviors.conversations.SimpleTokenConversationContent;
 import testworld.objects.Person;
+import testworld.social.AttributeMap.Operation;
+import testworld.social.Feelings;
+import testworld.social.Needs;
 import testworld.tasks.AddBehaviorTemplateTask;
+import testworld.tasks.EffectTask;
 
 /**
  *
@@ -31,6 +38,8 @@ public class PlotConversations {
     public static final ConversationContent victimHasInfo;
     public static final ConversationContent talkToFrankAboutVictim;
     public static final ConversationContent talkToHildaAboutFrank;
+    public static final ConversationContent tellHarrietAboutAffair;
+    public static final ConversationContent convinceFrankToKillVictim;
 
     static {
 //        frankRumor = new SimpleTokenConversationContent("frankRumor", Plot.heardAboutRumor, "Heard any good news lately?", "Yes, Frank is having an affair with Gayle.");
@@ -85,5 +94,37 @@ public class PlotConversations {
 
         talkToHildaAboutFrank = new SimpleTokenConversationContent("talkToHildaAboutFrank", Plot.knowAboutAffair,
                 "So, what's with Frank and Gayle", "Oh, they're having an affair. Didn't you know?");
+
+        tellHarrietAboutAffair = new SimpleConversationContent("tellHarrietAboutAffair", "Hi Harriet, Frank is having an affair with Gayle.", "WHAT?!") {
+
+            @Override
+            public ICollaborativeBehaviorQueue getResponderQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
+                ICollaborativeBehaviorQueue pq = super.getResponderQueue(initiator, responder, behavior, handshake);
+
+                ConversationContent slap = new SimpleTokenConversationContent("slap", Plot.frankSlapped, "*SLAP*", "OW!", "You bastard!") {
+
+                    @Override
+                    public ICollaborativeBehaviorQueue getResponderQueue(Person initiator, Person responder, IBehaviorTemplate behavior, CollaborationHandshake handshake) {
+                        ICollaborativeBehaviorQueue responderQueue = super.getResponderQueue(initiator, responder, behavior, handshake);
+
+                        // frank drinks compulsively after being slapped.
+                        responderQueue.queueTask(new EffectTask(Needs.ALCOHOL_RATE, 100, Operation.Set));
+                        return responderQueue;
+                    }
+                };
+                ConversationBehavior doSlap = ApproachConversationBehavior.makeProactive(slap, Cast.frank);
+
+                doSlap.setImportance(100);
+                doSlap.destroyAfterUse();
+
+                pq.queueTask(new AddBehaviorTemplateTask(doSlap));
+                return pq;
+            }
+        };
+
+        convinceFrankToKillVictim = new SimpleResponseConversationContent("convinceFrankToKillVictim", null, Feelings.DEPRESSANT, 1,
+                new String[]{"You know, Mr. Victim is the source of all your troubles."},
+                new String[]{"Leave me to drink in peace."},
+                new String[]{"*sob* You're right!"});
     }
 }

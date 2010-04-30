@@ -54,7 +54,7 @@ public class PersonDispatcher extends Dispatcher {
         {
             SocialState s = this.getPerson().getSocialState();
             if (s.getAttribute(Needs.TOILET) > 80) return;
-            if (s.getAttribute(Needs.ALCOHOL) > 80) return;
+            //if (s.getAttribute(Needs.ALCOHOL) > 80) return;
             if (s.getAttribute(Needs.COCAINE) > 80) return;
             if (s.getAttribute(Needs.BEVERAGE) > 80) return;
             if (s.getAttribute(Needs.FOOD) > 80) return;
