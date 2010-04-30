@@ -59,6 +59,7 @@ public class Main extends PApplet {
         emotions.pack();
         emotions.setVisible(true);
         emotions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //emotions.setLocation(width, debugger.getLocation().y);
     }
 
     @Override
@@ -136,6 +137,9 @@ public class Main extends PApplet {
     public void keyPressed() {
         if (key == 'w') {
             game_state = 2;
+        }
+        if(key == ' ') {
+            world.setPaused(!world.isPaused());
         }
     }
 
