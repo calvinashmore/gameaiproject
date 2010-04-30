@@ -8,6 +8,7 @@ import main.Main;
 import processing.core.PGraphics;
 import proto.world.World;
 import testworld.game.Cast;
+import testworld.game.CharDev;
 import testworld.game.Plot;
 import testworld.objects.plain.Pickup;
 import testworld.objects.annotated.Bathroom;
@@ -27,6 +28,7 @@ public class Testworld extends World {
     public Testworld() {
 
         Plot.initializePlot();
+        CharDev.initializeCharacters();
 
         player = (PlayerImplementation) Cast.player;
 
