@@ -17,23 +17,30 @@ import testworld.objects.Person;
  */
 public class ConversationDependentAction extends DependentAction {
 
-    private Token myToken;
+    private Token[] myTokens;
     private Token expireToken;
     private ConversationContent conversation;
 
-    public ConversationDependentAction(Token myToken, ConversationContent conversation, String name) {
-        this(myToken, null, conversation, name);
+    public ConversationDependentAction(ConversationContent conversation, String name, Token... myTokens) {
+        this(null, conversation, name, myTokens);
     }
 
-    public ConversationDependentAction(Token myToken, Token expireToken, ConversationContent conversation, String name) {
+    public ConversationDependentAction(Token expireToken, ConversationContent conversation, String name, Token... myTokens) {
         super(name);
-        this.myToken = myToken;
+        this.myTokens = myTokens;
         this.expireToken = expireToken;
         this.conversation = conversation;
     }
 
     public boolean canActivate() {
-        return (myToken == null || myToken.isFound()) && (expireToken == null || !expireToken.isFound());
+        boolean okay = true;
+        if (myTokens != null) {
+            for (Token token : myTokens) {
+                okay &= token == null || token.isFound();
+            }
+        }
+
+        return (okay) && (expireToken == null || !expireToken.isFound());
     }
 
     public PlayerAction createAction(Entity other) {
