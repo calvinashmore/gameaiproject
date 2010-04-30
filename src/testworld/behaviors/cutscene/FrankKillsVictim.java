@@ -14,6 +14,7 @@ import proto.behavior.CollaborativeBehaviorQueue;
 import proto.behavior.ICollaborativeBehaviorQueue;
 import proto.behavior.IWorldState;
 import proto.behavior.SyncTask;
+import testworld.game.Plot;
 import testworld.objects.Person;
 import testworld.objects.PersonDispatcher;
 import testworld.tasks.Chase;
@@ -192,7 +193,10 @@ public class FrankKillsVictim extends Cutscene
     }
 
     public boolean activate(IWorldState iws) {
-        return RandomManager.get().nextDouble() < 0.0001;
+        if (Plot.frankDrivenToMurder.isFound()) {
+            return true;
+        }
+        return false;
     }
 
 }
