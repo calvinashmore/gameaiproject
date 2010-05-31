@@ -94,4 +94,10 @@ public class DanceFloor extends ADefaultAnnotatedItem {
         }
     }
 
+    @Override
+    public boolean isBackground() {
+        return true;
+    }
+
+
 }

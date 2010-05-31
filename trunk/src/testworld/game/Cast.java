@@ -69,6 +69,7 @@ public class Cast {
         person.getAppearance().clothesColors.add(0xffff0000);
         person.getAppearance().clothesColors.add(0xffffffff);
         person.getAppearance().faceAccessory = FaceAccessory.monocle;
+        person.getAppearance().eyeColor = 0xff443300;
 
         person.getSocialState().setAttribute(Personality.OUTLOOK, -60);
         frank = person;
@@ -85,6 +86,7 @@ public class Cast {
         person.getAppearance().clothesColors.add(0xffff0000);
         person.getAppearance().clothesColors.add(0xffffffff);
         person.getAppearance().faceAccessory = FaceAccessory.earrings;
+        person.getAppearance().eyeColor = 0xff663300;
 
         person.getSocialState().setAttribute(Personality.OUTLOOK, -30);
         person.getSocialState().getRelationship(frank).changeAttribute(Relationship.AFFECTION, -80, Operation.Set);
@@ -102,6 +104,7 @@ public class Cast {
         person.getAppearance().faceAccessory = FaceAccessory.glasses;
         person.getAppearance().clothesColor1 = 0xffaa4400;
         person.getAppearance().clothesColor2 = 0xffff0000;
+        person.getAppearance().eyeColor = 0xff443344;
 
         person.getSocialState().changeAttribute(Needs.ALCOHOL_RATE, 1.0, Operation.Set);
         person.getSocialState().changeAttribute(Feelings.DEPRESSANT_RATE, -0.5, Operation.Set);
@@ -122,6 +125,7 @@ public class Cast {
         person.getAppearance().clothesColor2 = 0xff000000;
         person.getSocialState().changeAttribute(Needs.CIGARETTE_RATE, 2.0, Operation.Set);
         person.getSocialState().changeAttribute(Feelings.DEPRESSANT_RATE, -0.5, Operation.Set);
+        person.getAppearance().eyeColor = 0xff000099;
 
         person.getSocialState().setAttribute(Personality.OUTLOOK, 50);
         gayle = person;
@@ -158,6 +162,7 @@ public class Cast {
         person.getAppearance().clothesColors.add(0xffffffff);
         person.getSocialState().changeAttribute(Needs.ALCOHOL_RATE, 1.5, Operation.Set);
         person.getSocialState().changeAttribute(Feelings.DEPRESSANT_RATE, -0.5, Operation.Set);
+        person.getAppearance().eyeColor = 0xff000066;
 
         person.getSocialState().setAttribute(Personality.OUTLOOK, 0);
         hughes = person;
@@ -169,6 +174,7 @@ public class Cast {
         person.setExpression(PersonExpression.feignedInterest);
         person.getAppearance().hair = Hair.simpleFullFlat;
         person.getSocialState().changeAttribute(Needs.CIGARETTE_RATE, 3.0, Operation.Set);
+        person.getAppearance().eyeColor = 0xff664400;
         fred = person;
 
         person = new ServerPerson("Rose");
@@ -179,6 +185,7 @@ public class Cast {
         person.getAppearance().hair = Hair.straightLong;
         person.getAppearance().hairColor1 = 0xff000000;
         person.getAppearance().hairColor2 = 0xff000044;
+        person.getAppearance().eyeColor = 0xff663300;
         rose = person;
     }
 }

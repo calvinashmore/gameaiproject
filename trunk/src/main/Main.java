@@ -52,13 +52,13 @@ public class Main extends PApplet {
 
         debugger = new DebuggerFrame();
         debugger.pack();
-        debugger.setVisible(true);
-        debugger.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        debugger.setVisible(true);
+//        debugger.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         emotions = new EmotionsFrame();
         emotions.pack();
-        emotions.setVisible(true);
-        emotions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        emotions.setVisible(true);
+//        emotions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //emotions.setLocation(width, debugger.getLocation().y);
     }
 
@@ -135,11 +135,15 @@ public class Main extends PApplet {
 
     @Override
     public void keyPressed() {
-        if (key == 'w') {
-            game_state = 2;
-        }
+//        if (key == 'w') {
+//            game_state = 2;
+//        }
         if(key == ' ') {
             world.setPaused(!world.isPaused());
+        }
+        if(key == 'D') {
+            debugger.setVisible(true);
+            emotions.setVisible(true);
         }
     }
 

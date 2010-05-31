@@ -49,4 +49,6 @@ public class BasicObject {
     public void setRepresentation(Representation representation) {
         this.representation = representation;
     }
+
+    public boolean isBackground() {return false;}
 }

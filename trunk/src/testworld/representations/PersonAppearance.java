@@ -16,7 +16,7 @@ public class PersonAppearance {
 
     public int width = 40;
     public int torsoSize = 20; // belly button to neck
-    public int skinColor1 = 0xffddffdd;
+    public int skinColor1 = 0xffeeeeee;
     public int skinColor2 = 0xff888888;
     public int eyeColor = 0xff008800;
     public int mouthColor = 0xff884444;
