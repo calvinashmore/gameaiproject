@@ -55,7 +55,7 @@ public class Testworld extends World {
         DanceFloor d = new DanceFloor(500);
         d.getLocation().getPosition().x = -250;
         d.getLocation().getPosition().y = 250;
-        getAllObjects().add(d);
+        getAllObjects().add(0,d);
 
         Bathroom b = new Bathroom();
         b.getLocation().getPosition().x = 200;
@@ -80,7 +80,7 @@ public class Testworld extends World {
         Balcony bal = new Balcony();
         bal.getLocation().getPosition().x = 650;
         bal.getLocation().getPosition().y = 250;
-        getAllObjects().add(bal);
+        getAllObjects().add(0,bal);
 
         setEnvironment(new RoomEnvironment());
     }

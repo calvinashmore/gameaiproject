@@ -56,5 +56,10 @@ public class Balcony extends BasicObject {
 
     }
 
+    @Override
+    public boolean isBackground() {
+        return true;
+    }
+
 
 }

@@ -69,7 +69,8 @@ abstract public class World implements IWorldState {
         Collections.sort(orderedObjects, new Comparator<BasicObject>() {
 
             public int compare(BasicObject o1, BasicObject o2) {
-                return (int) Math.signum(o1.getLocation().getPosition().y - o2.getLocation().getPosition().y);
+                int offset = (o1.isBackground() ? -1000 : 0) + (o2.isBackground() ? 1000 : 0);
+                return (int) Math.signum(o1.getLocation().getPosition().y - o2.getLocation().getPosition().y) + offset;
             }
         });
 
