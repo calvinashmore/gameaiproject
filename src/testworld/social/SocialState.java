@@ -6,6 +6,7 @@
 package testworld.social;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,19 +48,36 @@ public class SocialState
 
     static
     {
-        String directoryPath = "src/fuzzy/";
-        File directory = new File(directoryPath);
-        for (File file : directory.listFiles())
-        {
-            if (!file.getName().endsWith(".fcl")) continue;
-            
-            FIS fis = FIS.load(file.getAbsolutePath());
-            String name = file.getName().substring(0, file.getName().indexOf(".fcl"));
-            if (fis.getFunctionBlock(name) == null) {
-                throw new UnsupportedOperationException("Fuzzy logic file" + name + " must match function inside");
+        String files[] = new String[]{
+            "basic_enjoyment_test",
+            "respond_to_compliment",
+            "respond_to_inforequest",
+            "test",
+            "update_internals_from_needs",
+        };
+
+        for (String file : files) {
+            InputStream resource = SocialState.class.getClassLoader().getResourceAsStream("fuzzy/" + file + ".fcl");
+            FIS fis = FIS.load(resource, false);
+            if (fis.getFunctionBlock(file) == null) {
+                throw new UnsupportedOperationException("Fuzzy logic file" + file + " must match function inside");
             }
-            fuzzySystems.put(name, fis);
+            fuzzySystems.put(file, fis);
         }
+
+//        String directoryPath = "src/fuzzy/";
+//        File directory = new File(directoryPath);
+//        for (File file : directory.listFiles())
+//        {
+//            if (!file.getName().endsWith(".fcl")) continue;
+//
+//            FIS fis = FIS.load(file.getAbsolutePath());
+//            String name = file.getName().substring(0, file.getName().indexOf(".fcl"));
+//            if (fis.getFunctionBlock(name) == null) {
+//                throw new UnsupportedOperationException("Fuzzy logic file" + name + " must match function inside");
+//            }
+//            fuzzySystems.put(name, fis);
+//        }
     }
 
     public SocialState()
